@@ -8,7 +8,6 @@ namespace Stage0
         {
             Welcome2430();
             Welcome2132();
-            Console.ReadKey();
         }
 
         private static void Welcome2430()
