@@ -1,10 +1,11 @@
 ﻿
-
 using static DO.Enums;
 using System.Xml.Linq;
 
 namespace DO;
-
+/// <summary>
+/// Structure for a item in order
+/// </summary>
 public struct OrderItem
 {
     /// <summary>
@@ -24,7 +25,7 @@ public struct OrderItem
     /// </summary>
     public int Amount { get; set; }
     /// <summary>
-    /// prints decription of a item in order
+    /// prints decription of an item in order
     /// </summary>
     /// <returns>string</returns>
     public override string ToString() => $@"
