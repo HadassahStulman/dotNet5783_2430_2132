@@ -15,19 +15,19 @@ public struct Products
     /// <summary>
     /// name of the book
     /// </summary>
-    public string Name { get; set; }
+    public string? Name { get; set; }
     /// <summary>
     /// price for book
     /// </summary>
-    public double Price { get; set; }
+    public double? Price { get; set; }
     /// <summary>
     /// the category of the book
     /// </summary>
-    public Category Category { get; set; }
+    public Category? Category { get; set; }
     /// <summary>
     /// amount of copies in stock 
     /// </summary>
-    public int InStock { get; set; }
+    public int? InStock { get; set; }
 
     /// <summary>
     /// returns decription of object (book)

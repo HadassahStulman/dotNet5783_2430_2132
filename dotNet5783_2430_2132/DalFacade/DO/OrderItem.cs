@@ -19,11 +19,11 @@ public struct OrderItem
     /// <summary>
     /// price for item
     /// </summary>
-    public double Price { get; set; }
+    public double? Price { get; set; }
     /// <summary>
     /// amount of this item in order
     /// </summary>
-    public int Amount { get; set; }
+    public int? Amount { get; set; }
     /// <summary>
     /// prints decription of an item in order
     /// </summary>
