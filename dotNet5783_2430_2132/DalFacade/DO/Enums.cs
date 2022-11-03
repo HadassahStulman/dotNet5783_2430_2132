@@ -9,4 +9,9 @@ public struct Enums
                     ToddlerBooks, // children and first reading books
                     ReligiousBooks,  // jewish textbooks
                     ReadingBooks}; // different genre of books for pleasure (novels, fantacy...)
+    public enum CookBookName { };
+    public enum ToddlerBookName { };
+    public enum ReligiousBookName { Bible,  };
+    public enum ReadingBookName { };
+    public enum WritingBookName { };
 }

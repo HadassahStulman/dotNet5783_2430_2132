@@ -1,6 +1,7 @@
 ﻿
 using DO;
 
+
 namespace Dal;
 
 internal static class DataSource
@@ -34,15 +35,15 @@ internal static class DataSource
     /// <summary>
     /// list of products
     /// </summary>
-    internal static List<Products> productsList;
+    internal static List<DO.Products> productsList=new List<DO.Products>();
     /// <summary>
     /// list of orders
     /// </summary>
-    internal static List<Order> orderList;
+    internal static List<DO.Order> orderList = new List<DO.Order>();
     /// <summary>
     /// list of order items
     /// </summary>
-    internal static List<OrderItem> orderItemList;
+    internal static List<DO.OrderItem> orderItemList= new List<DO.OrderItem>();
     /// <summary>
     /// adding product to list
     /// </summary>
@@ -58,6 +59,10 @@ internal static class DataSource
     /// </summary>
     /// <param name="oi">void</param>
     private static void addOrderItem(OrderItem oi) { orderItemList.Add(oi); }
-    private static void s_Initialize() { }
+    private static void s_Initialize() 
+    {
+        for (int i = 0; i <20; i++)
+        {  }
+    }
 
 }
