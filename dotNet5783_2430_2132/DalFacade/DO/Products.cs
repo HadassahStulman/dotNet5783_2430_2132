@@ -30,7 +30,7 @@ public struct Products
     public int InStock { get; set; }
 
     /// <summary>
-    /// prints decription of object (book)
+    /// returns decription of object (book)
     /// </summary>
     /// <returns>string</returns>
     public override string ToString() => $@"
