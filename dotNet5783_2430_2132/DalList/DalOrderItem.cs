@@ -2,6 +2,7 @@
 
 using DO;
 using static Dal.DataSource;
+using static Dal.DataSource.Config;
 using System.Collections.Generic;
 using System.Collections;
 namespace Dal;
@@ -11,47 +12,71 @@ public class DalOrderItem
     /// <summary>
     /// Adding a new order item to list. If order item (to add) allready exists then throw error.
     /// </summary>
+    /// <returns>int</returns>
     /// <param name="oi"></param>
     /// <exception cref="Exception"></exception>
-    public void Add(OrderItem oi)
+    public int Add(OrderItem oi)
     {
         if (orderItemList.Contains(oi))
             throw new Exception("Order item already exists\n");
+        oi.ID = getIdNewOI();
         orderItemList.Add(oi);
+        return oi.ID;
     }
     /// <summary>
-    /// Deleteing order item from list. If order item (to delete) dos not exists then throw error.
+    /// Deleteing order item from list. If order item (to delete) does not exists then throw error.
     /// </summary>
     /// <param name="oi"></param>
     /// <exception cref="Exception"></exception>
-    public void Delete(OrderItem oi)
+    public void Delete(int oiID)
     {
-        if (!orderItemList.Contains(oi))
+        bool flag = false;
+        for (int i = 0; i < orderItemList.Count; i++)
+            if (orderItemList[i].ID == oiID)
+            {
+                orderItemList.RemoveAt(i);
+                flag = true;
+            }
+        if (!flag)
             throw new Exception("Order item does not exist\n");
-        orderItemList.Remove(oi);
     }
     /// <summary>
-    /// Updateing an order item in list. If order item (to update) dos not exist then throw error.
+    /// Updating an order item in list. If order item (to update) does not exist then throw error.
     /// </summary>
     /// <param name="oi"></param>
     public void Update(OrderItem oi)
     {
+        bool flag = false;
         for (int i = 0; i < orderItemList.Count(); i++)
-            if (orderItemList[i].OrderId == oi.OrderId && orderItemList[i].ProductId == oi.ProductId)
+            if (orderItemList[i].ID == oi.ID)
             {
                 orderItemList[i] = oi;
+                flag = true;
                 break;
             }
-        throw new Exception("Order item dos not exist\n");
+        if (!flag)
+            throw new Exception("Order item dos not exist\n");
     }
     /// <summary>
-    /// returns Uniqe ID for identifing the order (that contains this item)
+    /// recieves Uniqe ID for identifing the order item and returns order item object
     /// </summary>
     /// <param name="oi"></param>
-    /// <returns>int</returns>
-    public int GetID(OrderItem oi) { return oi.OrderId; }
+    /// <returns>orderItem</returns>
+    public OrderItem GetID(int oiId) 
+    {
+        for (int i = 0; i < orderItemList.Count(); i++)
+            if (orderItemList[i].ID == oiId)
+                return orderItemList[i];
+    }
+
+    /// <summary>
+    /// return list of all products
+    /// </summary>
+    /// <returns>IEnumerable</returns>
     public IEnumerable getList()
     {
-        return orderItemList;
+        List<OrderItem> orderIs = new List<OrderItem>();
+        orderIs.AddRange(orderItemList);
+        return orderIs;
     }
 }

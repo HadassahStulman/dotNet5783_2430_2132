@@ -1,6 +1,7 @@
 ﻿
 using DO;
 using static Dal.DataSource;
+using static Dal.DataSource.Config;
 using System.Collections.Generic;
 using System.Collections;
 
@@ -8,30 +9,74 @@ namespace Dal;
 
 public class DalProducts
 {
-    public void Add(Products p)
+    /// <summary>
+    /// Adding a new product to list. If product (to add) allready exists then throw error.
+    /// </summary>
+    /// <returns>int</returns>
+    /// <param name="p"></param>
+    /// <exception cref="Exception"></exception>
+    public int Add(Products p)
     {
         if (productsList.Contains(p))
             throw new Exception("product already exists");
+        p.ID = getIdNewP();
         productsList.Add(p);
+        return p.ID;
     }
-    public void Delete(Products p)
+    /// <summary>
+    /// Deleteing product from list. If product (to delete) does not exists then throw error.
+    /// </summary>
+    /// <param name="p"></param>
+    /// <exception cref="Exception"></exception>
+    public void Delete(int pID)
     {
-        if (!productsList.Contains(p))
+        bool flag= false;
+        for (int i = 0; i < productsList.Count; i++)
+            if (productsList[i].ID == pID)
+            {
+                productsList.RemoveAt(i);
+                flag = true;
+            }
+        if (!flag)
             throw new Exception("product does not exist");
-        productsList.Remove(p);
     }
+    /// <summary>
+    /// Updating an product in list. If product (to update) does not exist then throw error.
+    /// </summary>
+    /// <param name="p"></param>
     public void Update(Products p)
     {
-        for(int i= 0; i<productsList.Count(); i++)
+        bool flag = false;
+        for (int i= 0; i<productsList.Count(); i++)
             if (productsList[i].ID == p.ID)
             {
                 productsList[i] = p;
+                flag = true;
                 break;
             }
+        if (!flag)
+            throw new Exception("Order item does not exist\n");
     }
-    public int GetID(Products p) { return p.ID; }
-    public IEnumerable getList()
+    /// <summary>
+    /// recieves Uniqe ID for identifing the product and returns product object
+    /// </summary>
+    /// <param name="p"></param>
+    /// <returns>Products</returns>
+    public Products GetID(int id)
+    { 
+        for(int i=0; i<productsList.Count();i++)
+            if (productsList[i].ID == id)
+                return productsList[i];
+    }
+
+    /// <summary>
+    /// return list of all products
+    /// </summary>
+    /// <returns>IEnumerable</returns>
+    public IEnumerable GetList()
     {
-        return productsList;
+        List<Products> products = new List<Products>();
+        products.AddRange(productsList);
+        return products;
     }
 }

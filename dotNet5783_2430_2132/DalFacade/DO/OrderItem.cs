@@ -9,6 +9,10 @@ namespace DO;
 public struct OrderItem
 {
     /// <summary>
+    /// Uniqe id to identify order item
+    /// </summary>
+    public int ID { get; set; }
+    /// <summary>
     /// Uniqe ID for identifing a item (in this order)
     /// </summary>
     public int ProductId { get; set; }

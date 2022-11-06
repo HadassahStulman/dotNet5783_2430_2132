@@ -2,36 +2,47 @@
 
 using DO;
 using static Dal.DataSource;
+using static Dal.DataSource.Config;
 using System.Collections.Generic;
 using System.Collections;
 namespace Dal;
 
 public class DalOrder
 {
+
     /// <summary>
     /// Adding a new order to list. If order (to add) allready exists then throw error.
     /// </summary>
+    /// <returns>int</returns>
     /// <param name="o"></param>
     /// <exception cref="Exception"></exception>
-    public void Add(Order o)
+    public int Add(Order o)
     {
         if (orderList.Contains(o))
             throw new Exception("Order already exists\n");
+        o.ID = getIdNewO();
         orderList.Add(o);
+        return o.ID;
     }
     /// <summary>
     /// Deleteing order from list. If order (to delete) does not exists then throw error.
     /// </summary>
     /// <param name="o"></param>
     /// <exception cref="Exception"></exception>
-    public void Delete(Order o)
+    public void Delete(int oID)
     {
-        if (!orderList.Contains(o))
+        bool flag = false;
+        for (int i = 0; i < orderList.Count; i++)
+            if (orderList[i].ID == oID)
+            {
+                orderList.RemoveAt(i);
+                flag = true;
+            }
+        if (!flag)
             throw new Exception("Order does not exist\n");
-        orderList.Remove(o);
     }
     /// <summary>
-    /// Updateing an order item in list. If order item (to update) does not exist then throw error.
+    /// Updating an order item in list. If order item (to update) does not exist then throw error.
     /// </summary>
     /// <param name="o"></param>
     public void Update(Order o)
@@ -46,17 +57,29 @@ public class DalOrder
                 break;
             }
         }
-        if(!flag)
-        throw new Exception("Order item does not exist\n");
+        if (!flag)
+            throw new Exception("Order item does not exist\n");
     }
     /// <summary>
-    /// returns Uniqe ID for identifing the order
+    /// recieves Uniqe ID for identifing the order and returns Order object
     /// </summary>
     /// <param name="o"></param>
-    /// <returns>int</returns>
-    public int GetID(Order o) { return o.ID; }
+    /// <returns>Order</returns>
+    public Order GetID(int oId)
+    {
+        for (int i = 0; i < orderList.Count(); i++)
+            if (orderList[i].ID == oId)
+                return orderList[i];
+    }
+
+    /// <summary>
+    /// return list of all products
+    /// </summary>
+    /// <returns>IEnumerable</returns>
     public IEnumerable getList()
     {
-        return orderList;
+        List<Order> orders = new List<Order>();
+        orders.AddRange(orderList);
+        return orders;
     }
 }
