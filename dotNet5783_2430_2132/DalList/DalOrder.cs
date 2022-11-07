@@ -67,19 +67,34 @@ public class DalOrder
     /// <returns>Order</returns>
     public Order GetID(int oId)
     {
+        bool flag = false;
         for (int i = 0; i < orderList.Count(); i++)
-            if (orderList[i].ID == oId)
+            if (orderList[i].ID == oId) { 
                 return orderList[i];
+                flag = true;
+            }
+        if (!flag)
+            throw new Exception("Order does not exist");
+       
+
     }
 
     /// <summary>
     /// return list of all products
     /// </summary>
     /// <returns>IEnumerable</returns>
-    public IEnumerable getList()
+    public IEnumerable GetList()
     {
         List<Order> orders = new List<Order>();
         orders.AddRange(orderList);
         return orders;
+    }
+    /// <summary>
+    /// prints a description of all orders in list.
+    /// </summary>
+    public void PrintAllOrders() 
+    {
+        for (int i = 0; i < orderList.Count; i++)
+            orderItemList[i].ToString(); // prints description of current order.
     }
 }

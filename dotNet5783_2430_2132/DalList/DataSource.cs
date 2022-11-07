@@ -39,10 +39,10 @@ internal static class DataSource
     private static string[] ToddlerBookName = { };
     private static string[] ReligiousBookName = { "Bible" };
     private static string[] ReadingBookName = { };
-    private static string[] WritingBookName = { };
+    private static string[] WritingBookName = { "The Five Minute Journal", "The Daily Journal", " Daily Planner", "Diary Notebooks"};
 
-    private static string[] customerName = { };
-    private static string[] customerAdress = { };
+    private static string[] customerName = { "Esther","Malka","yaffa", "Hadassah", "Ayala" };
+    private static string[] customerAdress = {"Nachal Refa'im", "Nachal Dolev","Nachal Ein Gedi","Nachal Shimshone","Nachal Katlav" };
 
 
     /// <summary>
