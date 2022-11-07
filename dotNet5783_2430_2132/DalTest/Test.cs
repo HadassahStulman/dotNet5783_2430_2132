@@ -116,6 +116,9 @@ namespace Dal
             dp.Delete(num); // delete product from list
         }
 
+        /// <summary>
+        /// sub menu product
+        /// </summary>
         private void manageProduct()
         {
             Console.WriteLine(@"enter: 1 for adding a new book
@@ -217,7 +220,7 @@ namespace Dal
         }
 
         /// <summary>
-        /// sub menu
+        /// sub menu order
         /// </summary>
         private void manageOrder()
         {
