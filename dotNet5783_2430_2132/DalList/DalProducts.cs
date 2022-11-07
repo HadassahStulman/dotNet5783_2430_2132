@@ -4,6 +4,7 @@ using static Dal.DataSource;
 using static Dal.DataSource.Config;
 using System.Collections.Generic;
 using System.Collections;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Dal;
 
@@ -63,8 +64,8 @@ public class DalProducts
     /// <param name="p"></param>
     /// <returns>Products</returns>
     public Products GetID(int id)
-    { 
-        for(int i=0; i<productsList.Count();i++)
+    {
+        for (int i = 0; i < productsList.Count(); i++)
             if (productsList[i].ID == id)
                 return productsList[i];
     }
@@ -79,4 +80,28 @@ public class DalProducts
         products.AddRange(productsList);
         return products;
     }
+
+    /// <summary>
+    /// check if the id already exist in other items
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns>bool</returns>
+    public bool isIDUniqe(int id)
+    {
+        for (int i = 0; i < productsList.Count; i++) 
+            if (productsList[i].ID == id)
+                return true;
+        return false;
+    }
+
+    /// <summary>
+    /// check if the category is legal
+    /// </summary>
+    /// <returns></returns>
+    public bool isCategory(string con)
+    {
+        if (con == "TextBooks" || con == "CookBooks" || con == "ToddlerBooks" || con == "ReligiousBooks" || con == "ReadingBooks")
+            return true;
+        return false;
+    }         
 }
