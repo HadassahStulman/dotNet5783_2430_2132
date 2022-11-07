@@ -127,7 +127,7 @@ namespace Dal
             Console.WriteLine("enter the book's uniqe ID number");
             int id;
             int.TryParse(Console.ReadLine(), out id); // convert input to int
-            Console.WriteLine(_dalProducts.GetByID(id).ToString()); // finds the right book, and print the description
+            Console.WriteLine(_dalProducts.GetByID(id)); // finds the right book, and print the description
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Dal
             IEnumerable<Products> ie = _dalProducts.GetList();
             foreach (Products item in ie) // printd every product in list
             {
-                Console.WriteLine(item.ToString());
+                Console.WriteLine(item);
             }
         }
 

@@ -90,6 +90,6 @@ public class DalOrder
     public void PrintAllOrders()
     {
         for (int i = 0; i < orderList.Count; i++)
-            orderItemList[i].ToString(); // prints description of current order.
+            Console.WriteLine(orderItemList[i]); // prints description of current order.
     }
 }
