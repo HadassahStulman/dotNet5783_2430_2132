@@ -4,8 +4,6 @@ using static Dal.DataSource;
 using static Dal.DataSource.Config;
 using System.Collections.Generic;
 using System.Collections;
-using System.Security.Cryptography.X509Certificates;
-
 namespace Dal;
 
 public class DalProducts
@@ -16,13 +14,11 @@ public class DalProducts
     /// <returns>int</returns>
     /// <param name="p"></param>
     /// <exception cref="Exception"></exception>
-    public int Add(Products p)
+    public void Add(Products p)
     {
         if (productsList.Contains(p))
             throw new Exception("product already exists");
-        p.ID = getIdNewP();
         productsList.Add(p);
-        return p.ID;
     }
     /// <summary>
     /// Deleteing product from list. If product (to delete) does not exists then throw error.
@@ -63,21 +59,23 @@ public class DalProducts
     /// </summary>
     /// <param name="p"></param>
     /// <returns>Products</returns>
-    public Products GetID(int id)
+    public Products GetByID(int id)
     {
-        for (int i = 0; i < productsList.Count(); i++)
+        int i = 0;
+        for (; i < productsList.Count(); i++)
             if (productsList[i].ID == id)
-                return productsList[i];
+                break;
+        return productsList[i];
+
     }
 
     /// <summary>
     /// return list of all products
     /// </summary>
     /// <returns>IEnumerable</returns>
-    public IEnumerable GetList()
+    public IEnumerable<Products> GetList()
     {
-        List<Products> products = new List<Products>();
-        products.AddRange(productsList);
+        List<Products> products = new List<Products>(productsList);
         return products;
     }
 

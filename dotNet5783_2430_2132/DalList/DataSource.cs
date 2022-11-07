@@ -1,8 +1,5 @@
 ﻿
 using DO;
-using System;
-using System.Data.Common;
-using static DO.Enums;
 
 namespace Dal;
 
@@ -13,14 +10,9 @@ internal static class DataSource
     /// </summary>
     internal static class Config
     {
-        private static int idNewProduct = 100000;
         private static int idNewOrder = 100000;
         private static int idNewOrderItem = 100000;
-        /// <summary>
-        /// return ID for new product
-        /// </summary>
-        /// <returns>int</returns>
-        public static int getIdNewP() { idNewProduct += 1; return idNewProduct; }
+
         /// <summary>
         /// return ID for new order
         /// </summary>
@@ -36,36 +28,38 @@ internal static class DataSource
     public static readonly Random rnd = new Random();
 
     private static string[] CookBookName = { "cookBook", "cookBook1", "cookBook2", "cookBook3", "cookBook4", "cookBook5" };
-    private static string[] ToddlerBookName = { };
-    private static string[] ReligiousBookName = { "Bible" };
-    private static string[] ReadingBookName = { };
-    private static string[] textBookName = { };
+    private static string[] ToddlerBookName = {"Dr. Sues", "Grumpy Monkey", "The Gruffalo", "Night Night Farm", "Hiccupotamus", "I Love You To The Moon And Back", "Magic School Bus"};
+    private static string[] ReligiousBookName = { "Bible", "Talmud Set", "Mishnayot", ""};
+    private static string[] ReadingBookName = {"The Lord Of The Rings 1", "The Lord Of The Rings 2", "The Lord Of The Rings 3", "Divergent", "Harry Potter - Deathly hollows", "Code Breaker", "The Duches Hunt", "White Fang" , "Anne"};
+    private static string[] textBookName = { "calculuse 1", "Programming For Fun", "Basic Fisicis", ""};
 
-    private static string[] customerName = { };
-    private static string[] customerAdress = { };
+    private static string[] customerName = { "Esther Nusbacher","Malka Cohen","yaffa Levi", "Hadassah", "Ayala", "Sam", "Shlomo", "Yael", "Yoni", "Beth", "Daniel", "Ishay" };
+    private static string[] customerAdress = {"Nachal Refa'im", "Nachal Dolev","Nachal Ein Gedi","Nachal Shimshone","Nachal Katlav" };
 
 
     /// <summary>
     /// list of products
     /// </summary>
-    internal static List<DO.Products> productsList = new List<DO.Products>();
+    internal static List<Products> productsList = new List<Products>();
     /// <summary>
     /// list of orders
     /// </summary>
-    internal static List<DO.Order> orderList = new List<DO.Order>();
+    internal static List<Order> orderList = new List<Order>();
     /// <summary>
     /// list of order items
     /// </summary>
-    internal static List<DO.OrderItem> orderItemList = new List<DO.OrderItem>();
+    internal static List<OrderItem> orderItemList = new List<OrderItem>();
+    
     /// <summary>
     /// adding product to list
     /// </summary>
     /// <param name="p">void</param>
-
-    public static DataSource()
+    static DataSource()
     {
         s_Initialize();
     }
+
+
     private static void addProduct(Products p) { productsList.Add(p); }
     /// <summary>
     /// adding order to list
@@ -86,7 +80,11 @@ internal static class DataSource
         for (int i = 0; i < 10; i++) // initalize product list
         {
             Products p = new Products();
-            p.ID = getIdNewP(); // id from config
+            DalProducts dp = new DalProducts();
+            int id = rnd.Next(10000, 99999); // random id number of 6 digits
+            while (!dp.isIDUniqe(id)) // generates new id until id is uniqe
+                id = rnd.Next(10000, 99999);
+            p.ID = id;
             int cat = rnd.Next(1, 6); // random category
             // choose a name from a random category
             switch (cat)
@@ -104,12 +102,13 @@ internal static class DataSource
                     p.Name = ReadingBookName[i];
                     break;
                 case 5:
-                    p.Name = WritingBookName[i];
+                    p.Name = textBookName[i];
                     break;
                 default:
                     break;
             }
-            p.Price = rnd.Next(45, 200);  // random price
+            p.Category=(Enums.Category)cat;
+            p.Price = (double) rnd.Next(45, 200);  // random price
             if (i < 9)
                 p.InStock = rnd.Next(1, 50); // in stock
             else
@@ -119,11 +118,11 @@ internal static class DataSource
         for (int i = 0; i < 20; i++) // initialize order list
         {
             Order o = new Order();
-            o.ID = getIdNewO(); // id from config
+            o.ID = DataSource.Config.getIdNewO(); // id from config
             o.CustomerName = customerName[i];// customer name
             o.CustomerEmail = customerName[i] + "@gmail.com"; // customer Email
             o.CustomerAdress = customerAdress[i % 5] + "_" + i;// costumer adress
-            DateTime d= DateTime.Now.AddDays(rnd.Next(1, 30)); // random date in the past month
+            DateTime d= DateTime.Now.AddDays(rnd.Next(1, 30)*-1); // random date in the past month
             o.OrderDate = d;
             o.ShipDate = DateTime.MinValue; // minimal date for orders that weren't shiped yet
             o.DeliveryDate= DateTime.MinValue; // minimal date for orders that weren't delivered yet
@@ -141,7 +140,7 @@ internal static class DataSource
             for(int j=0; j<amount; j++)
             {
                 OrderItem oi = new OrderItem(); // new order item
-                oi.ID = getIdNewOI();
+                oi.ID = DataSource.Config.getIdNewO();
                 oi.OrderId = orderList[i].ID; 
                 int ranP = rnd.Next(0, 10);
                 oi.ProductId = productsList[ranP].ID; // random product

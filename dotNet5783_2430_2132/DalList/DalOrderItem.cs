@@ -62,18 +62,21 @@ public class DalOrderItem
     /// </summary>
     /// <param name="oi"></param>
     /// <returns>orderItem</returns>
-    public OrderItem GetID(int oiId) 
+    public OrderItem GetByID(int oiId)
     {
-        for (int i = 0; i < orderItemList.Count(); i++)
+        int i = 0;
+        for (; i < orderItemList.Count(); i++)
             if (orderItemList[i].ID == oiId)
-                return orderItemList[i];
+                break;
+        return orderItemList[i];
+
     }
 
     /// <summary>
     /// return list of all products
     /// </summary>
     /// <returns>IEnumerable</returns>
-    public IEnumerable getList()
+    public IEnumerable<OrderItem> getList()
     {
         List<OrderItem> orderIs = new List<OrderItem>();
         orderIs.AddRange(orderItemList);

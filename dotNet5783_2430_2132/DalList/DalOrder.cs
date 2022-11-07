@@ -65,21 +65,31 @@ public class DalOrder
     /// </summary>
     /// <param name="o"></param>
     /// <returns>Order</returns>
-    public Order GetID(int oId)
+    public Order GetByID(int oId)
     {
-        for (int i = 0; i < orderList.Count(); i++)
+        int i = 0;
+        for (; i < orderList.Count(); i++)
             if (orderList[i].ID == oId)
-                return orderList[i];
+                break;
+        return orderList[i];
     }
 
     /// <summary>
     /// return list of all products
     /// </summary>
     /// <returns>IEnumerable</returns>
-    public IEnumerable getList()
+    public IEnumerable<Order> GetList()
     {
         List<Order> orders = new List<Order>();
         orders.AddRange(orderList);
         return orders;
+    }
+    /// <summary>
+    /// prints a description of all orders in list.
+    /// </summary>
+    public void PrintAllOrders()
+    {
+        for (int i = 0; i < orderList.Count; i++)
+            orderItemList[i].ToString(); // prints description of current order.
     }
 }
