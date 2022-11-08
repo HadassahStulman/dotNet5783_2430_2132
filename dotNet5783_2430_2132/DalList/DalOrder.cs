@@ -84,12 +84,4 @@ public class DalOrder
         orders.AddRange(orderList);
         return orders;
     }
-    /// <summary>
-    /// prints a description of all orders in list.
-    /// </summary>
-    public void PrintAllOrders()
-    {
-        for (int i = 0; i < orderList.Count; i++)
-            Console.WriteLine(orderItemList[i]); // prints description of current order.
-    }
 }

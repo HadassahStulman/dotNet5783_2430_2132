@@ -14,6 +14,7 @@ public class DalProducts
     /// <returns>int</returns>
     /// <param name="p"></param>
     /// <exception cref="Exception"></exception>
+ 
     public void Add(Products p)
     {
         if (productsList.Contains(p))
@@ -74,7 +75,7 @@ public class DalProducts
     /// </summary>
     /// <returns>IEnumerable</returns>
     public IEnumerable<Products> GetList()
-    {
+    { 
         List<Products> products = new List<Products>(productsList);
         return products;
     }
@@ -88,18 +89,18 @@ public class DalProducts
     {
         for (int i = 0; i < productsList.Count; i++) 
             if (productsList[i].ID == id)
-                return true;
-        return false;
+                return false;
+        return true;
     }
 
-    /// <summary>
-    /// check if the category is legal
-    /// </summary>
-    /// <returns></returns>
-    public bool isCategory(string con)
-    {
-        if (con == "TextBooks" || con == "CookBooks" || con == "ToddlerBooks" || con == "ReligiousBooks" || con == "ReadingBooks")
-            return true;
-        return false;
-    }         
+    ///// <summary>
+    ///// check if the category is legal
+    ///// </summary>
+    ///// <returns></returns>
+    //public bool isCategory(string con)
+    //{
+    //    if (con == "TextBooks" || con == "CookBooks" || con == "ToddlerBooks" || con == "ReligiousBooks" || con == "ReadingBooks")
+    //        return true;
+    //    return false;
+    //}         
 }

@@ -1,8 +1,6 @@
 ﻿
 using DO;
-using static Dal.DalOrder;
-using static Dal.DalProducts;
-using static Dal.DalOrderItem;
+using Dal;
 using System.Collections;
 using System.Collections.Specialized;
 using System.Reflection.PortableExecutable;
@@ -11,6 +9,7 @@ using System.Collections.Generic;
 using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography.X509Certificates;
 using System.Diagnostics;
+using System.Data.Common;
 
 namespace Dal
 {
@@ -19,7 +18,8 @@ namespace Dal
         private static DalProducts _dalProducts= new DalProducts();
         private static DalOrder _dalOrder= new DalOrder();
         private static DalOrderItem _dalOrderItem= new DalOrderItem();
-
+        
+        
         /// <summary>
         /// Main program
         /// </summary>
@@ -27,7 +27,6 @@ namespace Dal
         {
             try
             {
-                //Program t = new Program();
                 bool flag = true;
                 while (flag)
                 {
@@ -48,6 +47,8 @@ namespace Dal
                         case 2:
                             manageOrder();
                             break;
+                        case 3: manageOtderItem();
+                            break;
                         default: // back to main menu
                             break;
                     }
@@ -55,7 +56,7 @@ namespace Dal
             }
             catch(Exception ex)
             {
-                Console.WriteLine(ex);
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -101,11 +102,6 @@ namespace Dal
             p.ID = num;
             Console.WriteLine("enter the book's category");
             string cat = Console.ReadLine();
-            while (!_dalProducts.isCategory(cat)) // if category id illegal
-            {
-                Console.WriteLine("category is not legal, please enter a new category");
-                cat = Console.ReadLine();
-            }
             p.Category = (Enums.Category)Enum.Parse(typeof(Enums.Category), cat); // convert cat from string to Enum
             Console.WriteLine("enter the book's name");
             p.Name = Console.ReadLine();
@@ -155,11 +151,7 @@ namespace Dal
             p.ID = num;
             Console.WriteLine("enter the book's category");
             string cat = Console.ReadLine();
-            while (!_dalProducts.isCategory(cat)) // if category id illegal
-            {
-                Console.WriteLine("category is not legal, please enter a new category");
-                cat = Console.ReadLine();
-            }
+            p.Category = (Enums.Category)Enum.Parse(typeof(Enums.Category), cat); // convert string to enum
             Console.WriteLine("enter the book's name");
             p.Name = Console.ReadLine();
             Console.WriteLine("enter the book's price");
@@ -243,7 +235,7 @@ namespace Dal
             int ID;
             int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
             _order = _dalOrder.GetByID(ID);// find order that matches this ID.
-            _order.ToString();// printing description.
+            Console.WriteLine(_order); ;// printing description.
         }
 
         /// <summary>
@@ -251,7 +243,11 @@ namespace Dal
         /// </summary>
         private static void GetAllOrderDesc()
         {
-            _dalOrder.PrintAllOrders(); // a method that prints a description of all orders in list.
+            IEnumerable<Order> ie = _dalOrder.GetList();
+            foreach (Order item in ie) // printd every product in list
+            {
+                Console.WriteLine(item);
+            }
         }
 
         /// <summary>
@@ -290,7 +286,7 @@ namespace Dal
 
 
         /// <summary>
-        /// function that manages all possible changes in order item list when updating order
+        /// function that manages all possible changes in order item list !!!! when updating order !!!!
         /// </summary>
         /// <param name="id"></param>
         private static void manageOrderItem(int id)
@@ -311,6 +307,32 @@ namespace Dal
                     case 3: DeleteOI(); break;
                     case 0: flag = false; break;
                     default:
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// function that manages all possible changes in order item list
+        /// </summary>
+        private static void manageOtderItem()
+        {
+            bool flag = true;
+            while (flag)
+            {
+                Console.WriteLine(@" enter: 1 for getting an order Item description according to ID
+       2 for getting descroptions of all orders Items
+       3 for deleting a order Item
+       0 for returning back to the main menu ");
+                int ch1;
+                int.TryParse(Console.ReadLine(), out ch1); // converts the input to integer
+                switch (ch1)
+                {
+                    case 0: flag = false; break;
+                    case 1: OrderItemDesc(); break; // prints order description
+                    case 2: GetAllOrderItem(); break; // print descriptions of all orders in list
+                    case 3: DeleteOI(); break; // delete existing order
+                    default: // back to sub menu
                         break;
                 }
             }
@@ -392,5 +414,29 @@ namespace Dal
             }
         }
 
+        /// <summary>
+        /// printing description of all order items
+        /// </summary>
+        private static void GetAllOrderItem()
+        {
+            IEnumerable<OrderItem> ie = _dalOrderItem.GetList();
+            foreach (OrderItem item in ie) // printd every product in list
+            {
+                Console.WriteLine(item);
+            }
+        }
+
+        /// <summary>
+        /// print description of specific order item
+        /// </summary>
+        private static void OrderItemDesc()
+        {
+            OrderItem _orderI = new OrderItem();
+            Console.WriteLine("enter order item ID");
+            int ID;
+            int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
+            _orderI = _dalOrderItem.GetByID(ID);// find order that matches this ID.
+            Console.WriteLine(_orderI); ;// printing description.
+        }
     }
 }

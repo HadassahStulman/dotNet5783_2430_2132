@@ -76,7 +76,7 @@ public class DalOrderItem
     /// return list of all products
     /// </summary>
     /// <returns>IEnumerable</returns>
-    public IEnumerable<OrderItem> getList()
+    public IEnumerable<OrderItem> GetList()
     {
         List<OrderItem> orderIs = new List<OrderItem>();
         orderIs.AddRange(orderItemList);
