@@ -10,15 +10,17 @@ using System.Runtime.Intrinsics.Arm;
 using System.Security.Cryptography.X509Certificates;
 using System.Diagnostics;
 using System.Data.Common;
+using DalApi;
 
 namespace Dal
 {
     public class Program
     {
-        private static DalProducts _dalProducts= new DalProducts();
-        private static DalOrder _dalOrder= new DalOrder();
-        private static DalOrderItem _dalOrderItem= new DalOrderItem();
-        
+        //private static DalProduct _dalProduct= new DalProduct();
+        //private static DalOrder _dalOrder= new DalOrder();
+        //private static DalOrderItem _dalOrderItem= new DalOrderItem();
+
+        private static IDal DalList = new DalList();
         
         /// <summary>
         /// Main program
@@ -90,15 +92,15 @@ namespace Dal
         /// </summary>
         private static void AddNewBook()
         {
-            Products p= new Products();
+            Product p= new Product();
             Console.WriteLine("enter the book's uniqe ID number");
             int num;
             int.TryParse(Console.ReadLine(), out num); // convert id from string to int
-            while (!_dalProducts.isIDUniqe(num)) // if code is no uniqe 
-            {
-                Console.WriteLine("ID is not uniqe, please enter a new ID");
-                int.TryParse(Console.ReadLine(), out num); // recieving a new code
-            }
+            //while (!_dalProduct.isIDUniqe(num)) // if code is no uniqe 
+            //{
+            //    Console.WriteLine("ID is not uniqe, please enter a new ID");
+            //    int.TryParse(Console.ReadLine(), out num); // recieving a new code
+            //}
             p.ID = num;
             Console.WriteLine("enter the book's category");
             string cat = Console.ReadLine();
@@ -112,7 +114,7 @@ namespace Dal
             Console.WriteLine("enter amount of copies in stock");
             int.TryParse(Console.ReadLine(), out num); // convert string to int
             p.InStock = num;
-            _dalProducts.Add(p); // add p to data list
+            DalList.Product.Add(p); // add p to data list
         }
 
         /// <summary>
@@ -123,7 +125,7 @@ namespace Dal
             Console.WriteLine("enter the book's uniqe ID number");
             int id;
             int.TryParse(Console.ReadLine(), out id); // convert input to int
-            Console.WriteLine(_dalProducts.GetByID(id)); // finds the right book, and print the description
+            Console.WriteLine(DalList.Product.GetByID(id)); // finds the right book, and print the description
         }
 
         /// <summary>
@@ -132,8 +134,8 @@ namespace Dal
         private static void GetAllBooks()
         {
  
-            IEnumerable<Products> ie = _dalProducts.GetList();
-            foreach (Products item in ie) // printd every product in list
+            IEnumerable<Product> ie = DalList.Product.GetList();
+            foreach (Product item in ie) // printd every product in list
             {
                 Console.WriteLine(item);
             }
@@ -144,7 +146,7 @@ namespace Dal
         /// </summary>
         private static void UpdateBook()
         {
-            Products p = new Products();
+            Product p = new Product();
             Console.WriteLine("enter Id number of book you want to update");
             int num;
             int.TryParse(Console.ReadLine(), out num);  // convert input to int
@@ -161,7 +163,7 @@ namespace Dal
             Console.WriteLine("enter amount of copies in stock");
             int.TryParse(Console.ReadLine(), out num); // convert string to int
             p.InStock = num;
-            _dalProducts.Update(p); // updates p in data list;
+            DalList.Product.Update(p); // updates p in data list;
         }
 
         /// <summary>
@@ -172,7 +174,7 @@ namespace Dal
             Console.WriteLine("enter Id number of book you want to delete");
             int num;
             int.TryParse(Console.ReadLine(), out num);  // convert input to int
-            _dalProducts.Delete(num); // delete product from list
+            DalList.Product.Delete(num); // delete product from list
         }
 
         /// <summary>
@@ -221,7 +223,7 @@ namespace Dal
             _order.OrderDate = DateTime.Now; // order date is- current date.
             _order.ShipDate = DateTime.Now.AddDays(5); // shipping date is five days from order.
             _order.DeliveryDate = DateTime.Now.AddDays(7); // delivery date is seven days from order.
-            int newID = _dalOrder.Add(_order); // adding order to order list.
+            int newID = DalList.Order.Add(_order); // adding order to order list.
             AddOI(newID);
         }
 
@@ -234,7 +236,7 @@ namespace Dal
             Console.WriteLine("enter order ID");
             int ID;
             int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
-            _order = _dalOrder.GetByID(ID);// find order that matches this ID.
+            _order = DalList.Order.GetByID(ID);// find order that matches this ID.
             Console.WriteLine(_order); ;// printing description.
         }
 
@@ -243,7 +245,7 @@ namespace Dal
         /// </summary>
         private static void GetAllOrderDesc()
         {
-            IEnumerable<Order> ie = _dalOrder.GetList();
+            IEnumerable<Order> ie = DalList.Order.GetList();
             foreach (Order item in ie) // printd every product in list
             {
                 Console.WriteLine(item);
@@ -259,7 +261,7 @@ namespace Dal
             Console.WriteLine("enter order ID to update");
             int ID;
             int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
-            _order = _dalOrder.GetByID(ID); // getting from list order that needs to be updated
+            _order = DalList.Order.GetByID(ID); // getting from list order that needs to be updated
             Console.WriteLine("enter updated name");
             _order.CustomerName = Console.ReadLine();// receiving updated name of customer.
             Console.WriteLine("enter updated email address");
@@ -269,7 +271,7 @@ namespace Dal
             _order.OrderDate = DateTime.Now; // order date is- current date.
             _order.ShipDate = DateTime.Now.AddDays(5); // shipping date is five days from order.
             _order.DeliveryDate = DateTime.Now.AddDays(7); // delivery date is seven days from order.
-            _dalOrder.Update(_order); // adding updated order to order list.
+            DalList.Order.Update(_order); // adding updated order to order list.
             manageOrderItem(ID);
         }
 
@@ -281,7 +283,7 @@ namespace Dal
             Console.WriteLine("enter order ID to delete");
             int ID;
             int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
-            _dalOrder.Delete(ID); // deleting order.
+            DalList.Order.Delete(ID); // deleting order.
         }
 
 
@@ -346,9 +348,9 @@ namespace Dal
         {
             int amOI = 5;
             OrderItem _orderItem=new OrderItem();
-            while (amOI > 4) // while amount of products in order is more than 4
+            while (amOI > 4) // while amount of Product in order is more than 4
             {
-                Console.WriteLine("enter amount of products to add to Order, up to 4 products");
+                Console.WriteLine("enter amount of Product to add to Order, up to 4 Product");
                 int.TryParse(Console.ReadLine(), out amOI);
             }
             int num;
@@ -358,11 +360,11 @@ namespace Dal
                 int.TryParse(Console.ReadLine(), out num); // convert input to integer
                 _orderItem.ProductId = num;
                 _orderItem.OrderId = id;
-                _orderItem.Price = _dalProducts.GetByID(id).Price; // get price of product from product list
-                Console.WriteLine("enter amount of copies of " + _dalProducts.GetByID(id).Name);
+                _orderItem.Price = DalList.Product.GetByID(id).Price; // get price of product from product list
+                Console.WriteLine("enter amount of copies of " + DalList.Product.GetByID(id).Name);
                 int.TryParse(Console.ReadLine(), out num); // convert input to integer
                 _orderItem.Amount = num;
-                _dalOrderItem.Add(_orderItem); // add new order item to list
+                DalList.OrderItem.Add(_orderItem); // add new order item to list
             }
         }
 
@@ -386,11 +388,11 @@ namespace Dal
                 Console.WriteLine("enter ID of product to update");
                 int.TryParse(Console.ReadLine(), out num); // convet input to integer
                 _orderItem.ProductId = num;
-                _orderItem.Price = _dalProducts.GetByID(num).Price; // get updated product's price
-                Console.WriteLine("enter amount of copies of " + _dalProducts.GetByID(id).Name);
+                _orderItem.Price = DalList.Product.GetByID(num).Price; // get updated product's price
+                Console.WriteLine("enter amount of copies of " + DalList.Product.GetByID(id).Name);
                 int.TryParse(Console.ReadLine(), out num); // convert input to integer
                 _orderItem.Amount = num;
-                _dalOrderItem.Add(_orderItem);
+                DalList.OrderItem.Add(_orderItem);
             }
         }
 
@@ -400,7 +402,7 @@ namespace Dal
         private static void DeleteOI()
         {
             int amOI = 5;
-            while (amOI > 4) // while amount of products to delete from order is more than 4
+            while (amOI > 4) // while amount of Product to delete from order is more than 4
             {
                 Console.WriteLine("enter amount of order items to delete");
                 int.TryParse(Console.ReadLine(), out amOI); // convert input to integer
@@ -410,7 +412,7 @@ namespace Dal
             {
                 Console.WriteLine("enter ID of order item to delete");
                 int.TryParse(Console.ReadLine(), out id); // convet input to integer
-                _dalOrderItem.Delete(id);
+                DalList.OrderItem.Delete(id);
             }
         }
 
@@ -419,7 +421,7 @@ namespace Dal
         /// </summary>
         private static void GetAllOrderItem()
         {
-            IEnumerable<OrderItem> ie = _dalOrderItem.GetList();
+            IEnumerable<OrderItem> ie = DalList.OrderItem.GetList();
             foreach (OrderItem item in ie) // printd every product in list
             {
                 Console.WriteLine(item);
@@ -435,7 +437,7 @@ namespace Dal
             Console.WriteLine("enter order item ID");
             int ID;
             int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
-            _orderI = _dalOrderItem.GetByID(ID);// find order that matches this ID.
+            _orderI = DalList.OrderItem.GetByID(ID);// find order that matches this ID.
             Console.WriteLine(_orderI); ;// printing description.
         }
     }

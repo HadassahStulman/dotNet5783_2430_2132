@@ -5,9 +5,10 @@ using static Dal.DataSource;
 using static Dal.DataSource.Config;
 using System.Collections.Generic;
 using System.Collections;
+using DalApi;
 namespace Dal;
 
-public class DalOrder
+internal class DalOrder: IOrder
 {
 
     /// <summary>
@@ -19,7 +20,7 @@ public class DalOrder
     public int Add(Order o)
     {
         if (orderList.Contains(o))
-            throw new Exception("Order already exists\n");
+            throw new AlreadyExistingException();
         o.ID = getIdNewO();
         orderList.Add(o);
         return o.ID;
@@ -39,7 +40,7 @@ public class DalOrder
                 flag = true;
             }
         if (!flag)
-            throw new Exception("Order does not exist\n");
+            throw new NotExistingException();
     }
     /// <summary>
     /// Updating an order item in list. If order item (to update) does not exist then throw error.
@@ -58,7 +59,7 @@ public class DalOrder
             }
         }
         if (!flag)
-            throw new Exception("Order item does not exist\n");
+            throw new NotExistingException();
     }
     /// <summary>
     /// recieves Uniqe ID for identifing the order and returns Order object
@@ -67,17 +68,23 @@ public class DalOrder
     /// <returns>Order</returns>
     public Order GetByID(int oId)
     {
+        bool flag = false;
         int i = 0;
         for (; i < orderList.Count(); i++)
             if (orderList[i].ID == oId)
+            {
+                flag = true;
                 break;
+            }
+        if (!flag)
+            throw new NotExistingException();
         return orderList[i];
     }
 
     /// <summary>
-    /// return list of all products
+    /// return list of all Product
     /// </summary>
-    /// <returns>IEnumerable</returns>
+    /// <returns>IEnumerable<Order></Order></returns>
     public IEnumerable<Order> GetList()
     {
         List<Order> orders = new List<Order>();

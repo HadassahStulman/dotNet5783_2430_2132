@@ -5,9 +5,10 @@ using static Dal.DataSource;
 using static Dal.DataSource.Config;
 using System.Collections.Generic;
 using System.Collections;
+using DalApi;
 namespace Dal;
 
-public class DalOrderItem
+internal class DalOrderItem:IOrderItem
 {
     /// <summary>
     /// Adding a new order item to list. If order item (to add) allready exists then throw error.
@@ -18,7 +19,7 @@ public class DalOrderItem
     public int Add(OrderItem oi)
     {
         if (orderItemList.Contains(oi))
-            throw new Exception("Order item already exists\n");
+            throw new AlreadyExistingException();
         oi.ID = getIdNewOI();
         orderItemList.Add(oi);
         return oi.ID;
@@ -38,7 +39,7 @@ public class DalOrderItem
                 flag = true;
             }
         if (!flag)
-            throw new Exception("Order item does not exist\n");
+            throw new NotExistingException();
     }
     /// <summary>
     /// Updating an order item in list. If order item (to update) does not exist then throw error.
@@ -55,25 +56,30 @@ public class DalOrderItem
                 break;
             }
         if (!flag)
-            throw new Exception("Order item dos not exist\n");
+            throw new NotExistingException();
     }
     /// <summary>
     /// recieves Uniqe ID for identifing the order item and returns order item object
     /// </summary>
     /// <param name="oi"></param>
-    /// <returns>orderItem</returns>
+    /// <returns>OrderItem</returns>
     public OrderItem GetByID(int oiId)
     {
+        bool flag = false;
         int i = 0;
         for (; i < orderItemList.Count(); i++)
             if (orderItemList[i].ID == oiId)
+            {
+                flag = true;
                 break;
+            }
+        if (!flag)
+            throw new NotExistingException();
         return orderItemList[i];
-
     }
 
     /// <summary>
-    /// return list of all products
+    /// return list of all Product
     /// </summary>
     /// <returns>IEnumerable</returns>
     public IEnumerable<OrderItem> GetList()

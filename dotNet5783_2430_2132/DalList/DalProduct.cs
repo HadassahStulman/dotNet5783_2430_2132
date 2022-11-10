@@ -4,9 +4,11 @@ using static Dal.DataSource;
 using static Dal.DataSource.Config;
 using System.Collections.Generic;
 using System.Collections;
+using DalApi;
+
 namespace Dal;
 
-public class DalProducts
+internal class DalProduct:IProduct
 {
     /// <summary>
     /// Adding a new product to list. If product (to add) allready exists then throw error.
@@ -15,11 +17,12 @@ public class DalProducts
     /// <param name="p"></param>
     /// <exception cref="Exception"></exception>
  
-    public void Add(Products p)
+    public int Add(Product p)
     {
-        if (productsList.Contains(p))
-            throw new Exception("product already exists");
-        productsList.Add(p);
+        if (ProductList.Contains(p))
+            throw new AlreadyExistingException();
+        ProductList.Add(p);
+        return p.ID;
     }
     /// <summary>
     /// Deleteing product from list. If product (to delete) does not exists then throw error.
@@ -29,55 +32,61 @@ public class DalProducts
     public void Delete(int pID)
     {
         bool flag= false;
-        for (int i = 0; i < productsList.Count; i++)
-            if (productsList[i].ID == pID)
+        for (int i = 0; i < ProductList.Count; i++)
+            if (ProductList[i].ID == pID)
             {
-                productsList.RemoveAt(i);
+                ProductList.RemoveAt(i);
                 flag = true;
             }
         if (!flag)
-            throw new Exception("product does not exist");
+            throw new NotExistingException();
     }
     /// <summary>
     /// Updating an product in list. If product (to update) does not exist then throw error.
     /// </summary>
     /// <param name="p"></param>
-    public void Update(Products p)
+    public void Update(Product p)
     {
         bool flag = false;
-        for (int i= 0; i<productsList.Count(); i++)
-            if (productsList[i].ID == p.ID)
+        for (int i= 0; i<ProductList.Count(); i++)
+            if (ProductList[i].ID == p.ID)
             {
-                productsList[i] = p;
+                ProductList[i] = p;
                 flag = true;
                 break;
             }
         if (!flag)
-            throw new Exception("Order item does not exist\n");
+            throw new NotExistingException();
     }
     /// <summary>
     /// recieves Uniqe ID for identifing the product and returns product object
     /// </summary>
     /// <param name="p"></param>
-    /// <returns>Products</returns>
-    public Products GetByID(int id)
+    /// <returns>Product</returns>
+    public Product GetByID(int id)
     {
+        bool flag = false;
         int i = 0;
-        for (; i < productsList.Count(); i++)
-            if (productsList[i].ID == id)
+        for (; i < ProductList.Count(); i++)
+            if (ProductList[i].ID == id)
+            {
+                flag = true;
                 break;
-        return productsList[i];
+            }
+        if (!flag)
+            throw new NotExistingException();
+        return ProductList[i];
 
     }
 
     /// <summary>
-    /// return list of all products
+    /// return list of all Product
     /// </summary>
-    /// <returns>IEnumerable</returns>
-    public IEnumerable<Products> GetList()
+    /// <returns>IEnumerable<Product></Product></returns>
+    public IEnumerable<Product> GetList()
     { 
-        List<Products> products = new List<Products>(productsList);
-        return products;
+        List<Product> Product = new List<Product>(ProductList);
+        return Product;
     }
 
     /// <summary>
@@ -87,20 +96,9 @@ public class DalProducts
     /// <returns>bool</returns>
     public bool isIDUniqe(int id)
     {
-        for (int i = 0; i < productsList.Count; i++) 
-            if (productsList[i].ID == id)
+        for (int i = 0; i < ProductList.Count; i++) 
+            if (ProductList[i].ID == id)
                 return false;
         return true;
-    }
-
-    ///// <summary>
-    ///// check if the category is legal
-    ///// </summary>
-    ///// <returns></returns>
-    //public bool isCategory(string con)
-    //{
-    //    if (con == "TextBooks" || con == "CookBooks" || con == "ToddlerBooks" || con == "ReligiousBooks" || con == "ReadingBooks")
-    //        return true;
-    //    return false;
-    //}         
+    }       
 }

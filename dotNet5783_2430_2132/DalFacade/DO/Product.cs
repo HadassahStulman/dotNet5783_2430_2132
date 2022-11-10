@@ -6,7 +6,7 @@ namespace DO;
 /// <summary>
 /// Structure for a Book
 /// </summary>
-public struct Products
+public struct Product
 {
     /// <summary>
     /// Uniqe ID for identifing a book

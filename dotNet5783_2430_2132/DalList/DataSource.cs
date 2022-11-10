@@ -39,9 +39,9 @@ internal static class DataSource
 
 
     /// <summary>
-    /// list of products
+    /// list of Product
     /// </summary>
-    internal static List<Products> productsList = new List<Products>();
+    internal static List<Product> ProductList = new List<Product>();
     /// <summary>
     /// list of orders
     /// </summary>
@@ -61,7 +61,7 @@ internal static class DataSource
     /// adding product to list
     /// </summary>
     /// <param name="p">void</param>
-    private static void addProduct(Products p) { productsList.Add(p); }
+    private static void addProduct(Product p) { ProductList.Add(p); }
     /// <summary>
     /// adding order to list
     /// </summary>
@@ -78,10 +78,10 @@ internal static class DataSource
     /// </summary>
     private static void s_Initialize()
     {
-        Products p = new Products();
+        Product p = new Product();
         for (int i = 0; i < 10; i++) // initalize product list
         {
-            //DalProducts dp = new DalProducts();
+            //DalProduct dp = new DalProduct();
             int id = rnd.Next(10000, 99999); // random id number of 6 digits
             //while (!dp.isIDUniqe(id)) // generates new id until id is uniqe
             //    id = rnd.Next(10000, 99999);
@@ -138,15 +138,15 @@ internal static class DataSource
         }
         for (int i = 0; i < 20; i++)
         {
-            int amount = rnd.Next(1, 5); // random amount of products for each order
+            int amount = rnd.Next(1, 5); // random amount of Product for each order
             for (int j = 0; j < amount; j++)
             {
                 OrderItem oi = new OrderItem(); // new order item
                 oi.ID = DataSource.Config.getIdNewO();
                 oi.OrderId = orderList[i].ID;
                 int ranP = rnd.Next(0, 10);
-                oi.ProductId = productsList[ranP].ID; // random product
-                oi.Price = productsList[ranP].Price; // random price according to product list
+                oi.ProductId = ProductList[ranP].ID; // random product
+                oi.Price = ProductList[ranP].Price; // random price according to product list
                 oi.Amount = rnd.Next(1, 6); // random amount of copies
                 addOrderItem(oi);
             }
