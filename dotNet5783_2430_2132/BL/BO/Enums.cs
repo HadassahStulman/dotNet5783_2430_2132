@@ -12,5 +12,9 @@ public struct Enums
         ReadingBooks // different genre of books for pleasure (novels, fantacy...)
     }; 
 
+    public enum OrderStatus
+    {
+
+    }
 
 }
