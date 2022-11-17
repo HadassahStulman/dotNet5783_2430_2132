@@ -322,18 +322,22 @@ namespace Dal
             bool flag = true;
             while (flag)
             {
-                Console.WriteLine(@" enter: 1 for getting an order Item description according to ID
+                Console.WriteLine(@"enter: 1 for getting an order Item description according to ID
        2 for getting descroptions of all orders Items
        3 for deleting a order Item
+       4 for getting an order Item description according to product ID and order ID 
+       5 for getting all order items of a specific order
        0 for returning back to the main menu ");
                 int ch1;
                 int.TryParse(Console.ReadLine(), out ch1); // converts the input to integer
                 switch (ch1)
                 {
                     case 0: flag = false; break;
-                    case 1: OrderItemDesc(); break; // prints order description
-                    case 2: GetAllOrderItem(); break; // print descriptions of all orders in list
-                    case 3: DeleteOI(); break; // delete existing order
+                    case 1: OrderItemDesc(); break; // prints order item description
+                    case 2: GetAllOrderItem(); break; // print descriptions of all order items in list
+                    case 3: DeleteOI(); break; // delete existing order item
+                    case 4:OrderItemDescBy2ID(); break;// prints order idem description by product ID and order ID 
+                    case 5: AllItemsInOrder(); break; //  prints all order items description that are in a specific order
                     default: // back to sub menu
                         break;
                 }
@@ -439,6 +443,34 @@ namespace Dal
             int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
             _orderI = DalList.OrderItem.GetByID(ID);// find order that matches this ID.
             Console.WriteLine(_orderI); ;// printing description.
+        }
+
+        /// <summary>
+        /// print description of specific order item by both IDs
+        /// </summary>
+        private static void OrderItemDescBy2ID()
+        {
+            OrderItem _orderI = new OrderItem();
+            Console.WriteLine("enter product ID");
+            int pID;
+            int.TryParse(Console.ReadLine(), out pID); // converts the input to integer
+            Console.WriteLine("enter order ID");
+            int oID;
+            int.TryParse(Console.ReadLine(), out oID); // converts the input to integer
+            _orderI = DalList.OrderItem.GetByBothID(pID, oID); // find order item according to both IDs.
+            Console.WriteLine(_orderI); ;// printing description.
+        }
+        /// <summary>
+        /// printing list of all order items
+        /// </summary>
+        private static void AllItemsInOrder()
+        {
+            Console.WriteLine("enter order ID");
+            int ID;
+            int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
+            IEnumerable<OrderItem> iE= DalList.OrderItem.GetAllItemsInOrder(ID); // returns list of order item
+            foreach(OrderItem item in iE) // printing description
+                Console.WriteLine(item);
         }
     }
 }

@@ -88,4 +88,39 @@ internal class DalOrderItem:IOrderItem
         orderIs.AddRange(orderItemList);
         return orderIs;
     }
+
+    public OrderItem GetByBothID(int pID, int oID)
+    {
+        bool flag = false;
+        OrderItem oi = new OrderItem();
+        foreach(OrderItem item in orderItemList)
+        {
+            if(item.ProductId == pID && item.OrderId== oID)
+            {
+                oi = item;
+                flag = true;
+                break;
+            }
+        }
+        if (!flag)
+            throw new NotExistingException();
+        return oi;
+        
+    }
+    /// <summary>
+    /// return list of all order items in a specific order
+    /// </summary>
+    /// <param name="oID"></param>
+    /// <returns>IEnumerable<OrderItem></returns>
+    /// <exception cref="NotExistingException"></exception>
+    public IEnumerable<OrderItem> GetAllItemsInOrder(int oID)
+    {
+        List<OrderItem> lst = new List<OrderItem>();
+        foreach(OrderItem item in orderItemList) // runs across order item list 
+            if(item.OrderId == oID) // if item is in the order
+                lst.Add(item);
+        if (lst.Count == 0) 
+            throw new NotExistingException();
+        return lst;
+    }
 }
