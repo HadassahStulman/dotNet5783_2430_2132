@@ -4,9 +4,9 @@ namespace BO;
 /// class for managing product list screen and catalog screen
 /// </summary>
 public class ProductForList
-{/// <summary>
-/// product ID
-/// </summary>
+{   /// <summary>
+    /// product ID
+    /// </summary>
     public int? ID { get; set; }    
     /// <summary>
     /// product name
