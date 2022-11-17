@@ -1,13 +1,13 @@
 ﻿
 namespace BO;
 /// <summary>
-/// class for managing  product catalog screen
+/// class for managing product catalog screen
 /// </summary>
 public class ProductItem
 {   /// <summary>
     /// product ID
     /// </summary>
-    public int? id { get; set; }  
+    public int? ID { get; set; }  
     /// <summary>
     /// product name
     /// </summary>

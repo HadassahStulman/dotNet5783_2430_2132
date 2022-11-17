@@ -4,9 +4,10 @@ namespace BO;
 /// class for managing product list screen and catalog screen
 /// </summary>
 public class ProductForList
-{/// <summary>
-/// product ID
-/// </summary>
+{   
+    /// <summary>
+    /// product ID
+    /// </summary>
     public int? ID { get; set; }    
     /// <summary>
     /// product name
@@ -19,6 +20,5 @@ public class ProductForList
     /// <summary>
     /// product category
     /// </summary>
-    public Enums.Category Category { get; set; }
-
+    public Enums.Category? Category { get; set; }
 }

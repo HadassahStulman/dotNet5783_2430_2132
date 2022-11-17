@@ -10,7 +10,7 @@ public class Order
     /// <summary>
     /// order id
     /// </summary>
-    public int ID { get; set; }
+    public int? ID { get; set; }
     /// <summary>
     /// customer's name
     /// </summary>
@@ -26,23 +26,23 @@ public class Order
     /// <summary>
     /// date of ordering 
     /// </summary>
-    public DateTime OrderDate { get; set; }
+    public DateTime? OrderDate { get; set; }
     /// <summary>
     /// status of order (if shiped, delivered...)
     /// </summary>
-    public Enums.OrderStatus Status { get; set; }
+    public Enums.OrderStatus? Status { get; set; }
     /// <summary>
     /// date of order confirmation / pament
     /// </summary>
-    public DateTime PaymentDate { get; set; }
+    public DateTime? PaymentDate { get; set; }
     /// <summary>
     /// shipping date
     /// </summary>
-    public DateTime ShipDate { get; set; }
+    public DateTime? ShipDate { get; set; }
     /// <summary>
     /// delivery date
     /// </summary>
-    public DateTime DeliveryDate { get; set; }
+    public DateTime? DeliveryDate { get; set; }
     /// <summary>
     /// list of items in order
     /// </summary>
