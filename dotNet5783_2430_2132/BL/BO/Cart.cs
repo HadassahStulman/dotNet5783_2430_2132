@@ -26,5 +26,5 @@ public class Cart
     /// <summary>
     /// total price of all items in cart
     /// </summary>
-    public double TotalPrice { get; set; }
+    public double? TotalPrice { get; set; }
 }

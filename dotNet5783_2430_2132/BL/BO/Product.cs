@@ -22,7 +22,7 @@ public class Product
     /// <summary>
     /// product category
     /// </summary>
-    public Enums.Category Category { get; set; }
+    public Enums.Category? Category { get; set; }
     /// <summary>
     /// amount of products in stock
     /// </summary>
