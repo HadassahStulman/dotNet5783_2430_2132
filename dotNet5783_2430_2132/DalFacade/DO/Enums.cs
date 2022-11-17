@@ -9,5 +9,4 @@ public struct Enums
                            ReligiousBooks,  // jewish textbooks
                            ReadingBooks }; // different genre of books for pleasure (novels, fantacy...)
                             
-
 }
