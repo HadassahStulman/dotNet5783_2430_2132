@@ -16,5 +16,5 @@ public class OrderTracking
     /// <summary>
     /// list of all tracking stages including description and date
     /// </summary>
-    public List<string>? TrackingStages { get; set; }
+    public List<Tuple<DateTime, string>>? TrackingStages { get; set; }
 }

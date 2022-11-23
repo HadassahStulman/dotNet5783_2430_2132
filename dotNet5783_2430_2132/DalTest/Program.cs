@@ -1,15 +1,5 @@
 ﻿
 using DO;
-using Dal;
-using System.Collections;
-using System.Collections.Specialized;
-using System.Reflection.PortableExecutable;
-using System;
-using System.Collections.Generic;
-using System.Runtime.Intrinsics.Arm;
-using System.Security.Cryptography.X509Certificates;
-using System.Diagnostics;
-using System.Data.Common;
 using DalApi;
 
 namespace Dal

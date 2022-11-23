@@ -14,10 +14,7 @@ internal class Order : IOrder
     /// </summary>
     private DalApi.IDal Dal = new Dal.DalList();
 
-    /// <summary>
-    /// the method returns as output a list of orders for manager view only. The orders in the  manager list include additional fields: number of order items, total order price and the order's status 
-    /// </summary>
-    /// <returns>IEnumerable<BO.OrderForList></returns>
+
     public IEnumerable<BO.OrderForList> GetList()
     {
         
@@ -51,22 +48,16 @@ internal class Order : IOrder
 
     }
 
-
-    /// <summary>
-    /// the method recieves as input order ID, and returs as output a (BO type) order for manager view only
-    /// </summary>
-    /// <param name="oID"></param>
-    /// <returns>BO.Order</returns>
-    /// <exception cref="IlegalDataException"></exception>
+  
     public BO.Order GetByID(int oID)
     {
         try
         {
-            if (oID < 0) // if order ID is a negative number then throw iligal data exception
+            if (oID < 10000) // if order ID is ilegal then throw iligal data exception
                 throw new BO.IlegalDataException("Order ID can't be a negative number");
             DO.Order order = Dal.Order.GetByID(oID);
 
-            string oStatus = OrderStatus(order); // status of current order
+        
             List<BO.OrderItem> oi = new List<BO.OrderItem>(); // creating new list for order items from BO
             int? oAmount = 0; // counter for calculating the amont of products in order
             double? oTotalPrice = 0;// counter for calculating the total price of order
@@ -94,7 +85,7 @@ internal class Order : IOrder
                 CustomerEmail = order.CustomerEmail,
                 CustomerAdress = order.CustomerAdress,
                 OrderDate = order.OrderDate,
-                Status = (BO.Enums.OrderStatus)Enum.Parse(typeof(BO.Enums.OrderStatus), oStatus), //convert string to enum
+                Status = (BO.Enums.OrderStatus)Enum.Parse(typeof(BO.Enums.OrderStatus), OrderStatus(order)), //convert string to enum
                 PaymentDate = order.OrderDate,
                 ShipDate = order.ShipDate,
                 DeliveryDate = order.DeliveryDate,
@@ -105,12 +96,7 @@ internal class Order : IOrder
         catch (DalApi.NotExistingException e) { throw e; } // if order or product dos not exist in data surce the throw not existing exception
     }
 
-    /// <summary>
-    /// the method receives as input: orders ID and returs as output: BO order after it has been updated by the manager to be shipped today 
-    /// </summary>
-    /// <param name="oID"></param>
-    /// <returns>BO.Order</returns>
-    /// <exception cref="FailedUpdatingObjectException"></exception>
+
     public BO.Order UpdateShipping(int oID)
     {
         try
@@ -128,23 +114,17 @@ internal class Order : IOrder
         catch (DalApi.NotExistingException e) { throw new BO.FailedUpdatingObjectException(e); } // faild updating order because: order or product don't exist in data surce 
     }
 
-    /// <summary>
-    /// the method receives as input: orders ID and returs as output: BO order after it has been updated by the manager to be deliverd today.
-    /// </summary>
-    /// <param name="oID"></param>
-    /// <returns>BO.Order</returns>
-    /// <exception cref="FailedUpdatingObjectException"></exception>
     public BO.Order UpdateDelivery(int oID)
     {
         try
         {
-            if (oID < 0) // if order ID is a negative number then throw iligal data exception
-                throw new BO.FailedUpdatingObjectException(new BO.IlegalDataException("Order ID can't be a negative number"));
+            if (oID < 10000) // if order ID is a negative number then throw iligal data exception
+                throw new BO.FailedUpdatingObjectException(new BO.IlegalDataException("Ilegal Order Id"));
             DO.Order dOrder = Dal.Order.GetByID(oID);
-            if (dOrder.ShipDate == null && dOrder.DeliveryDate == null) // chcking that dates are not null
-                throw new BO.FailedUpdatingObjectException(new BO.ConflictingStatusException("The status of order is null"));
-            if ((DateTime.Compare((DateTime)dOrder.ShipDate, DateTime.Now) > 0) || DateTime.Compare((DateTime)dOrder.DeliveryDate, DateTime.Now) <= 0)  // checking if the order was already shipped and not been deliverd yet. if not so then throw status exception
-                throw new BO.FailedUpdatingObjectException(new BO.ConflictingStatusException("The order has not been shipped or has already been deliverd"));
+            if (dOrder.ShipDate == DateTime.MinValue) // chcking that dates are not null
+                throw new BO.FailedUpdatingObjectException(new BO.ConflictingStatusException("Order was not shipped Yet"));
+            if ((DateTime)dOrder.DeliveryDate!= DateTime.MinValue)  // checking if the order was already shipped and not been deliverd yet. if not so then throw status exception
+                throw new BO.FailedUpdatingObjectException(new BO.ConflictingStatusException("Order was already delivered"));
 
             dOrder.DeliveryDate = DateTime.Now; // updating the order delivery date in data surce
             Dal.Order.Update(dOrder);
@@ -153,43 +133,33 @@ internal class Order : IOrder
         catch (DalApi.NotExistingException e) { throw new BO.FailedUpdatingObjectException(e); } // faild updating order because: order or product don't exist in data surce
     }
 
-    /// <summary>
-    /// the method tracks order and returns tracking object that describes the order's tracking status
-    /// </summary>
-    /// <param name="oID"></param>
-    /// <returns>BO.OrderTracking</returns>
-    /// <exception cref="BO.FailedUpdatingObjectException"></exception>
+  
     public BO.OrderTracking TrackOrder(int oID)
     {
         try
         {
-            if (oID < 0) // if order ID is a negative number then throw iligal data exception
-                throw new BO.FailedUpdatingObjectException(new BO.IlegalDataException("Order ID can't be a negative number"));
+            if (oID < 10000) // if order ID is ilegal number then throw iligal data exception
+                throw new BO.FailedUpdatingObjectException(new BO.IlegalDataException("Order ID is Ilegal"));
             DO.Order dOrder = Dal.Order.GetByID(oID);
 
-            List<string> trackingLst = new List<string>(); // description list of the order status 
-            if (dOrder.OrderDate != null)
-                trackingLst.Add(dOrder.OrderDate.ToString() + ": order confirmed");
-            if (dOrder.ShipDate != null)
-                trackingLst.Add(dOrder.ShipDate.ToString() + ": order shipped");
-            if (dOrder.DeliveryDate != null)
-                trackingLst.Add(dOrder.DeliveryDate.ToString() + ": order deliverd");
+            List<Tuple<DateTime, string>> trackingLst = new List<Tuple< DateTime, string>>(); // description list of the order status 
+            trackingLst.Add(new Tuple<DateTime, string>( (DateTime)dOrder.OrderDate , "Order was Confirmed"));
+            if (dOrder.ShipDate != DateTime.MinValue)
+                trackingLst.Add(new Tuple<DateTime, string>( (DateTime)dOrder.ShipDate, "Order was Shipped"));
+            if (dOrder.DeliveryDate != DateTime.MinValue)
+                trackingLst.Add(new Tuple<DateTime, string>( (DateTime)dOrder.DeliveryDate , "Order was Delivered"));
+            
 
             string oStatus = OrderStatus(dOrder); // status of current order
             return new BO.OrderTracking { 
                 ID = dOrder.ID,
                 Status = (BO.Enums.OrderStatus)Enum.Parse(typeof(BO.Enums.OrderStatus), oStatus), // convert string to enum
-                TrackingStages = trackingLst.ToList() };
+                TrackingStages = trackingLst};
         }
         catch (DalApi.NotExistingException e) { throw new BO.FailedUpdatingObjectException(e); } // faild updating order because: order or product don't exist in data surce
     }
 
-    /// <summary>
-    /// the method aloows manager to update or delete amount of copies of product in a specific order
-    /// </summary>
-    /// <param name="oID"></param>
-    /// <returns>BO.Order</returns>
-    /// <exception cref="FailedUpdatingObjectException"></exception>
+   
     public BO.Order ManagerUpdateOrder(int oID)
     {
         try
@@ -249,10 +219,10 @@ internal class Order : IOrder
     public string OrderStatus(DO.Order o)
     {
         string oStatus; // status of current order
-        if (o.DeliveryDate != null && DateTime.Compare((DateTime)o.DeliveryDate, DateTime.Now) <= 0)  // comparing delivery date  with today's date
+        if ( DateTime.Compare((DateTime)o.DeliveryDate, DateTime.Now) <= 0)  // comparing delivery date  with today's date
             oStatus = "OrderDelivered";
-        else if (o.ShipDate != null && DateTime.Compare((DateTime)o.ShipDate, DateTime.Now) <= 0)   // comparing Shiping date with today's date
-            oStatus = "OrderShiped";
+        else if ( DateTime.Compare((DateTime)o.ShipDate, DateTime.Now) <= 0)   // comparing Shiping date with today's date
+            oStatus = "OrderShipped";
         else oStatus = "OrderConfirmed";
         return oStatus;
     }

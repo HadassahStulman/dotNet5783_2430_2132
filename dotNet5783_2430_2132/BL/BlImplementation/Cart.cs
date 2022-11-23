@@ -1,8 +1,7 @@
 ﻿
 using BlApi;
 using BO;
-using System.Diagnostics;
-using System.Security.Cryptography;
+
 
 namespace BlImplementation;
 
@@ -80,7 +79,7 @@ internal class Cart : ICart
         {
             DO.Product p = Dal.Product.GetByID(pID); // finding product (that we're adding to cart) in products catalog
             if (amount < 0 || amount > p.InStock) // if amount is negative or if there is not enough of product in stock  then throw message
-                throw new FailedUpdatingObjectException(new IlegalDataException("entered invalid amount")); // failed updating product in cart beacuse of ilega data 
+                throw new FailedUpdatingObjectException(new IlegalDataException("Ilegal amount")); // failed updating product in cart beacuse of ilega data 
 
             if (crt.Items == null) // if cart is empty then throw not existing ecxeption
                 throw new FailedUpdatingObjectException(new DalApi.NotExistingException());
@@ -122,7 +121,7 @@ internal class Cart : ICart
         try
         {
 
-            if (name == null || adress == null || email == null || !email.EndsWith("@gmail.com"))  // if customer details are incorrect then throw message
+            if (name == "" || adress == "" || email == "" || !email.Contains ('@'))  // if customer details are incorrect then throw message
                 throw new FailedToConfirmOrderException(new IlegalDataException("Customer details are incorrect"));
 
             if (crt.Items == null) // if cart is empty then throw not existing ecxeption
@@ -132,8 +131,8 @@ internal class Cart : ICart
             foreach (BO.OrderItem item in crt.Items)
             {
                 p = Dal.Product.GetByID(item.ProductID); // finding product (that we're adding to cart) in products catalog
-                if (item.Amount < 0)  // if the amount of product is negative then throw message
-                    throw new FailedToConfirmOrderException(new IlegalDataException("The amount of product can't be negative"));
+                if (item.Amount <= 0)  // if the amount of product is negative then throw message
+                    throw new FailedToConfirmOrderException(new IlegalDataException("Ilegal amount of products"));
                 if (p.InStock < item.Amount) // if the amount of a specific order item in shopping cart is bigger then the amount of that specific product in stock then throw message
                     throw new FailedToConfirmOrderException(new OutOfStockException());
             }
@@ -144,8 +143,8 @@ internal class Cart : ICart
                 CustomerEmail = email,
                 CustomerAdress = adress,
                 OrderDate = DateTime.Now,
-                ShipDate = null,
-                DeliveryDate = null,
+                ShipDate = DateTime.MinValue,
+                DeliveryDate = DateTime.MinValue,
             }); // adding current order to order list in data surce.
 
             foreach (BO.OrderItem item in crt.Items) // creating order item objects According to product's in shopping cart and adding them to  order item list in data surce
@@ -162,8 +161,7 @@ internal class Cart : ICart
                 Dal.Product.Update(p);
             }
         }
-        catch (DalApi.NotExistingException e) { throw new FailedToConfirmOrderException(e); } // failed updating product to cart because: product to update does not exist in catalog
-        catch (DalApi.AlreadyExistingException e) { throw new FailedToConfirmOrderException(e); } // failed to confirm order because: theis order already exist in order list 
+        catch (Exception e) { throw new FailedToConfirmOrderException(e); } // failed updating product to cart because: product to update does not exist in catalog
 
     }
 
