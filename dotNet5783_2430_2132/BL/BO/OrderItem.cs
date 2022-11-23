@@ -17,7 +17,7 @@ public class OrderItem
     /// <summary>
     /// product's ID 
     /// </summary>
-    public int? ProductID { get; set; }
+    public int ProductID { get; set; }
     /// <summary>
     /// price of a single product
     /// </summary>
