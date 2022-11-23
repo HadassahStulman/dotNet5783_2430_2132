@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Stage0", "Stage0\Stage0.csproj", "{6DAFD6DA-222B-4303-B839-8D566E9F1053}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4EE947CB-4A72-48E2-94A2-367F7481B680}"
 	ProjectSection(SolutionItems) = preProject
 		..\README.md = ..\README.md
@@ -16,9 +14,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalFacade", "DalFacade\DalF
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalTest", "DalTest\DalTest.csproj", "{A02D6397-E2DB-466D-ACEB-3679B7893F54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BL", "BL\BL.csproj", "{0AD47F40-8FFA-4B1B-805E-39589BA4E1CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL", "BL\BL.csproj", "{0AD47F40-8FFA-4B1B-805E-39589BA4E1CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlTest", "BlTest\BlTest.csproj", "{5E8CCF0F-8BA6-4BDC-8B68-C105C5CCC715}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlTest", "BlTest\BlTest.csproj", "{5E8CCF0F-8BA6-4BDC-8B68-C105C5CCC715}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,10 +24,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6DAFD6DA-222B-4303-B839-8D566E9F1053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6DAFD6DA-222B-4303-B839-8D566E9F1053}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6DAFD6DA-222B-4303-B839-8D566E9F1053}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6DAFD6DA-222B-4303-B839-8D566E9F1053}.Release|Any CPU.Build.0 = Release|Any CPU
 		{88621F07-CEFD-4795-B003-0965F2EF60BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{88621F07-CEFD-4795-B003-0965F2EF60BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88621F07-CEFD-4795-B003-0965F2EF60BA}.Release|Any CPU.ActiveCfg = Release|Any CPU

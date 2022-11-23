@@ -115,6 +115,28 @@ public class FailedToTrackOrderException : Exception
 
 
 /// <summary>
+/// exception for failing to confirm an order
+/// due to ilegal input, not existing products, order items not in stock
+/// </summary>
+[Serializable]
+public class FailedToConfirmOrderException : Exception
+{
+    /// <summary>
+    /// constructor for exception, with uninqe message and inner exception
+    /// </summary>
+    /// <param name="inner"></param>
+    public FailedToConfirmOrderException(Exception inner) : base("Failed To Confirm Order", inner) { }
+
+    /// <summary>
+    /// convert description of exception to string
+    /// </summary>
+    /// <returns>string</returns>
+    public override string ToString() => $"FailedToConfirmOrderException: {Message} - {this.InnerException}";
+}
+
+
+
+/// <summary>
 /// inner exception for getting ilegal input
 /// </summary>
 [Serializable]
@@ -185,3 +207,8 @@ public class ProductIsOrderedException : Exception
     /// <returns>string</returns>
     public override string ToString() => $"ProductIsOrderedException: {Message}";
 }
+
+
+
+
+
