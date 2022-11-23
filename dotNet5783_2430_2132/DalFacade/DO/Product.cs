@@ -11,7 +11,7 @@ public struct Product
     /// <summary>
     /// Uniqe ID for identifing a book
     /// </summary>
-    public int ID { get; set; }
+    public int? ID { get; set; }
     /// <summary>
     /// name of the book
     /// </summary>

@@ -67,7 +67,7 @@ internal class DalProduct:IProduct
     {
         bool flag = false;
         int i = 0;
-        for (; i < ProductList.Count(); i++)
+       for(;i<ProductList.Count();i++)
             if (ProductList[i].ID == id)
             {
                 flag = true;
@@ -76,7 +76,6 @@ internal class DalProduct:IProduct
         if (!flag)
             throw new NotExistingException();
         return ProductList[i];
-
     }
 
     /// <summary>
@@ -96,9 +95,11 @@ internal class DalProduct:IProduct
     /// <returns>bool</returns>
     public bool isIDUniqe(int id)
     {
-        for (int i = 0; i < ProductList.Count; i++) 
-            if (ProductList[i].ID == id)
+        foreach (Product item in ProductList)
+        {
+            if (item.ID == id)
                 return false;
+        }
         return true;
     }       
 }

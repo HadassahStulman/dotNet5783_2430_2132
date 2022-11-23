@@ -36,15 +36,11 @@ public interface IProduct
 
 
     /// <summary>
-    /// recieves new product description and add to product list
     /// FOR MANAGER
+    /// recieves new product description and add to product list
     /// </summary>
-    /// <param name="pID"></param>
-    /// <param name="Name"></param>
-    /// <param name="cat"></param>
-    /// <param name="price"></param>
-    /// <param name="amountStock"></param>
-    public void AddProduct(int pID, string Name, BO.Enums.Category cat, double price, int amountStock);
+    /// <param name=""></param>
+    public void AddProduct(BO.Product product);
 
 
     /// <summary>

@@ -82,7 +82,7 @@ internal static class DataSource
         for (int i = 0; i < 10; i++) // initalize product list
         {
             //DalProduct dp = new DalProduct();
-            int id = rnd.Next(10000, 99999); // random id number of 6 digits
+            int id = rnd.Next(100000, 999999); // random id number of 6 digits
             //while (!dp.isIDUniqe(id)) // generates new id until id is uniqe
             //    id = rnd.Next(10000, 99999);
             p.ID = id;
