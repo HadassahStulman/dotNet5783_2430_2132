@@ -57,7 +57,6 @@ internal class Order : IOrder
                 throw new BO.IlegalDataException("Order ID can't be a negative number");
             DO.Order order = Dal.Order.GetByID(oID);
 
-        
             List<BO.OrderItem> oi = new List<BO.OrderItem>(); // creating new list for order items from BO
             int? oAmount = 0; // counter for calculating the amont of products in order
             double? oTotalPrice = 0;// counter for calculating the total price of order
@@ -101,10 +100,10 @@ internal class Order : IOrder
     {
         try
         {
-            if (oID < 0) // if order ID is a negative number then throw iligal data exception
-                throw new BO.FailedUpdatingObjectException (new BO.IlegalDataException("Order ID can't can't be a negative number"));
+            if (oID < 10000) // if order ID is a negative number then throw iligal data exception
+                throw new BO.FailedUpdatingObjectException (new BO.IlegalDataException("Ilegal order ID"));
             DO.Order dOrder = Dal.Order.GetByID(oID);
-            if (dOrder.ShipDate != null && DateTime.Compare((DateTime)dOrder.ShipDate, DateTime.Now) <= 0) // checking if the order was already shipped. if so then throw status exception
+            if (dOrder.ShipDate != DateTime.MinValue ) // checking if the order was already shipped. if so then throw status exception
                 throw new BO.FailedUpdatingObjectException( new BO.ConflictingStatusException("The order has already been shipped"));
 
             dOrder.ShipDate = DateTime.Now; // updating the order shipping date in data surce
@@ -121,9 +120,9 @@ internal class Order : IOrder
             if (oID < 10000) // if order ID is a negative number then throw iligal data exception
                 throw new BO.FailedUpdatingObjectException(new BO.IlegalDataException("Ilegal Order Id"));
             DO.Order dOrder = Dal.Order.GetByID(oID);
-            if (dOrder.ShipDate == DateTime.MinValue) // chcking that dates are not null
+            if (dOrder.ShipDate == DateTime.MinValue) // if order has not been shipped then throw status exception
                 throw new BO.FailedUpdatingObjectException(new BO.ConflictingStatusException("Order was not shipped Yet"));
-            if ((DateTime)dOrder.DeliveryDate!= DateTime.MinValue)  // checking if the order was already shipped and not been deliverd yet. if not so then throw status exception
+            if (dOrder.DeliveryDate!= DateTime.MinValue) // if order was already deliverd then throw status exception
                 throw new BO.FailedUpdatingObjectException(new BO.ConflictingStatusException("Order was already delivered"));
 
             dOrder.DeliveryDate = DateTime.Now; // updating the order delivery date in data surce
@@ -165,10 +164,10 @@ internal class Order : IOrder
         try
         {
             BO.Order o = GetByID(oID);
-            if (o.ShipDate != null && DateTime.Compare((DateTime)o.ShipDate, DateTime.Now) <= 0) // if order has been shipped then throw exception
+            if (o.ShipDate != DateTime.MinValue) // if order has been shipped then throw exception status exception
                 throw new FailedUpdatingObjectException(new ConflictingStatusException("Order has already been shipped"));
 
-            Console.WriteLine("Enter the product's ID that you want to update:");
+            Console.WriteLine("Enter ID of product that you want to update:");
             int pID;
             int.TryParse(Console.ReadLine(), out pID); // converts the input to integer
 
@@ -182,23 +181,30 @@ internal class Order : IOrder
                     flag = true;
                     DO.Product p = Dal.Product.GetByID(pID); 
                     int? pAmount = p.InStock + oi.Amount; // max amount in stock
-                    Console.WriteLine($"Enter updated amount of product up to-{pAmount}");
+                    Console.WriteLine($"Enter products updated amount, up to-{pAmount}");
                     int UpdatedAmount;
                     int.TryParse(Console.ReadLine(), out UpdatedAmount); // converts the input to integer
                     if (UpdatedAmount < 0 || UpdatedAmount > pAmount) // if the amount enterd is a negative number or a bigger number then the amount in stock then, throw ilegal datd exception
                         throw new IlegalDataException("entered invalid amount");
-
-                    Dal.OrderItem.Update(new DO.OrderItem { // updating list of Order item (in data surce)
-                        ID = oi.ID, ProductId = oi.ProductID,
+                    if (UpdatedAmount == 0) // if amont to update is zero 
+                    {
+                        o.Items.Remove(oi); // remove item from order
+                        Dal.OrderItem.Delete((int)oi.ID); // deleting item from order list (in data surce) 
+                    }
+                    else Dal.OrderItem.Update(new DO.OrderItem
+                    { 
+                        ID = oi.ID,
+                        ProductId = oi.ProductID,
                         OrderId = oID,
                         Price = oi.Price,
                         Amount = UpdatedAmount
-                    });
+                    }); // updating list of Order item (in data surce)
 
-                    p.InStock += oi.Amount - UpdatedAmount; // updating list of products (in data surce)
-                    oi.Amount = UpdatedAmount; // updating order item (in BO)
-                    oi.TotalPrice = UpdatedAmount * oi.Price;
-                    o.TotalPrice += (UpdatedAmount - oi.Amount) * oi.Price; // updating order (in BO)
+                    p.InStock += oi.Amount - UpdatedAmount; // updateing stock of products
+                    Dal.Product.Update(p); // updating list of products (in data surce)
+                    //oi.Amount = UpdatedAmount; // updating order item (in BO)
+                    //oi.TotalPrice = UpdatedAmount * oi.Price;
+                    //o.TotalPrice += (UpdatedAmount - oi.Amount) * oi.Price; // updating order (in BO)
                     break;
                 }
             }
@@ -219,9 +225,9 @@ internal class Order : IOrder
     public string OrderStatus(DO.Order o)
     {
         string oStatus; // status of current order
-        if ( DateTime.Compare((DateTime)o.DeliveryDate, DateTime.Now) <= 0)  // comparing delivery date  with today's date
+        if (o.DeliveryDate != DateTime.MinValue) // checking if order has been deliverd
             oStatus = "OrderDelivered";
-        else if ( DateTime.Compare((DateTime)o.ShipDate, DateTime.Now) <= 0)   // comparing Shiping date with today's date
+        else if (o.ShipDate != DateTime.MinValue) // checking if order has been shipped
             oStatus = "OrderShipped";
         else oStatus = "OrderConfirmed";
         return oStatus;
