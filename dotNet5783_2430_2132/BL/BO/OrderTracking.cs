@@ -19,5 +19,6 @@ public class OrderTracking
     public List<Tuple<DateTime, string>>? TrackingStages { get; set; }
     public override string ToString() => $@"ID: {ID}
 Status: {Status}
-Tracking stages: {string.Join("\n", TrackingStages)}";
+Tracking stages: 
+{string.Join("\n", TrackingStages)}\n";
 }

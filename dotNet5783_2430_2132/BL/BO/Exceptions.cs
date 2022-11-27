@@ -20,7 +20,7 @@ public class FailedGettingObjectException : Exception
     /// convert description of exception to string
     /// </summary>
     /// <returns>string</returns>
-    public override string ToString() => $"FailedGettingObjectException: {Message} - {this.InnerException}";
+    public override string ToString() => $"{Message} - {this.InnerException}";
 }
 
 
@@ -41,7 +41,7 @@ public class FailedAddingObjectException : Exception
     /// convert description of exception to string
     /// </summary>
     /// <returns>string</returns>
-    public override string ToString() => $"FailedToAddObjectException: {Message} - {this.InnerException}";
+    public override string ToString() => $"{Message} - {this.InnerException}";
 }
 
 
@@ -63,7 +63,7 @@ public class FailedToDeleteObjectException : Exception
     /// convert description of exception to string
     /// </summary>
     /// <returns>string</returns>
-    public override string ToString() => $"FailedToDeleteObjectException: {Message} - {this.InnerException}";
+    public override string ToString() => $"{Message} - {this.InnerException}";
 }
 
 
@@ -85,7 +85,7 @@ public class FailedUpdatingObjectException : Exception
     /// convert description of exception to string
     /// </summary>
     /// <returns>string</returns>
-    public override string ToString() => $"FailedToUpdateObjectException: {Message} - {this.InnerException}";
+    public override string ToString() => $"{Message} - {this.InnerException}";
 }
 
 
@@ -109,7 +109,7 @@ public class FailedToTrackOrderException : Exception
     /// convert description of exception to string
     /// </summary>
     /// <returns>string</returns>
-    public override string ToString() => $"FailedToTrackOrderException: {Message} - {this.InnerException}";
+    public override string ToString() => $"{Message} - {this.InnerException}";
 }
 
 
@@ -131,7 +131,7 @@ public class FailedToConfirmOrderException : Exception
     /// convert description of exception to string
     /// </summary>
     /// <returns>string</returns>
-    public override string ToString() => $"FailedToConfirmOrderException: {Message} - {this.InnerException}";
+    public override string ToString() => $"{Message} - {this.InnerException}";
 }
 
 
@@ -143,13 +143,13 @@ public class FailedToConfirmOrderException : Exception
 public class IlegalDataException : Exception
 {
     // uniqe message for the specific exception
-    public IlegalDataException(string message) : base($"Ilegal {message}") { }
+    public IlegalDataException(string message) : base($" {message}") { }
 
     /// <summary>
     /// convert description of exception to string
     /// </summary>
     /// <returns>string</returns>
-    public override string ToString() => $"IlegalDataException: {Message}";
+    public override string ToString() => $"{Message}";
 
 }
 
@@ -168,7 +168,7 @@ public class OutOfStockException : Exception
     /// convert description of exception to string
     /// </summary>
     /// <returns>string</returns>
-    public override string ToString() => $"OutOfStockException: {Message}";
+    public override string ToString() => $"{Message}";
 
 }
 
@@ -187,7 +187,7 @@ public class ConflictingStatusException : Exception
     /// convert description of exception to string
     /// </summary>
     /// <returns>string</returns>
-    public override string ToString() => $"ConflictingStatusException: {Message}";
+    public override string ToString() => $"{Message}";
 }
 
 
@@ -205,7 +205,7 @@ public class ProductIsOrderedException : Exception
     /// convert description of exception to string
     /// </summary>
     /// <returns>string</returns>
-    public override string ToString() => $"ProductIsOrderedException: {Message}";
+    public override string ToString() => $"{Message}";
 }
 
 

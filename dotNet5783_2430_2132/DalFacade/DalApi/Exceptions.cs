@@ -19,7 +19,7 @@ public class NotExistingException : Exception
     /// convert description of exception to string
     /// </summary>
     /// <returns>string</returns>
-    public override string ToString() =>$"NotExistingException: {Message}";
+    public override string ToString() =>$" {Message}";
 
 }
 
@@ -37,5 +37,5 @@ public class AlreadyExistingException : Exception
     /// convert description of exception to string
     /// </summary>
     /// <returns>string</returns>
-    public override string ToString() => $"AlreadyExistingException: {Message}";
+    public override string ToString() => $" {Message}";
 }

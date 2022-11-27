@@ -24,6 +24,8 @@ internal class Product : IProduct
             throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal amount in stock"));
         if (Bproduct.Category != BO.Enums.Category.CookBooks && Bproduct.Category != BO.Enums.Category.TextBooks && Bproduct.Category != BO.Enums.Category.ReligiousBooks && Bproduct.Category != BO.Enums.Category.ReadingBooks && Bproduct.Category != BO.Enums.Category.ReligiousBooks && Bproduct.Category != BO.Enums.Category.ToddlerBooks)
             throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilgal category"));
+        if (!Dal.Product.isIDUniqe(Bproduct.ID))
+            throw new BO.FailedAddingObjectException(new BO.IlegalDataException("ID is not uniqe"));
         try
         {
             DO.Product Dproduct = new DO.Product() { ID = Bproduct.ID, Name = Bproduct.Name, Price = Bproduct.Price, Category = (DO.Enums.Category)Bproduct.Category, InStock = Bproduct.InStock };
