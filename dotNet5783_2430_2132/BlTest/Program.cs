@@ -2,10 +2,12 @@
 using Dal;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
-
 using BlImplementation;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using BO;
+using BlApi;
+using System.Linq.Expressions;
 
 namespace BL;
 
@@ -21,8 +23,9 @@ public class Program
         try
         {
             bool flag = true;
-            while (flag)
+            while (flag) 
             {
+
                 Console.WriteLine(@"enter: 1 if you are manager 
        2 if you are customer
        0 to Exit");
@@ -40,37 +43,45 @@ public class Program
                     default:
                         break;
                 }
+
             }
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex);
         }
+
     }
     private static void Manager()
     {
         bool flag = true;
         while (flag)
         {
-            Console.WriteLine(@"enter: 1 for product
+            try
+            {
+                Console.WriteLine(@"enter: 1 for product
        2 for Order
        0 to Exit");
-            int ch;
-            int.TryParse(Console.ReadLine(), out ch); // converts the input to integer
-            switch (ch)
-            {
-                case 0:
-                    flag = false;
-                    break;
-                case 1:
-                    manageProduct();
-                    break;
-                case 2:
-                    manageOrderManager();
-                    break;
-                default: // back to main menu
-                    break;
+                int ch;
+                int.TryParse(Console.ReadLine(), out ch); // converts the input to integer
+                switch (ch)
+                {
+                    case 0:
+                        flag = false;
+                        break;
+                    case 1:
+                        manageProduct();
+                        break;
+                    case 2:
+                        manageOrderManager();
+                        break;
+                    default: // back to main menu
+                        break;
+                }
+                
+
             }
+            catch(Exception ex) { Console.WriteLine(ex); }
         }
     }
     private static void Customer()
@@ -90,25 +101,30 @@ public class Program
         };
         while (flag)
         {
-            Console.WriteLine(@"enter: 1 managing cart
-       3 for for getting Order Description
-       0 to Exit");
-            int ch;
-            int.TryParse(Console.ReadLine(), out ch); // converts the input to integer
-            switch (ch)
+            try
             {
-                case 0:
-                    flag = false;
-                    break;
-                case 1:
-                   // manageCart(cart);
-                    break;
-                case 3:
-                    GetOrderDesc();
-                    break;
-                default: // back to main menu
-                    break;
+                Console.WriteLine(@"enter: 1 managing cart
+       2 for getting Order Description
+       0 to Exit");
+                int ch;
+                int.TryParse(Console.ReadLine(), out ch); // converts the input to integer
+                switch (ch)
+                {
+                    case 0:
+                        flag = false;
+                        break;
+                    case 1:
+                        manageCart(cart);
+                        break;
+                    case 2:
+                        GetOrderDesc();
+                        break;
+                    default: // back to main menu
+                        break;
+                }
             }
+            catch (Exception ex) { Console.WriteLine(ex); }
+
         }
     }
 
@@ -298,5 +314,72 @@ public class Program
         int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
         Bl.Order.ManagerUpdateOrder(ID);
     }
+
+    /// <summary>
+    /// sub cart menu
+    /// </summary>
+    /// <param name="cart"></param>
+    private static void manageCart(BO.Cart cart)
+    {
+        bool flag = true;
+        while (flag)
+        {
+            Console.WriteLine(@"enter: 1 for adding a product to cart
+       2 for updating a product's amount in cart
+       3 for orderring all product in shopping cart
+       0 for returning back to the main menu ");
+            int ch1;
+            int.TryParse(Console.ReadLine(), out ch1); // converts the input to integer
+            switch (ch1)
+            {
+                case 0: flag = false; break;
+                case 1: AddToCart( cart); break;
+                case 2: UpdateAmountInCart(cart); break;
+                case 3: OrderCart(cart); break;
+                default: // back to sub menu
+                    break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// adding a product to cart
+    /// </summary>
+    /// <param name="cart"></param>
+    private static void AddToCart(BO.Cart cart)
+    {
+        Console.WriteLine("Enter ID of a product that you want to add to shopping cart");
+        int pID;
+        int.TryParse(Console.ReadLine(), out pID); // converts the input to integer
+        Bl.Cart.AddToCart(cart, pID);
+    }
+
+    /// <summary>
+    /// updating a product's amount in cart
+    /// </summary>
+    /// <param name="cart"></param>
+    private static void UpdateAmountInCart(BO.Cart cart)
+    {
+        Console.WriteLine("Enter ID of a product that you want to update");
+        int pID;
+        int.TryParse(Console.ReadLine(), out pID); // converts the input to integer
+        Console.WriteLine("Enter the amount to update");
+        int pAmount;
+        int.TryParse(Console.ReadLine(), out pAmount); // converts the input to integer
+        Bl.Cart.UpdateAmountInCart(cart,pID,pAmount);
+    }
+
+    /// <summary>
+    /// orderring all product in shopping cart
+    /// </summary>
+    /// <param name="cart"></param>
+    private static void OrderCart(BO.Cart cart)
+    {
+        Console.WriteLine("order ID is: " + Bl.Cart.OrderCart(cart));
+    }
+
+
+
+
 
 }

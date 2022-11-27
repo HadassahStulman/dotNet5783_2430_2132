@@ -42,7 +42,7 @@ internal class Order : IOrder
                     AmountOfItems = oAmount,
                     TotalPrice = oTotalPrice }); // adding order to list of- OrderForList
             }
-            catch (DalApi.NotExistingException) { }; // if order has 0 items then don't add it to OrderForList
+            catch (Exception) { }; // if order has 0 items then don't add it to OrderForList
         }
         return ofl;
 
@@ -54,7 +54,7 @@ internal class Order : IOrder
         try
         {
             if (oID < 100000) // if order ID is ilegal then throw iligal data exception
-                throw new BO.IlegalDataException(" Ilegal order ID");
+                throw new BO.IlegalDataException("Ilegal order ID");
             DO.Order order = Dal.Order.GetByID(oID);
 
             List<BO.OrderItem> oi = new List<BO.OrderItem>(); // creating new list for order items from BO
@@ -92,7 +92,7 @@ internal class Order : IOrder
                 TotalPrice = oTotalPrice 
             }; // returning order of BO tipe
         }
-        catch (DalApi.NotExistingException e) { throw e; } // if order or product dos not exist in data surce the throw not existing exception
+        catch (Exception ex) { throw ex; } // if order or product dos not exist in data surce the throw not existing exception
     }
 
 
@@ -101,16 +101,16 @@ internal class Order : IOrder
         try
         {
             if (oID < 10000) // if order ID is a negative number then throw iligal data exception
-                throw new BO.FailedUpdatingObjectException (new BO.IlegalDataException("Ilegal order ID"));
+                throw new BO.IlegalDataException("Ilegal order ID");
             DO.Order dOrder = Dal.Order.GetByID(oID);
             if (dOrder.ShipDate != DateTime.MinValue ) // checking if the order was already shipped. if so then throw status exception
-                throw new BO.FailedUpdatingObjectException( new BO.ConflictingStatusException("The order has already been shipped"));
+                throw new BO.ConflictingStatusException("The order has already been shipped");
 
             dOrder.ShipDate = DateTime.Now; // updating the order shipping date in data surce
             Dal.Order.Update(dOrder);
             return GetByID(oID); // returns updated BO order
         }
-        catch (DalApi.NotExistingException e) { throw new BO.FailedUpdatingObjectException(e); } // faild updating order because: order or product don't exist in data surce 
+        catch (Exception ex) { throw new BO.FailedUpdatingObjectException(ex); } // faild updating order because: order or product don't exist in data surce 
     }
 
     public BO.Order UpdateDelivery(int oID)
@@ -118,18 +118,18 @@ internal class Order : IOrder
         try
         {
             if (oID < 10000) // if order ID is a negative number then throw iligal data exception
-                throw new BO.FailedUpdatingObjectException(new BO.IlegalDataException("Ilegal Order Id"));
+                throw new BO.IlegalDataException("Ilegal Order Id");
             DO.Order dOrder = Dal.Order.GetByID(oID);
             if (dOrder.ShipDate == DateTime.MinValue) // if order has not been shipped then throw status exception
-                throw new BO.FailedUpdatingObjectException(new BO.ConflictingStatusException("Order was not shipped Yet"));
+                throw new BO.ConflictingStatusException("Order was not shipped Yet");
             if (dOrder.DeliveryDate!= DateTime.MinValue) // if order was already deliverd then throw status exception
-                throw new BO.FailedUpdatingObjectException(new BO.ConflictingStatusException("Order was already delivered"));
+                throw new BO.ConflictingStatusException("Order was already delivered");
 
             dOrder.DeliveryDate = DateTime.Now; // updating the order delivery date in data surce
             Dal.Order.Update(dOrder);
             return GetByID(oID); // returns updated BO order
         }
-        catch (DalApi.NotExistingException e) { throw new BO.FailedUpdatingObjectException(e); } // faild updating order because: order or product don't exist in data surce
+        catch (Exception ex) { throw new BO.FailedUpdatingObjectException(ex); } // faild updating order because: order or product don't exist in data surce
     }
 
   
@@ -138,7 +138,7 @@ internal class Order : IOrder
         try
         {
             if (oID < 100000) // if order ID is ilegal number then throw iligal data exception
-                throw new BO.FailedUpdatingObjectException(new BO.IlegalDataException("Order ID is Ilegal"));
+                throw new BO.FailedUpdatingObjectException(new BO.IlegalDataException("Ilegal Order ID "));
             DO.Order dOrder = Dal.Order.GetByID(oID);
             List<Tuple<DateTime, string>> trackingLst = new List<Tuple< DateTime, string>>(); // description list of the order status 
             trackingLst.Add(new Tuple<DateTime, string>( (DateTime)dOrder.OrderDate , "Order was Confirmed"));
@@ -154,7 +154,7 @@ internal class Order : IOrder
                 Status = (BO.Enums.OrderStatus)Enum.Parse(typeof(BO.Enums.OrderStatus), oStatus), // convert string to enum
                 TrackingStages = trackingLst};
         }
-        catch (DalApi.NotExistingException e) { throw new BO.FailedUpdatingObjectException(e); } // faild updating order because: order or product don't exist in data surce
+        catch (Exception ex) { throw new BO.FailedUpdatingObjectException(ex); } // faild updating order because: order or product don't exist in data surce
     }
 
    
@@ -164,13 +164,13 @@ internal class Order : IOrder
         {
             BO.Order o = GetByID(oID);
             if (o.ShipDate != DateTime.MinValue) // if order has been shipped then throw exception status exception
-                throw new FailedUpdatingObjectException(new ConflictingStatusException("Order has already been shipped"));
+                throw new ConflictingStatusException("Order has already been shipped");
 
             Console.WriteLine("Enter ID of product that you want to update:");
             int pID;
             int.TryParse(Console.ReadLine(), out pID); // converts the input to integer
 
-            if (o.Items == null) // if there are no order items in order then throw not existing exception
+            if (o.Items.Count() == 0) // if there are no order items in order then throw not existing exception
                 throw new DalApi.NotExistingException();
             bool flag = false;
             foreach (BO.OrderItem oi in o.Items)
@@ -208,12 +208,11 @@ internal class Order : IOrder
                 }
             }
             if (!flag) // if order item doesn't exist in order then throw- not existing exception
-                throw new FailedUpdatingObjectException(new DalApi.NotExistingException());
+                throw new DalApi.NotExistingException();
             return o;
             
         }
-        catch (IlegalDataException e) { throw new FailedUpdatingObjectException(e); } // if order ID is a negative number then throw iligal data exception
-        catch (DalApi.NotExistingException e) { throw new FailedUpdatingObjectException(e); } // faild updating order because: order or product don't exist in data surce 
+        catch (Exception ex) { throw new FailedUpdatingObjectException(ex); } // faild updating order because: order or product don't exist in data surce or ilegal ID  
     }
 
     /// <summary>

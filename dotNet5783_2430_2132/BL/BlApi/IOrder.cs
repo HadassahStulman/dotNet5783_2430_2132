@@ -57,4 +57,11 @@ public interface IOrder
     /// <param name="oID"></param>
     /// <returns>BO.Order</returns>
     public BO.Order ManagerUpdateOrder(int oID);
+
+    /// <summary>
+    ///  the method receives as input an order and returns its status
+    /// </summary>
+    /// <param name="o"></param>
+    /// <returns>string</returns>
+    public string OrderStatus(DO.Order o);
 }
