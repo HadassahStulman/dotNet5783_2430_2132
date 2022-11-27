@@ -17,7 +17,7 @@ internal class DalOrder: IOrder
     /// <returns>int</returns>
     /// <param name="o"></param>
     /// <exception cref="Exception"></exception>
-    public int Add(Order o)
+    public int? Add(Order o)
     {
         if (orderList.Contains(o))
             throw new AlreadyExistingException();
@@ -30,7 +30,7 @@ internal class DalOrder: IOrder
     /// </summary>
     /// <param name="o"></param>
     /// <exception cref="Exception"></exception>
-    public void Delete(int oID)
+    public void Delete(int? oID)
     {
         bool flag = false;
         for (int i = 0; i < orderList.Count; i++)
@@ -66,7 +66,7 @@ internal class DalOrder: IOrder
     /// </summary>
     /// <param name="o"></param>
     /// <returns>Order</returns>
-    public Order GetByID(int oId)
+    public Order GetByID(int? oId)
     {
         bool flag = false;
         int i = 0;

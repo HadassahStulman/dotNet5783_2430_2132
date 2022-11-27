@@ -14,11 +14,11 @@ public struct OrderItem
     /// <summary>
     /// Uniqe ID for identifing a item (in this order)
     /// </summary>
-    public int ProductId { get; set; }
+    public int? ProductId { get; set; }
     /// <summary>
     /// Uniqe ID for identifing the order (that contains this item)
     /// </summary>
-    public int OrderId { get; set; }
+    public int? OrderId { get; set; }
     /// <summary>
     /// price for item
     /// </summary>

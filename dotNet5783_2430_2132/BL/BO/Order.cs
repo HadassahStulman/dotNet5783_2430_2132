@@ -50,5 +50,33 @@ public class Order
     /// <summary>
     /// total price of all products in order
     /// </summary>
-    public double ? TotalPrice { get; set; }
+    public double? TotalPrice { get; set; }
+
+    /// <summary>
+    /// returns description of order
+    /// </summary>
+    /// <returns>string</returns>
+    public override string ToString()
+    {
+        string str = $@"
+    Order ID={ID}
+    customer's name: {CustomerName}
+    customer's Email: {CustomerEmail}
+    customer's adress: {CustomerAdress}
+    order date: {OrderDate}
+    order status: {Status}
+    order payment date: {PaymentDate}
+    ship date: {ShipDate}
+    delivary date: {DeliveryDate}
+    order's total price: {TotalPrice}
+    list of order items:
+";
+        int i = 1;
+        foreach (OrderItem oi in this.Items)
+        {
+            str += $"\n {i}# order item: " + oi.ToString() + "\n";
+            i++;
+        }
+        return str;
+    }
 }

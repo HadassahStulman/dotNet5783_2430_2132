@@ -13,10 +13,10 @@ internal class DalOrderItem:IOrderItem
     /// <summary>
     /// Adding a new order item to list. If order item (to add) allready exists then throw error.
     /// </summary>
-    /// <returns>int</returns>
+    /// <returns>int?</returns>
     /// <param name="oi"></param>
     /// <exception cref="Exception"></exception>
-    public int Add(OrderItem oi)
+    public int? Add(OrderItem oi)
     {
         if (orderItemList.Contains(oi))
             throw new AlreadyExistingException();
@@ -29,7 +29,7 @@ internal class DalOrderItem:IOrderItem
     /// </summary>
     /// <param name="oi"></param>
     /// <exception cref="Exception"></exception>
-    public void Delete(int oiID)
+    public void Delete(int? oiID)
     {
         bool flag = false;
         for (int i = 0; i < orderItemList.Count; i++)
@@ -63,7 +63,7 @@ internal class DalOrderItem:IOrderItem
     /// </summary>
     /// <param name="oi"></param>
     /// <returns>OrderItem</returns>
-    public OrderItem GetByID(int oiId)
+    public OrderItem GetByID(int? oiId)
     {
         bool flag = false;
         int i = 0;
@@ -89,7 +89,7 @@ internal class DalOrderItem:IOrderItem
         return orderIs;
     }
 
-    public OrderItem GetByBothID(int pID, int oID)
+    public OrderItem GetByBothID(int? pID, int? oID)
     {
         bool flag = false;
         OrderItem oi = new OrderItem();
@@ -113,7 +113,7 @@ internal class DalOrderItem:IOrderItem
     /// <param name="oID"></param>
     /// <returns>IEnumerable<OrderItem></returns>
     /// <exception cref="NotExistingException"></exception>
-    public IEnumerable<OrderItem> GetAllItemsInOrder(int oID)
+    public IEnumerable<OrderItem> GetAllItemsInOrder(int? oID)
     {
         List<OrderItem> lst = new List<OrderItem>();
         foreach(OrderItem item in orderItemList) // runs across order item list 

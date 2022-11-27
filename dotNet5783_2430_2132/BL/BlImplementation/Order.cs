@@ -53,8 +53,8 @@ internal class Order : IOrder
     {
         try
         {
-            if (oID < 10000) // if order ID is ilegal then throw iligal data exception
-                throw new BO.IlegalDataException("Order ID can't be a negative number");
+            if (oID < 100000) // if order ID is ilegal then throw iligal data exception
+                throw new BO.IlegalDataException(" Ilegal order ID");
             DO.Order order = Dal.Order.GetByID(oID);
 
             List<BO.OrderItem> oi = new List<BO.OrderItem>(); // creating new list for order items from BO
@@ -137,7 +137,7 @@ internal class Order : IOrder
     {
         try
         {
-            if (oID < 10000) // if order ID is ilegal number then throw iligal data exception
+            if (oID < 100000) // if order ID is ilegal number then throw iligal data exception
                 throw new BO.FailedUpdatingObjectException(new BO.IlegalDataException("Order ID is Ilegal"));
             DO.Order dOrder = Dal.Order.GetByID(oID);
 

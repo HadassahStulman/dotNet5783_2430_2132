@@ -137,7 +137,7 @@ internal class Cart : ICart
                     throw new FailedToConfirmOrderException(new OutOfStockException());
             }
 
-            int oID = Dal.Order.Add(new DO.Order
+            int? oID = Dal.Order.Add(new DO.Order
             {
                 CustomerName = name,
                 CustomerEmail = email,

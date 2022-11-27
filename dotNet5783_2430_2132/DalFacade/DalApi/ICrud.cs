@@ -17,13 +17,13 @@ namespace DalApi
         /// </summary>
         /// <param name="entity"></param>
         /// <returns>int</returns>
-        public int Add(T entity);
+        public int? Add(T entity);
 
         /// <summary>
         /// base function for deleting a Item
         /// </summary>
         /// <param name="id"></param>
-        public void Delete(int id);
+        public void Delete(int? id);
 
         /// <summary>
         /// base function for updating an Item
@@ -42,6 +42,6 @@ namespace DalApi
         /// </summary>
         /// <param name="id"></param>
         /// <returns>T</returns>
-        public T GetByID(int id);
+        public T GetByID(int? id);
     }
 }

@@ -213,7 +213,7 @@ namespace Dal
             _order.OrderDate = DateTime.Now; // order date is- current date.
             _order.ShipDate = DateTime.Now.AddDays(5); // shipping date is five days from order.
             _order.DeliveryDate = DateTime.Now.AddDays(7); // delivery date is seven days from order.
-            int newID = DalList.Order.Add(_order); // adding order to order list.
+            int? newID = DalList.Order.Add(_order); // adding order to order list.
             AddOI(newID);
         }
 
@@ -338,7 +338,7 @@ namespace Dal
         /// add new order items to order
         /// </summary>
         /// <param name="id"></param>
-        private static void AddOI(int id)
+        private static void AddOI(int? id)
         {
             int amOI = 5;
             OrderItem _orderItem=new OrderItem();

@@ -26,11 +26,11 @@ public class OrderForList
     /// </summary>
     public double? TotalPrice { get; set; }
 
-    //public override string ToString() => $@"
-    //Order ID={ID}
-    //customer's name: {CustomerName}
-    //order's status: {Status}
-    //amount of items: {AmountOfItems}
-    //total price: {TotalPrice}";
+    public override string ToString() => $@"
+    Order ID={ID}
+    customer's name: {CustomerName}
+    order's status: {Status}
+    amount of items: {AmountOfItems}
+    total price: {TotalPrice}";
 
 }
