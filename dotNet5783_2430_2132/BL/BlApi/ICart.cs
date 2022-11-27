@@ -35,7 +35,7 @@ public interface ICart
     /// <param name="name"></param>
     /// <param name="email"></param>
     /// <param name="adress"></param>
-    public void OrderCart(BO.Cart crt, string name, string email, string adress);
+    public void OrderCart(BO.Cart crt);
 
 
 }

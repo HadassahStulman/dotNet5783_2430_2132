@@ -141,7 +141,6 @@ internal class Order : IOrder
             if (oID < 10000) // if order ID is ilegal number then throw iligal data exception
                 throw new BO.FailedUpdatingObjectException(new BO.IlegalDataException("Order ID is Ilegal"));
             DO.Order dOrder = Dal.Order.GetByID(oID);
-
             List<Tuple<DateTime, string>> trackingLst = new List<Tuple< DateTime, string>>(); // description list of the order status 
             trackingLst.Add(new Tuple<DateTime, string>( (DateTime)dOrder.OrderDate , "Order was Confirmed"));
             if (dOrder.ShipDate != DateTime.MinValue)

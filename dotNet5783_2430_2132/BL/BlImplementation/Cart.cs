@@ -116,14 +116,10 @@ internal class Cart : ICart
     /// <param name="email"></param>
     /// <param name="adress"></param>
     /// <exception cref="FailedToConfirmOrderException"></exception>
-    public void OrderCart(BO.Cart crt, string name, string email, string adress)
+    public void OrderCart(BO.Cart crt)
     {
         try
         {
-
-            if (name == "" || adress == "" || email == "" || !email.Contains ('@'))  // if customer details are incorrect then throw message
-                throw new FailedToConfirmOrderException(new IlegalDataException("Customer details are incorrect"));
-
             if (crt.Items == null) // if cart is empty then throw not existing ecxeption
                 throw new FailedToConfirmOrderException(new DalApi.NotExistingException());
 
@@ -136,12 +132,11 @@ internal class Cart : ICart
                 if (p.InStock < item.Amount) // if the amount of a specific order item in shopping cart is bigger then the amount of that specific product in stock then throw message
                     throw new FailedToConfirmOrderException(new OutOfStockException());
             }
-
             int oID = Dal.Order.Add(new DO.Order
             {
-                CustomerName = name,
-                CustomerEmail = email,
-                CustomerAdress = adress,
+                CustomerName = crt.CustomerName,
+                CustomerEmail = crt.CustomerEmail,
+                CustomerAdress = crt.CustomerAdress,
                 OrderDate = DateTime.Now,
                 ShipDate = DateTime.MinValue,
                 DeliveryDate = DateTime.MinValue,

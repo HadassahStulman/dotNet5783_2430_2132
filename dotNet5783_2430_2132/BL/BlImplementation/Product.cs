@@ -22,7 +22,7 @@ internal class Product : IProduct
             throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal price"));
         if (Bproduct.InStock  < 0)
             throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal amount in stock"));
-        if (Bproduct.Category != BO.Enums.Category.CookBooks || Bproduct.Category != BO.Enums.Category.TextBooks || Bproduct.Category != BO.Enums.Category.ReligiousBooks || Bproduct.Category != BO.Enums.Category.ReadingBooks || Bproduct.Category != BO.Enums.Category.ReligiousBooks || Bproduct.Category != BO.Enums.Category.ToddlerBooks)
+        if (Bproduct.Category != BO.Enums.Category.CookBooks && Bproduct.Category != BO.Enums.Category.TextBooks && Bproduct.Category != BO.Enums.Category.ReligiousBooks && Bproduct.Category != BO.Enums.Category.ReadingBooks && Bproduct.Category != BO.Enums.Category.ReligiousBooks && Bproduct.Category != BO.Enums.Category.ToddlerBooks)
             throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilgal category"));
         try
         {
@@ -114,7 +114,7 @@ internal class Product : IProduct
             throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal price"));
         if (Bproduct.InStock < 0)
             throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal amount in stock"));
-        if (Bproduct.Category != BO.Enums.Category.CookBooks || Bproduct.Category != BO.Enums.Category.TextBooks || Bproduct.Category != BO.Enums.Category.ReligiousBooks || Bproduct.Category != BO.Enums.Category.ReadingBooks || Bproduct.Category != BO.Enums.Category.ReligiousBooks || Bproduct.Category != BO.Enums.Category.ToddlerBooks)
+        if (Bproduct.Category != BO.Enums.Category.CookBooks && Bproduct.Category != BO.Enums.Category.TextBooks && Bproduct.Category != BO.Enums.Category.ReligiousBooks && Bproduct.Category != BO.Enums.Category.ReadingBooks && Bproduct.Category != BO.Enums.Category.ReligiousBooks && Bproduct.Category != BO.Enums.Category.ToddlerBooks)
             throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal category"));
         try
         {
@@ -123,7 +123,6 @@ internal class Product : IProduct
         }
         catch (Exception Ex)
         {
-
             throw new BO.FailedUpdatingObjectException(Ex);
         }
 

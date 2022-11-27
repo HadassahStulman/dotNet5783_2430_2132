@@ -145,7 +145,7 @@ internal static class DataSource
                 oi.ID = DataSource.Config.getIdNewO();
                 oi.OrderId = orderList[i].ID;
                 int ranP = rnd.Next(0, 10);
-                oi.ProductId = ProductList[ranP].ID; // random product
+                oi.ProductId = (int)ProductList[ranP].ID; // random product
                 oi.Price = ProductList[ranP].Price; // random price according to product list
                 oi.Amount = rnd.Next(1, 6); // random amount of copies
                 addOrderItem(oi);

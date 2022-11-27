@@ -22,7 +22,7 @@ internal class DalProduct:IProduct
         if (ProductList.Contains(p))
             throw new AlreadyExistingException();
         ProductList.Add(p);
-        return p.ID;
+        return (int)p.ID;
     }
     /// <summary>
     /// Deleteing product from list. If product (to delete) does not exists then throw error.

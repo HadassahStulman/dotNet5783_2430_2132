@@ -1,6 +1,8 @@
 ﻿
 
 
+using System.Runtime.CompilerServices;
+
 namespace BlApi;
 
 /// <summary>
@@ -57,6 +59,5 @@ public interface IProduct
     /// </summary>
     /// <param name="p"></param>
     public void UpdateProduct(BO.Product p);
-
     
 }

@@ -22,7 +22,7 @@ internal class DalOrderItem:IOrderItem
             throw new AlreadyExistingException();
         oi.ID = getIdNewOI();
         orderItemList.Add(oi);
-        return oi.ID;
+        return (int)oi.ID;
     }
     /// <summary>
     /// Deleteing order item from list. If order item (to delete) does not exists then throw error.
