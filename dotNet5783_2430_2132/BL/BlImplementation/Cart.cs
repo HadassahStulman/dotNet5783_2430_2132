@@ -132,7 +132,8 @@ internal class Cart : ICart
                 if (p.InStock < item.Amount) // if the amount of a specific order item in shopping cart is bigger then the amount of that specific product in stock then throw message
                     throw new FailedToConfirmOrderException(new OutOfStockException());
             }
-            int oID = Dal.Order.Add(new DO.Order
+
+            int? oID = Dal.Order.Add(new DO.Order
             {
                 CustomerName = crt.CustomerName,
                 CustomerEmail = crt.CustomerEmail,

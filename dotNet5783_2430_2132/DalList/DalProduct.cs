@@ -17,7 +17,7 @@ internal class DalProduct:IProduct
     /// <param name="p"></param>
     /// <exception cref="Exception"></exception>
  
-    public int Add(Product p)
+    public int? Add(Product p)
     {
         if (ProductList.Contains(p))
             throw new AlreadyExistingException();
@@ -29,7 +29,7 @@ internal class DalProduct:IProduct
     /// </summary>
     /// <param name="p"></param>
     /// <exception cref="Exception"></exception>
-    public void Delete(int pID)
+    public void Delete(int? pID)
     {
         bool flag= false;
         for (int i = 0; i < ProductList.Count; i++)
@@ -63,7 +63,7 @@ internal class DalProduct:IProduct
     /// </summary>
     /// <param name="p"></param>
     /// <returns>Product</returns>
-    public Product GetByID(int id)
+    public Product GetByID(int? id)
     {
         bool flag = false;
         int i = 0;
@@ -93,7 +93,7 @@ internal class DalProduct:IProduct
     /// </summary>
     /// <param name="id"></param>
     /// <returns>bool</returns>
-    public bool isIDUniqe(int id)
+    public bool isIDUniqe(int? id)
     {
         foreach (Product item in ProductList)
         {

@@ -17,7 +17,7 @@ public class OrderItem
     /// <summary>
     /// product's ID 
     /// </summary>
-    public int ProductID { get; set; }
+    public int? ProductID { get; set; }
     /// <summary>
     /// price of a single product
     /// </summary>
@@ -30,5 +30,13 @@ public class OrderItem
     /// total price of item (price of all copies in total)
     /// </summary>
     public double? TotalPrice { get; set; }
+
+    public override string ToString() => $@"
+    order Idem's ID={ID}
+    customer's name: {Name}
+    product's ID: {ProductID}
+    product's price: {Price}
+    product's amount: {Amount}
+    order items total price: {TotalPrice}";
 
 }

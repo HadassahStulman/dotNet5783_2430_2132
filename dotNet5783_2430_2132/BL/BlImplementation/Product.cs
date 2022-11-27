@@ -42,7 +42,7 @@ internal class Product : IProduct
         IEnumerable<DO.Order> Orderlst = Dal.Order.GetList();
         foreach (DO.Order order in Orderlst)
         {
-            IEnumerable<DO.OrderItem> lstOi = Dal.OrderItem.GetAllItemsInOrder(order.ID);
+            IEnumerable<DO.OrderItem> lstOi = Dal.OrderItem.GetAllItemsInOrder((int)order.ID);
             foreach (DO.OrderItem Oitem in lstOi)
                 if (Oitem.ProductId == pID) // the product to delete s ordered by someone
                     throw new BO.FailedToDeleteObjectException(new BO.ProductIsOrderedException());
