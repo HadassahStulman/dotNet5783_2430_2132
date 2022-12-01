@@ -11,7 +11,7 @@ public struct Product
     /// <summary>
     /// Uniqe ID for identifing a book
     /// </summary>
-    public int? ID { get; set; }
+    public int ID { get; set; }
     /// <summary>
     /// name of the book
     /// </summary>
@@ -19,7 +19,7 @@ public struct Product
     /// <summary>
     /// price for book
     /// </summary>
-    public double? Price { get; set; }
+    public double Price { get; set; }
     /// <summary>
     /// the category of the book
     /// </summary>
@@ -27,7 +27,7 @@ public struct Product
     /// <summary>
     /// amount of copies in stock 
     /// </summary>
-    public int? InStock { get; set; }
+    public int InStock { get; set; }
 
     /// <summary>
     /// returns decription of object (book)

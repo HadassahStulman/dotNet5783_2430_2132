@@ -8,7 +8,7 @@ public class ProductForList
     /// <summary>
     /// product ID
     /// </summary>
-    public int? ID { get; set; }    
+    public int ID { get; set; }    
     /// <summary>
     /// product name
     /// </summary>
@@ -16,7 +16,7 @@ public class ProductForList
     /// <summary>
     /// product price
     /// </summary>
-    public double? Price { get; set; }
+    public double Price { get; set; }
     /// <summary>
     /// product category
     /// </summary>

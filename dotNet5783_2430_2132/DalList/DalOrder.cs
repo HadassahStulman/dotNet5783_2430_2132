@@ -8,7 +8,7 @@ using System.Collections;
 using DalApi;
 namespace Dal;
 
-internal class DalOrder: IOrder
+internal class DalOrder : IOrder
 {
 
     /// <summary>
@@ -17,7 +17,7 @@ internal class DalOrder: IOrder
     /// <returns>int</returns>
     /// <param name="o"></param>
     /// <exception cref="Exception"></exception>
-    public int? Add(Order o)
+    public int Add(Order o)
     {
         if (orderList.Contains(o))
             throw new AlreadyExistingException();
@@ -30,11 +30,11 @@ internal class DalOrder: IOrder
     /// </summary>
     /// <param name="o"></param>
     /// <exception cref="Exception"></exception>
-    public void Delete(int? oID)
+    public void Delete(int oID)
     {
         bool flag = false;
         for (int i = 0; i < orderList.Count; i++)
-            if (orderList[i].ID == oID)
+            if (orderList[i] != null && orderList[i].Value.ID == oID)
             {
                 orderList.RemoveAt(i);
                 flag = true;
@@ -51,7 +51,7 @@ internal class DalOrder: IOrder
         bool flag = false;
         for (int i = 0; i < orderList.Count(); i++)
         {
-            if (orderList[i].ID == o.ID)
+            if (orderList[i].Value.ID == o.ID)
             {
                 orderList[i] = o;
                 flag = true;
@@ -66,12 +66,12 @@ internal class DalOrder: IOrder
     /// </summary>
     /// <param name="o"></param>
     /// <returns>Order</returns>
-    public Order GetByID(int? oId)
+    public Order? GetByID(int oId)
     {
         bool flag = false;
         int i = 0;
         for (; i < orderList.Count(); i++)
-            if (orderList[i].ID == oId)
+            if (orderList[i].Value.ID == oId)
             {
                 flag = true;
                 break;
@@ -82,13 +82,22 @@ internal class DalOrder: IOrder
     }
 
     /// <summary>
-    /// return list of all Product
+    /// return list of all Orders
     /// </summary>
     /// <returns>IEnumerable<Order></Order></returns>
-    public IEnumerable<Order> GetList()
+    public IEnumerable<Order?> GetList(Func<Order?, bool>? func)
     {
-        List<Order> orders = new List<Order>();
-        orders.AddRange(orderList);
+        List<Order?> orders = new List<Order?>();
+        if (func != null)
+            foreach (Order? order in orderList)
+            {
+                if (func(order))
+                    orders.Add(order);
+            }
+        else
+            orders.AddRange(orderList);
         return orders;
     }
+
+    public Order? GetIf(Func<Order?, bool>? condition)=> orderList.First(condition);
 }

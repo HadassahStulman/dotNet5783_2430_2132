@@ -8,7 +8,7 @@ public class OrderForList
     /// <summary>
     ///  Order ID 
     /// </summary>
-    public int? ID { get; set; }
+    public int ID { get; set; }
     /// <summary>
     /// name of customer 
     /// </summary>
@@ -20,11 +20,11 @@ public class OrderForList
     /// <summary>
     /// amount of items items in order
     /// </summary>
-    public int? AmountOfItems { get; set; } 
+    public int AmountOfItems { get; set; } 
     /// <summary>
     /// total order price
     /// </summary>
-    public double? TotalPrice { get; set; }
+    public double TotalPrice { get; set; }
 
     public override string ToString() => $@"
     Order ID={ID}

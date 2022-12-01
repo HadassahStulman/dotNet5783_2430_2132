@@ -103,8 +103,9 @@ public class Program
         {
             try
             {
-                Console.WriteLine(@"enter: 1 managing cart
-       2 for getting Order Description
+                Console.WriteLine(@"enter: 1 for products catalog 
+       2 managing cart
+       3 for getting Order Description
        0 to Exit");
                 int ch;
                 int.TryParse(Console.ReadLine(), out ch); // converts the input to integer
@@ -114,9 +115,12 @@ public class Program
                         flag = false;
                         break;
                     case 1:
-                        manageCart(cart);
+                        GetAllBooks();
                         break;
                     case 2:
+                        manageCart(cart);
+                        break;
+                    case 3:
                         GetOrderDesc();
                         break;
                     default: // back to main menu
@@ -247,7 +251,7 @@ public class Program
         bool flag = true;
         while (flag)
         {
-            Console.WriteLine(@" enter: 1 for getting all orders description
+            Console.WriteLine(@"enter: 1 for getting all orders description
        2 for getting an order description according to ID
        3 for updating shipping
        4 for updating Delivery 
@@ -377,9 +381,5 @@ public class Program
     {
         Console.WriteLine("order ID is: " + Bl.Cart.OrderCart(cart));
     }
-
-
-
-
 
 }

@@ -7,7 +7,7 @@ public class ProductItem
 {   /// <summary>
     /// product ID
     /// </summary>
-    public int? ID { get; set; }  
+    public int ID { get; set; }  
     /// <summary>
     /// product name
     /// </summary>
@@ -15,7 +15,7 @@ public class ProductItem
     /// <summary>
     /// product price
     /// </summary>
-    public double? Price { get; set; }
+    public double Price { get; set; }
     /// <summary>
     /// product category
     /// </summary>
@@ -23,10 +23,10 @@ public class ProductItem
     /// <summary>
     /// amount of copies of product in customers cart
     /// </summary>
-    public int? Amount { get; set; }
+    public int Amount { get; set; }
     /// <summary>
     /// saves availability of product
     /// </summary>
-    public bool? InStock { get; set; }  
+    public bool InStock { get; set; }  
 
 }
