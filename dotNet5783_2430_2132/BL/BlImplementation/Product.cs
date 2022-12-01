@@ -96,7 +96,7 @@ internal class Product : IProduct
         try
         {
             DO.Product dproduct=Dal.Product.GetByID(pID);
-            BO.ProductItem bproduct = new BO.ProductItem() { ID = dproduct.ID, Name = dproduct.Name, Price = dproduct.Price, Category = (BO.Enums.Category)dproduct.Category,/*!!!!!!!!!!!!!!!!!!!*/ };
+            BO.ProductItem bproduct = new BO.ProductItem() { ID = dproduct.ID, Name = dproduct.Name, Price = dproduct.Price, Category = (BO.Enums.Category)dproduct.Category };
             return bproduct;
         }
         catch(Exception Ex)
