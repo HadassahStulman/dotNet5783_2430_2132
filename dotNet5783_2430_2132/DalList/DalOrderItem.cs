@@ -35,7 +35,7 @@ internal class DalOrderItem : IOrderItem
     {
         bool flag = false;
         for (int i = 0; i < orderItemList.Count; i++)
-            if (orderItemList[i].Value.ID == oiID)
+            if (orderItemList[i]?.ID == oiID)
             {
                 orderItemList.RemoveAt(i);
                 flag = true;
@@ -51,7 +51,7 @@ internal class DalOrderItem : IOrderItem
     {
         bool flag = false;
         for (int i = 0; i < orderItemList.Count(); i++)
-            if (orderItemList[i].Value.ID == oi.ID)
+            if (orderItemList[i]?.ID == oi.ID)
             {
                 orderItemList[i] = oi;
                 flag = true;
@@ -70,7 +70,7 @@ internal class DalOrderItem : IOrderItem
         bool flag = false;
         int i = 0;
         for (; i < orderItemList.Count(); i++)
-            if (orderItemList[i].Value.ID == oiId)
+            if (orderItemList[i]?.ID == oiId)
             {
                 flag = true;
                 break;
@@ -88,7 +88,7 @@ internal class DalOrderItem : IOrderItem
     {
         List<OrderItem?> orderIs = new List<OrderItem?>();
         if (condition != null)
-            foreach (OrderItem item in orderItemList)
+            foreach (OrderItem? item in orderItemList)
             {
                 if (condition(item))
                     orderIs.Add(item);

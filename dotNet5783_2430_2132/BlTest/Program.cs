@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using System.Security.Cryptography;
 using BlImplementation;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using BO;
 using BlApi;
 using System.Linq.Expressions;
@@ -23,19 +22,22 @@ public class Program
         try
         {
             bool flag = true;
-            while (flag) 
+            while (flag)
             {
 
                 Console.WriteLine(@"enter: 1 if you are manager 
        2 if you are customer
        0 to Exit");
                 int ch;
-                int.TryParse(Console.ReadLine(), out ch); // converts the input to integer
+                if (!int.TryParse(Console.ReadLine(), out ch)) // converts the input to integer
+                    throw new BO.IlegalDataException("Ilegal choice");
                 switch (ch)
                 {
-                    case 1: Manager();
-                            break;
-                    case 2: Customer();
+                    case 1:
+                        Manager();
+                        break;
+                    case 2:
+                        Customer();
                         break;
                     case 0:
                         flag = false;
@@ -63,7 +65,8 @@ public class Program
        2 for Order
        0 to Exit");
                 int ch;
-                int.TryParse(Console.ReadLine(), out ch); // converts the input to integer
+                if (!int.TryParse(Console.ReadLine(), out ch)) // converts the input to integer
+                    throw new BO.IlegalDataException("Ilegal choice");
                 switch (ch)
                 {
                     case 0:
@@ -78,26 +81,26 @@ public class Program
                     default: // back to main menu
                         break;
                 }
-                
+
 
             }
-            catch(Exception ex) { Console.WriteLine(ex); }
+            catch (Exception ex) { Console.WriteLine(ex); }
         }
     }
     private static void Customer()
     {
         bool flag = true;
         Console.WriteLine("please enter your name, email and adress");
-        string name = Console.ReadLine();
-        string Email= Console.ReadLine();
-        string adress= Console.ReadLine();
+        string? name = Console.ReadLine();
+        string? Email = Console.ReadLine();
+        string? adress = Console.ReadLine();
         BO.Cart cart = new BO.Cart()
         {
             CustomerName = name,
             CustomerAdress = adress,
             CustomerEmail = Email,
             TotalPrice = 0,
-            Items=new List<BO.OrderItem>()
+            Items = new List<BO.OrderItem?>()
         };
         while (flag)
         {
@@ -108,7 +111,8 @@ public class Program
        3 for getting Order Description
        0 to Exit");
                 int ch;
-                int.TryParse(Console.ReadLine(), out ch); // converts the input to integer
+                if(!int.TryParse(Console.ReadLine(), out ch)) // converts the input to integer
+                    throw new BO.IlegalDataException("Ilegal choice");
                 switch (ch)
                 {
                     case 0:
@@ -160,22 +164,24 @@ public class Program
     {
         Console.WriteLine("enter the book's uniqe ID number");
         int id;
-        int.TryParse(Console.ReadLine(), out id); // convert id from string to int
-        
+        if(!int.TryParse(Console.ReadLine(), out id)) // convert id from string to int
+            throw new BO.IlegalDataException("Ilegal ID");
         Console.WriteLine("enter the book's category");
-        string cat = Console.ReadLine();
+        string? cat = Console.ReadLine();
         Console.WriteLine("enter the book's name");
-        string name = Console.ReadLine();
+        string? name = Console.ReadLine();
         Console.WriteLine("enter the book's price");
         double price;
-        double.TryParse(Console.ReadLine(), out price); // convert string to double
+        if(!double.TryParse(Console.ReadLine(), out price)) // convert string to double
+            throw new BO.IlegalDataException("Ilegal price");
         Console.WriteLine("enter amount of copies in stock");
         int amount;
-        int.TryParse(Console.ReadLine(), out amount); // convert string to int
+        if(!int.TryParse(Console.ReadLine(), out amount)) // convert string to int
+            throw new BO.IlegalDataException("Ilegal amount");
         BO.Product p = new BO.Product()
         {
             ID = id,
-            Category = (BO.Enums.Category)Enum.Parse(typeof(BO.Enums.Category), cat),
+            Category = (BO.Enums.Category?)Enum.Parse(typeof(BO.Enums.Category?), cat),
             Name = name,
             Price = price,
             InStock = amount
@@ -190,7 +196,8 @@ public class Program
     {
         Console.WriteLine("enter the book's uniqe ID number");
         int id;
-        int.TryParse(Console.ReadLine(), out id); // convert input to int
+        if(!int.TryParse(Console.ReadLine(), out id)) // convert input to int
+            throw new BO.IlegalDataException("Ilegal ID");
         Console.WriteLine(Bl.Product.GetByID(id)); // finds the right book, and print the description
     }
 
@@ -200,8 +207,8 @@ public class Program
     private static void GetAllBooks()
     {
 
-        IEnumerable<BO.ProductForList> ie = Bl.Product.GetAll();
-        foreach (BO.ProductForList item in ie) // printd every product in list
+        IEnumerable<BO.ProductForList?> ie = Bl.Product.GetAll();
+        foreach (BO.ProductForList? item in ie) // print every product in list
         {
             Console.WriteLine($"{item}\n");
         }
@@ -214,23 +221,26 @@ public class Program
     {
         Console.WriteLine("enter Id number of book you want to update");
         int id;
-        int.TryParse(Console.ReadLine(), out id);  // convert input to int
+        if (!int.TryParse(Console.ReadLine(), out id))  // convert input to int
+            throw new BO.IlegalDataException("Ilegal ID");
         Console.WriteLine("enter the book's category");
-        string cat = Console.ReadLine();
+        string? cat = Console.ReadLine();
         Console.WriteLine("enter the book's name");
-        string name = Console.ReadLine();
+        string? name = Console.ReadLine();
         Console.WriteLine("enter the book's price");
         double price;
-        double.TryParse(Console.ReadLine(), out price); // convert string to double
+        if (!double.TryParse(Console.ReadLine(), out price)) // convert string to double
+            throw new BO.IlegalDataException("Ilegal price");
         Console.WriteLine("enter amount of copies in stock");
         int amount;
-        int.TryParse(Console.ReadLine(), out amount); // convert string to int
+        if (!int.TryParse(Console.ReadLine(), out amount)) // convert string to int
+            throw new BO.IlegalDataException("Ilegal amount");
         BO.Product p = new BO.Product()
         {
             ID = id,
             Name = name,
             Price = price,
-            Category = (BO.Enums.Category)Enum.Parse(typeof(BO.Enums.Category), cat), // convert string to enum
+            Category = (BO.Enums.Category?)Enum.Parse(typeof(BO.Enums.Category?), cat), // convert string to enum
             InStock = amount
         };
         Bl.Product.UpdateProduct(p); // updates p in data list;
@@ -242,9 +252,10 @@ public class Program
     private static void DeleteBook()
     {
         Console.WriteLine("enter Id number of book you want to delete");
-        int num;
-        int.TryParse(Console.ReadLine(), out num);  // convert input to int
-        Bl.Product.DeleteProduct(num); // delete product from list
+        int ID;
+        if (!int.TryParse(Console.ReadLine(), out ID))  // convert input to int
+            throw new BO.IlegalDataException("Ilegal ID");
+        Bl.Product.DeleteProduct(ID); // delete product from list
     }
     private static void manageOrderManager()
     {
@@ -259,14 +270,15 @@ public class Program
        6 for updating Order
        0 for returning back to the main menu ");
             int ch1;
-            int.TryParse(Console.ReadLine(), out ch1); // converts the input to integer
+            if (!int.TryParse(Console.ReadLine(), out ch1)) // converts the input to integer
+                throw new BO.IlegalDataException("Ilegal choice");
             switch (ch1)
             {
                 case 0: flag = false; break;
-                case 1: GetAllOrderDesc(); break; 
-                case 2: GetOrderDesc(); break; 
+                case 1: GetAllOrderDesc(); break;
+                case 2: GetOrderDesc(); break;
                 case 3: UpdateShipping(); break;
-                case 4: UpdateDelivery(); break; 
+                case 4: UpdateDelivery(); break;
                 case 5: TrackOrder(); break;
                 case 6: UpdateOrder(); break;
                 default: // back to sub menu
@@ -277,8 +289,8 @@ public class Program
     }
     private static void GetAllOrderDesc()
     {
-        IEnumerable<BO.OrderForList> ie = Bl.Order.GetList();
-        foreach (BO.OrderForList item in ie)
+        IEnumerable<BO.OrderForList?> ie = Bl.Order.GetList();
+        foreach (BO.OrderForList? item in ie)
         {
             Console.WriteLine(item);
         }
@@ -287,35 +299,40 @@ public class Program
     {
         Console.WriteLine("enter order ID");
         int ID;
-        int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
+        if (!int.TryParse(Console.ReadLine(), out ID)) // converts the input to integer
+            throw new BO.IlegalDataException("Ilegal ID");
         Console.WriteLine(Bl.Order.GetByID(ID)); ;// printing description.
     }
     private static void UpdateShipping()
     {
         Console.WriteLine("enter order ID");
         int ID;
-        int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
+        if (!int.TryParse(Console.ReadLine(), out ID)) // converts the input to integer
+            throw new BO.IlegalDataException("Ilegal ID");
         Bl.Order.UpdateShipping(ID);
     }
     private static void UpdateDelivery()
     {
         Console.WriteLine("enter order ID");
         int ID;
-        int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
+        if (!int.TryParse(Console.ReadLine(), out ID)) // converts the input to integer
+            throw new BO.IlegalDataException("Ilegal ID");
         Bl.Order.UpdateDelivery(ID);
     }
     private static void TrackOrder()
     {
         Console.WriteLine("enter order ID");
         int ID;
-        int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
+        if (!int.TryParse(Console.ReadLine(), out ID)) // converts the input to integer
+            throw new BO.IlegalDataException("Ilegal ID");
         Console.WriteLine(Bl.Order.TrackOrder(ID));
     }
     private static void UpdateOrder()
     {
         Console.WriteLine("enter order ID");
         int ID;
-        int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
+        if (!int.TryParse(Console.ReadLine(), out ID)) // converts the input to integer
+            throw new BO.IlegalDataException("Ilegal ID");
         Bl.Order.ManagerUpdateOrder(ID);
     }
 
@@ -333,11 +350,12 @@ public class Program
        3 for orderring all product in shopping cart
        0 for returning back to the main menu ");
             int ch1;
-            int.TryParse(Console.ReadLine(), out ch1); // converts the input to integer
+            if (!int.TryParse(Console.ReadLine(), out ch1)) // converts the input to integer
+                throw new BO.IlegalDataException("Ilegal choice");
             switch (ch1)
             {
                 case 0: flag = false; break;
-                case 1: AddToCart( cart); break;
+                case 1: AddToCart(cart); break;
                 case 2: UpdateAmountInCart(cart); break;
                 case 3: OrderCart(cart); break;
                 default: // back to sub menu
@@ -354,7 +372,8 @@ public class Program
     {
         Console.WriteLine("Enter ID of a product that you want to add to shopping cart");
         int pID;
-        int.TryParse(Console.ReadLine(), out pID); // converts the input to integer
+        if (!int.TryParse(Console.ReadLine(), out pID)) // converts the input to integer
+            throw new BO.IlegalDataException("Ilegal ID");
         Bl.Cart.AddToCart(cart, pID);
     }
 
@@ -366,11 +385,13 @@ public class Program
     {
         Console.WriteLine("Enter ID of a product that you want to update");
         int pID;
-        int.TryParse(Console.ReadLine(), out pID); // converts the input to integer
+        if (!int.TryParse(Console.ReadLine(), out pID))// converts the input to integer
+            throw new BO.IlegalDataException("Ilegal ID");
         Console.WriteLine("Enter the amount to update");
         int pAmount;
-        int.TryParse(Console.ReadLine(), out pAmount); // converts the input to integer
-        Bl.Cart.UpdateAmountInCart(cart,pID,pAmount);
+        if (!int.TryParse(Console.ReadLine(), out pAmount)) // converts the input to integer
+            throw new BO.IlegalDataException("Ilegal amount");
+        Bl.Cart.UpdateAmountInCart(cart, pID, pAmount);
     }
 
     /// <summary>
