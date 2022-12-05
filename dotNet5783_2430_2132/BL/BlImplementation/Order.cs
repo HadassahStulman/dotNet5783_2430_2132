@@ -15,7 +15,7 @@ internal class Order : IOrder
     private DalApi.IDal Dal = new Dal.DalList();
 
 
-    public IEnumerable<BO.OrderForList> GetList()
+    public IEnumerable<BO.OrderForList> GetList(Func<OrderForList?, bool>? condition)
     {
 
         IEnumerable<DO.Order?> oLst = Dal.Order.GetList(); // list of orders from data surce
@@ -29,12 +29,13 @@ internal class Order : IOrder
                 double oTotalPrice = 0;
                 int oAmount = 0;
                 IEnumerable<DO.OrderItem?> oiLst = Dal.OrderItem.GetList(item => item?.OrderId == order?.ID);
-                foreach (DO.OrderItem? oiItem in oiLst) // calculating the amont of products and the total price of current order
-                {
-                    oAmount += oiItem.Value.Amount;
-                    oTotalPrice += oiItem.Value.Price * oiItem.Value.Amount;
-                }
-
+                //foreach (DO.OrderItem? oiItem in oiLst) // calculating the amont of products and the total price of current order
+                //{
+                //    oAmount += oiItem.Value.Amount;
+                //    oTotalPrice += oiItem.Value.Price * oiItem.Value.Amount;
+                //}
+                oAmount = oiLst.Sum(oi=>oi.Value.Amount);
+                oTotalPrice = oiLst.Sum(oi => oi.Value.Price * oi.Value.Amount);
                 ofl.Add(new BO.OrderForList
                 {
                     ID = order.Value.ID,
@@ -46,7 +47,7 @@ internal class Order : IOrder
             }
             catch (Exception ex) { throw new BO.FailedGettingObjectException(ex); }; // if order has 0 items then don't add it to OrderForList
         }
-        return ofl;
+        return ofl.AsEnumerable().Where(condition);
 
     }
 

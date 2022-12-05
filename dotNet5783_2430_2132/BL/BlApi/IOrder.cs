@@ -1,4 +1,6 @@
 ﻿
+using BO;
+
 namespace BlApi;
 
 /// <summary>
@@ -11,7 +13,7 @@ public interface IOrder
     /// FOR MANAGER
     /// </summary>
     /// <returns>IEnumerable<BO.OrderForList></OrderForList></returns>
-    public IEnumerable<BO.OrderForList?> GetList();
+    public IEnumerable<BO.OrderForList?> GetList(Func<OrderForList?, bool>? condition);
 
 
     /// <summary>
