@@ -41,15 +41,15 @@ internal static class DataSource
     /// <summary>
     /// list of Product
     /// </summary>
-    internal static List<Product> ProductList = new List<Product>();
+    internal static List<Product?> ProductList = new List<Product?>();
     /// <summary>
     /// list of orders
     /// </summary>
-    internal static List<Order> orderList = new List<Order>();
+    internal static List<Order?> orderList = new List<Order?>();
     /// <summary>
     /// list of order items
     /// </summary>
-    internal static List<OrderItem> orderItemList = new List<OrderItem>();
+    internal static List<OrderItem?> orderItemList = new List<OrderItem?>();
 
 
     static DataSource()
@@ -123,17 +123,21 @@ internal static class DataSource
             o.CustomerName = customerName[i % 5];// customer name
             o.CustomerEmail = customerName[i % 5] + "@gmail.com"; // customer Email
             o.CustomerAdress = customerAdress[i % 5] + "_" + i;// costumer adress
-            DateTime Od = DateTime.Now.AddDays(rnd.Next(1, 30) * -1); // random date in the past month
-            o.OrderDate = Od;
-            o.ShipDate = DateTime.MinValue; // minimal date for orders that weren't shiped yet
-            o.DeliveryDate = DateTime.MinValue; // minimal date for orders that weren't delivered yet
-            if (i > 8)
+            o.ShipDate = null; // minimal date for orders that weren't shiped yet
+            o.DeliveryDate = null; // minimal date for orders that weren't delivered yet
+            DateTime date = DateTime.Now.AddDays(rnd.Next(-30, -1));
+            if (i < 13)
             {
-                DateTime Sd = Od.AddDays(rnd.Next(1, 7)); // shiping date within a week from order date
-                o.ShipDate = Sd;
-                if (i > 15)
-                    o.DeliveryDate = Sd.AddDays(rnd.Next(1, 14)); // delivary date wihin 14 days from shiping date
+                o.DeliveryDate = date;
+                o.ShipDate = date.AddDays(rnd.Next(1, 14) * -1); // ship date maximum two weeks before delivary
+                o.OrderDate = date.AddDays(rnd.Next(14, 21) * -1); // order date between a week and 3 weeks before delivary
             }
+            else if (i < 17)
+            {
+                o.ShipDate = date;
+                o.OrderDate = date.AddDays(rnd.Next(1, 14) * -1);
+            }
+            else o.OrderDate = DateTime.Now.AddDays(rnd.Next(-7, -1));
             addOrder(o);
         }
         for (int i = 0; i < 20; i++)
@@ -143,10 +147,10 @@ internal static class DataSource
             {
                 OrderItem oi = new OrderItem(); // new order item
                 oi.ID = DataSource.Config.getIdNewO();
-                oi.OrderId = orderList[i].ID;
+                oi.OrderId = orderList[i].Value.ID;
                 int ranP = rnd.Next(0, 10);
-                oi.ProductId = (int)ProductList[ranP].ID; // random product
-                oi.Price = ProductList[ranP].Price; // random price according to product list
+                oi.ProductId = (int)ProductList[ranP].Value.ID; // random product
+                oi.Price = ProductList[ranP].Value.Price; // random price according to product list
                 oi.Amount = rnd.Next(1, 6); // random amount of copies
                 addOrderItem(oi);
             }

@@ -9,7 +9,7 @@ public struct Order
     /// <summary>
     /// uniqe ID for each order
     /// </summary>
-    public int? ID { get; set; }
+    public int ID { get; set; }
     /// <summary>
     /// customer's name
     /// </summary>

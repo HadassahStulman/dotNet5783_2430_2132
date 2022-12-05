@@ -10,20 +10,20 @@ namespace DalApi
     /// interface for all entities behavior
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public interface ICrud<T>
+    public interface ICrud<T> where T : struct
     {
         /// <summary>
         /// base function for adding new Item
         /// </summary>
         /// <param name="entity"></param>
         /// <returns>int</returns>
-        public int? Add(T entity);
+        public int Add(T entity);
 
         /// <summary>
         /// base function for deleting a Item
         /// </summary>
         /// <param name="id"></param>
-        public void Delete(int? id);
+        public void Delete(int id);
 
         /// <summary>
         /// base function for updating an Item
@@ -35,13 +35,20 @@ namespace DalApi
         /// base function for geting all list of items
         /// </summary>
         /// <returns>IEnumerable<typeparamref name="T"/></returns>
-        public IEnumerable<T> GetList();
+        public IEnumerable<T?> GetList(Func<T?, bool>? conditon =null);
 
         /// <summary>
         /// base function for getting existing Item by id
         /// </summary>
         /// <param name="id"></param>
         /// <returns>T</returns>
-        public T GetByID(int? id);
+        public T? GetByID(int id);
+
+        /// <summary>
+        /// return all object if func returns true
+        /// </summary>
+        /// <param name="func"></param>
+        /// <returns>T</returns>
+        public T? GetIf(Func<T?, bool>? func);
     }
 }

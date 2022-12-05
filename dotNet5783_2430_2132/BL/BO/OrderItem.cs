@@ -9,7 +9,7 @@ public class OrderItem
     /// <summary>
     /// item's ID
     /// </summary>
-    public int? ID { get; set; }
+    public int ID { get; set; }
     /// <summary> 
     /// product's name 
     /// </summary>
@@ -17,19 +17,19 @@ public class OrderItem
     /// <summary>
     /// product's ID 
     /// </summary>
-    public int? ProductID { get; set; }
+    public int ProductID { get; set; }
     /// <summary>
     /// price of a single product
     /// </summary>
-    public double? Price { get; set; }
+    public double Price { get; set; }
     /// <summary>
     /// amount of copies of the product
     /// </summary>
-    public int? Amount { get; set; }
+    public int Amount { get; set; }
     /// <summary>
     /// total price of item (price of all copies in total)
     /// </summary>
-    public double? TotalPrice { get; set; }
+    public double TotalPrice { get; set; }
 
     public override string ToString() => $@"
     order Idem's ID={ID}

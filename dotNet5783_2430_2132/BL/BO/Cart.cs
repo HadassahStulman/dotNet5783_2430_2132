@@ -22,9 +22,9 @@ public class Cart
     /// <summary>
     /// list of all items in cart
     /// </summary>
-    public List<BO.OrderItem>? Items { get; set; }
+    public List<BO.OrderItem?>? Items { get; set; }
     /// <summary>
     /// total price of all items in cart
     /// </summary>
-    public double? TotalPrice { get; set; }
+    public double TotalPrice { get; set; }
 }

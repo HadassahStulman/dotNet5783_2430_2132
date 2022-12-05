@@ -10,23 +10,23 @@ public struct OrderItem
     /// <summary>
     /// Uniqe id to identify order item
     /// </summary>
-    public int? ID { get; set; }
+    public int ID { get; set; }
     /// <summary>
     /// Uniqe ID for identifing a item (in this order)
     /// </summary>
-    public int? ProductId { get; set; }
+    public int ProductId { get; set; }
     /// <summary>
     /// Uniqe ID for identifing the order (that contains this item)
     /// </summary>
-    public int? OrderId { get; set; }
+    public int OrderId { get; set; }
     /// <summary>
     /// price for item
     /// </summary>
-    public double? Price { get; set; }
+    public double Price { get; set; }
     /// <summary>
     /// amount of this item in order
     /// </summary>
-    public int? Amount { get; set; }
+    public int Amount { get; set; }
     /// <summary>
     /// prints decription of an item in order
     /// </summary>

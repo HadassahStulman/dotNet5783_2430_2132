@@ -15,7 +15,7 @@ public interface IProduct
     /// FOR MANAGER AND CUSTOMER (in catalg)
     /// </summary>
     /// <returns>IEnumerable<BO.ProductForList></BO.ProductForList></returns>
-    public IEnumerable<BO.ProductForList> GetAll();
+    public IEnumerable<BO.ProductForList?> GetAll();
 
 
     /// <summary>

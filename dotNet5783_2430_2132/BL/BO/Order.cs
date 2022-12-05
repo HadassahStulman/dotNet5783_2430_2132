@@ -10,7 +10,7 @@ public class Order
     /// <summary>
     /// order id
     /// </summary>
-    public int? ID { get; set; }
+    public int ID { get; set; }
     /// <summary>
     /// customer's name
     /// </summary>
@@ -22,7 +22,7 @@ public class Order
     /// <summary>
     /// customer's adress for delivery
     /// </summary>
-    public string? CustomerAdress { get; set; } 
+    public string? CustomerAdress { get; set; }
     /// <summary>
     /// date of ordering 
     /// </summary>
@@ -46,11 +46,11 @@ public class Order
     /// <summary>
     /// list of items in order
     /// </summary>
-    public List<OrderItem>? Items { get; set; }
+    public List<OrderItem?>? Items { get; set; }
     /// <summary>
     /// total price of all products in order
     /// </summary>
-    public double? TotalPrice { get; set; }
+    public double TotalPrice { get; set; }
 
     /// <summary>
     /// returns description of order
@@ -71,12 +71,15 @@ public class Order
     order's total price: {TotalPrice}
     list of order items:
 ";
-        int i = 1;
-        foreach (OrderItem oi in this.Items)
-        {
-            str += $"\n {i}# order item: " + oi.ToString() + "\n";
-            i++;
-        }
+        if (Items != null)
+            str += string.Join("\n", Items);
         return str;
+        //int i = 1;
+        //foreach (OrderItem? oi in this.Items)
+        //{
+        //    str += $"\n {i}# order item: " + oi.ToString() + "\n";
+        //    i++;
+        //}
+        //return str;
     }
 }

@@ -6,9 +6,11 @@ using static Dal.DataSource.Config;
 using System.Collections.Generic;
 using System.Collections;
 using DalApi;
+using System;
+
 namespace Dal;
 
-internal class DalOrderItem:IOrderItem
+internal class DalOrderItem : IOrderItem
 {
     /// <summary>
     /// Adding a new order item to list. If order item (to add) allready exists then throw error.
@@ -16,7 +18,7 @@ internal class DalOrderItem:IOrderItem
     /// <returns>int?</returns>
     /// <param name="oi"></param>
     /// <exception cref="Exception"></exception>
-    public int? Add(OrderItem oi)
+    public int Add(OrderItem oi)
     {
         if (orderItemList.Contains(oi))
             throw new AlreadyExistingException();
@@ -29,11 +31,11 @@ internal class DalOrderItem:IOrderItem
     /// </summary>
     /// <param name="oi"></param>
     /// <exception cref="Exception"></exception>
-    public void Delete(int? oiID)
+    public void Delete(int oiID)
     {
         bool flag = false;
         for (int i = 0; i < orderItemList.Count; i++)
-            if (orderItemList[i].ID == oiID)
+            if (orderItemList[i].Value.ID == oiID)
             {
                 orderItemList.RemoveAt(i);
                 flag = true;
@@ -49,7 +51,7 @@ internal class DalOrderItem:IOrderItem
     {
         bool flag = false;
         for (int i = 0; i < orderItemList.Count(); i++)
-            if (orderItemList[i].ID == oi.ID)
+            if (orderItemList[i].Value.ID == oi.ID)
             {
                 orderItemList[i] = oi;
                 flag = true;
@@ -63,12 +65,12 @@ internal class DalOrderItem:IOrderItem
     /// </summary>
     /// <param name="oi"></param>
     /// <returns>OrderItem</returns>
-    public OrderItem GetByID(int? oiId)
+    public OrderItem? GetByID(int oiId)
     {
         bool flag = false;
         int i = 0;
         for (; i < orderItemList.Count(); i++)
-            if (orderItemList[i].ID == oiId)
+            if (orderItemList[i].Value.ID == oiId)
             {
                 flag = true;
                 break;
@@ -79,48 +81,22 @@ internal class DalOrderItem:IOrderItem
     }
 
     /// <summary>
-    /// return list of all Product
+    /// return list of all OrderItems
     /// </summary>
     /// <returns>IEnumerable</returns>
-    public IEnumerable<OrderItem> GetList()
+    public IEnumerable<OrderItem?> GetList(Func<OrderItem?, bool>? condition)
     {
-        List<OrderItem> orderIs = new List<OrderItem>();
-        orderIs.AddRange(orderItemList);
+        List<OrderItem?> orderIs = new List<OrderItem?>();
+        if (condition != null)
+            foreach (OrderItem item in orderItemList)
+            {
+                if (condition(item))
+                    orderIs.Add(item);
+            }
+        else
+            orderIs.AddRange(orderItemList);
         return orderIs;
     }
 
-    public OrderItem GetByBothID(int? pID, int? oID)
-    {
-        bool flag = false;
-        OrderItem oi = new OrderItem();
-        foreach(OrderItem item in orderItemList)
-        {
-            if(item.ProductId == pID && item.OrderId== oID)
-            {
-                oi = item;
-                flag = true;
-                break;
-            }
-        }
-        if (!flag)
-            throw new NotExistingException();
-        return oi;
-        
-    }
-    /// <summary>
-    /// return list of all order items in a specific order
-    /// </summary>
-    /// <param name="oID"></param>
-    /// <returns>IEnumerable<OrderItem></returns>
-    /// <exception cref="NotExistingException"></exception>
-    public IEnumerable<OrderItem> GetAllItemsInOrder(int? oID)
-    {
-        List<OrderItem> lst = new List<OrderItem>();
-        foreach(OrderItem item in orderItemList) // runs across order item list 
-            if(item.OrderId == oID) // if item is in the order
-                lst.Add(item);
-        if (lst.Count == 0) 
-            throw new NotExistingException();
-        return lst;
-    }
+    public OrderItem? GetIf(Func<OrderItem?, bool>? condition) => orderItemList.First(condition);
 }

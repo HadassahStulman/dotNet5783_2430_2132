@@ -11,7 +11,7 @@ public interface IOrder
     /// FOR MANAGER
     /// </summary>
     /// <returns>IEnumerable<BO.OrderForList></OrderForList></returns>
-    public IEnumerable<BO.OrderForList> GetList();
+    public IEnumerable<BO.OrderForList?> GetList();
 
 
     /// <summary>
@@ -63,5 +63,5 @@ public interface IOrder
     /// </summary>
     /// <param name="o"></param>
     /// <returns>string</returns>
-    public string OrderStatus(DO.Order o);
+    public string OrderStatus(DO.Order? o);
 }

@@ -447,7 +447,7 @@ namespace Dal
             Console.WriteLine("enter order ID");
             int oID;
             int.TryParse(Console.ReadLine(), out oID); // converts the input to integer
-            _orderI = DalList.OrderItem.GetByBothID(pID, oID); // find order item according to both IDs.
+            _orderI = DalList.OrderItem.GetIf(item => item.ProductId == pID && item.OrderId == oID ); // find order item according to both IDs.
             Console.WriteLine(_orderI); ;// printing description.
         }
         /// <summary>
@@ -458,7 +458,7 @@ namespace Dal
             Console.WriteLine("enter order ID");
             int ID;
             int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
-            IEnumerable<OrderItem> iE= DalList.OrderItem.GetAllItemsInOrder(ID); // returns list of order item
+            IEnumerable<OrderItem> iE= DalList.OrderItem.GetList(item=> item.OrderId==ID); // returns list of order item
             foreach(OrderItem item in iE) // printing description
                 Console.WriteLine(item);
         }
