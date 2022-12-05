@@ -51,9 +51,9 @@ internal class Product : IProduct
         IEnumerable<DO.Order?> Orderlst = Dal.Order.GetList();
         foreach (DO.Order? order in Orderlst)
         {
-            IEnumerable<DO.OrderItem?> lstOi = Dal.OrderItem.GetList(item => item.Value.OrderId == order.Value.ID);
+            IEnumerable<DO.OrderItem?> lstOi = Dal.OrderItem.GetList(item => item?.OrderId == order?.ID);
             foreach (DO.OrderItem? Oitem in lstOi)
-                if (Oitem.Value.ProductId == pID) // the product to delete s ordered by someone
+                if (Oitem?.ProductId == pID) // the product to delete s ordered by someone
                     throw new BO.FailedToDeleteObjectException(new BO.ProductIsOrderedException());
         }
         try
@@ -80,7 +80,7 @@ internal class Product : IProduct
                     ID = p.Value.ID,
                     Name = p.Value.Name,
                     Price = p.Value.Price,
-                    Category = (BO.Enums.Category)p.Value.Category
+                    Category = (BO.Enums.Category?)p?.Category
                 };
                 lst.Add(pfl);
             }
@@ -99,9 +99,9 @@ internal class Product : IProduct
             BO.Product bproduct = new BO.Product()
             {
                 ID = dproduct.Value.ID,
-                Name = dproduct.Value.Name,
+                Name = dproduct?.Name,
                 Price = dproduct.Value.Price,
-                Category = (BO.Enums.Category)dproduct.Value.Category,
+                Category = (BO.Enums.Category?)dproduct?.Category,
                 InStock = dproduct.Value.InStock
             };
             return bproduct;
@@ -120,16 +120,16 @@ internal class Product : IProduct
         {
             DO.Product? dproduct = Dal.Product.GetByID(pID);
             bool inStock = false;
-            if (dproduct.Value.InStock == 0)
+            if (dproduct?.InStock == 0)
                 inStock = true;
             BO.ProductItem bproduct = new BO.ProductItem()
             {
                 ID = dproduct.Value.ID,
                 Name = dproduct.Value.Name,
                 Price = dproduct.Value.Price,
-                Category = (BO.Enums.Category)dproduct.Value.Category,
+                Category = (BO.Enums.Category?)dproduct?.Category,
                 InStock = inStock,
-                Amount = crt.Items.Find(item => item.ProductID == pID).Amount
+                Amount = crt.Items.Find(item => item?.ProductID == pID).Amount
             };
             return bproduct;
         }
@@ -154,7 +154,14 @@ internal class Product : IProduct
             throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal category"));
         try
         {
-            DO.Product Dproduct = new DO.Product() { ID = Bproduct.ID, Name = Bproduct.Name, Price = Bproduct.Price, Category = (DO.Enums.Category)Bproduct.Category, InStock = Bproduct.InStock };
+            DO.Product Dproduct = new DO.Product()
+            {
+                ID = Bproduct.ID,
+                Name = Bproduct.Name,
+                Price = Bproduct.Price,
+                Category = (DO.Enums.Category)Bproduct.Category,
+                InStock = Bproduct.InStock
+            };
             Dal.Product.Update(Dproduct);
         }
         catch (Exception Ex)

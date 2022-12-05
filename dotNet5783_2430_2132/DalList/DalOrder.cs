@@ -34,7 +34,7 @@ internal class DalOrder : IOrder
     {
         bool flag = false;
         for (int i = 0; i < orderList.Count; i++)
-            if (orderList[i] != null && orderList[i].Value.ID == oID)
+            if (orderList[i] != null && orderList[i]?.ID == oID)
             {
                 orderList.RemoveAt(i);
                 flag = true;
@@ -51,7 +51,7 @@ internal class DalOrder : IOrder
         bool flag = false;
         for (int i = 0; i < orderList.Count(); i++)
         {
-            if (orderList[i].Value.ID == o.ID)
+            if (orderList[i]?.ID == o.ID)
             {
                 orderList[i] = o;
                 flag = true;
@@ -71,7 +71,7 @@ internal class DalOrder : IOrder
         bool flag = false;
         int i = 0;
         for (; i < orderList.Count(); i++)
-            if (orderList[i].Value.ID == oId)
+            if (orderList[i]?.ID == oId)
             {
                 flag = true;
                 break;

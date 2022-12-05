@@ -11,7 +11,7 @@ namespace Dal
         //private static DalOrderItem _dalOrderItem= new DalOrderItem();
 
         private static IDal DalList = new DalList();
-        
+
         /// <summary>
         /// Main program
         /// </summary>
@@ -39,14 +39,15 @@ namespace Dal
                         case 2:
                             manageOrder();
                             break;
-                        case 3: manageOtderItem();
+                        case 3:
+                            manageOtderItem();
                             break;
                         default: // back to main menu
                             break;
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
             }
@@ -82,7 +83,7 @@ namespace Dal
         /// </summary>
         private static void AddNewBook()
         {
-            Product p= new Product();
+            Product p = new Product();
             Console.WriteLine("enter the book's uniqe ID number");
             int num;
             int.TryParse(Console.ReadLine(), out num); // convert id from string to int
@@ -123,9 +124,9 @@ namespace Dal
         /// </summary>
         private static void GetAllBooks()
         {
- 
-            IEnumerable<Product> ie = DalList.Product.GetList();
-            foreach (Product item in ie) // printd every product in list
+
+            IEnumerable<Product?> ie = DalList.Product.GetList();
+            foreach (Product? item in ie) // printd every product in list
             {
                 Console.WriteLine(item);
             }
@@ -203,7 +204,7 @@ namespace Dal
         /// </summary>
         private static void AddNewOrder()
         {
-            Order _order = new Order();  
+            Order _order = new Order();
             Console.WriteLine("enter your name");
             _order.CustomerName = Console.ReadLine();// receiving name of customer.
             Console.WriteLine("enter your email address");
@@ -213,7 +214,7 @@ namespace Dal
             _order.OrderDate = DateTime.Now; // order date is- current date.
             _order.ShipDate = DateTime.Now.AddDays(5); // shipping date is five days from order.
             _order.DeliveryDate = DateTime.Now.AddDays(7); // delivery date is seven days from order.
-            int? newID = DalList.Order.Add(_order); // adding order to order list.
+            int newID = DalList.Order.Add(_order); // adding order to order list.
             AddOI(newID);
         }
 
@@ -222,7 +223,7 @@ namespace Dal
         /// </summary>
         private static void GetOrderDesc()
         {
-            Order _order=new Order();
+            Order? _order = new Order?();
             Console.WriteLine("enter order ID");
             int ID;
             int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
@@ -235,8 +236,8 @@ namespace Dal
         /// </summary>
         private static void GetAllOrderDesc()
         {
-            IEnumerable<Order> ie = DalList.Order.GetList();
-            foreach (Order item in ie) // printd every product in list
+            IEnumerable<Order?> ie = DalList.Order.GetList();
+            foreach (Order? item in ie) // printd every product in list
             {
                 Console.WriteLine(item);
             }
@@ -247,11 +248,11 @@ namespace Dal
         /// </summary>
         private static void UpdateOrder()
         {
-            Order _order = new Order();
+            Order _order = new();
             Console.WriteLine("enter order ID to update");
             int ID;
             int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
-            _order = DalList.Order.GetByID(ID); // getting from list order that needs to be updated
+            _order = (Order)DalList.Order.GetByID(ID); // getting from list order that needs to be updated
             Console.WriteLine("enter updated name");
             _order.CustomerName = Console.ReadLine();// receiving updated name of customer.
             Console.WriteLine("enter updated email address");
@@ -294,7 +295,7 @@ namespace Dal
                 int.TryParse(Console.ReadLine(), out choice);
                 switch (choice)
                 {
-                    case 1: AddOI(id); break; 
+                    case 1: AddOI(id); break;
                     case 2: UpdateOI(id); break;
                     case 3: DeleteOI(); break;
                     case 0: flag = false; break;
@@ -326,7 +327,7 @@ namespace Dal
                     case 1: OrderItemDesc(); break; // prints order item description
                     case 2: GetAllOrderItem(); break; // print descriptions of all order items in list
                     case 3: DeleteOI(); break; // delete existing order item
-                    case 4:OrderItemDescBy2ID(); break;// prints order idem description by product ID and order ID 
+                    case 4: OrderItemDescBy2ID(); break;// prints order idem description by product ID and order ID 
                     case 5: AllItemsInOrder(); break; //  prints all order items description that are in a specific order
                     default: // back to sub menu
                         break;
@@ -338,10 +339,10 @@ namespace Dal
         /// add new order items to order
         /// </summary>
         /// <param name="id"></param>
-        private static void AddOI(int? id)
+        private static void AddOI(int id)
         {
             int amOI = 5;
-            OrderItem _orderItem=new OrderItem();
+            OrderItem _orderItem = new OrderItem();
             while (amOI > 4) // while amount of Product in order is more than 4
             {
                 Console.WriteLine("enter amount of Product to add to Order, up to 4 Product");
@@ -354,8 +355,8 @@ namespace Dal
                 int.TryParse(Console.ReadLine(), out num); // convert input to integer
                 _orderItem.ProductId = num;
                 _orderItem.OrderId = id;
-                _orderItem.Price = DalList.Product.GetByID(id).Price; // get price of product from product list
-                Console.WriteLine("enter amount of copies of " + DalList.Product.GetByID(id).Name);
+                _orderItem.Price = DalList.Product.GetByID(id).Value.Price; // get price of product from product list
+                Console.WriteLine("enter amount of copies of " + DalList.Product.GetByID(id).Value.Name);
                 int.TryParse(Console.ReadLine(), out num); // convert input to integer
                 _orderItem.Amount = num;
                 DalList.OrderItem.Add(_orderItem); // add new order item to list
@@ -373,17 +374,18 @@ namespace Dal
             {
                 Console.WriteLine("enter amount of order items to update");
                 int.TryParse(Console.ReadLine(), out amOI);
+                   
             }
             int num;
             for (int i = 0; i < amOI; i++) // update all order items that the user requested
             {
-                OrderItem _orderItem=new OrderItem();
+                OrderItem _orderItem = new OrderItem();
                 _orderItem.OrderId = id;//updated order id
                 Console.WriteLine("enter ID of product to update");
                 int.TryParse(Console.ReadLine(), out num); // convet input to integer
                 _orderItem.ProductId = num;
-                _orderItem.Price = DalList.Product.GetByID(num).Price; // get updated product's price
-                Console.WriteLine("enter amount of copies of " + DalList.Product.GetByID(id).Name);
+                _orderItem.Price = DalList.Product.GetByID(num).Value.Price; // get updated product's price
+                Console.WriteLine("enter amount of copies of " + DalList.Product.GetByID(id).Value.Name);
                 int.TryParse(Console.ReadLine(), out num); // convert input to integer
                 _orderItem.Amount = num;
                 DalList.OrderItem.Add(_orderItem);
@@ -415,8 +417,8 @@ namespace Dal
         /// </summary>
         private static void GetAllOrderItem()
         {
-            IEnumerable<OrderItem> ie = DalList.OrderItem.GetList();
-            foreach (OrderItem item in ie) // printd every product in list
+            IEnumerable<OrderItem?> ie = DalList.OrderItem.GetList();
+            foreach (OrderItem? item in ie) // printd every product in list
             {
                 Console.WriteLine(item);
             }
@@ -427,7 +429,7 @@ namespace Dal
         /// </summary>
         private static void OrderItemDesc()
         {
-            OrderItem _orderI = new OrderItem();
+            OrderItem? _orderI = new();
             Console.WriteLine("enter order item ID");
             int ID;
             int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
@@ -440,14 +442,14 @@ namespace Dal
         /// </summary>
         private static void OrderItemDescBy2ID()
         {
-            OrderItem _orderI = new OrderItem();
+            OrderItem? _orderI = new OrderItem();
             Console.WriteLine("enter product ID");
             int pID;
             int.TryParse(Console.ReadLine(), out pID); // converts the input to integer
             Console.WriteLine("enter order ID");
             int oID;
             int.TryParse(Console.ReadLine(), out oID); // converts the input to integer
-            _orderI = DalList.OrderItem.GetIf(item => item.ProductId == pID && item.OrderId == oID ); // find order item according to both IDs.
+            _orderI = DalList.OrderItem.GetIf(item => item?.ProductId == pID && item?.OrderId == oID); // find order item according to both IDs.
             Console.WriteLine(_orderI); ;// printing description.
         }
         /// <summary>
@@ -458,8 +460,8 @@ namespace Dal
             Console.WriteLine("enter order ID");
             int ID;
             int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
-            IEnumerable<OrderItem> iE= DalList.OrderItem.GetList(item=> item.OrderId==ID); // returns list of order item
-            foreach(OrderItem item in iE) // printing description
+            IEnumerable<OrderItem?> iE = DalList.OrderItem.GetList(item => item?.OrderId == ID); // returns list of order item
+            foreach (OrderItem? item in iE) // printing description
                 Console.WriteLine(item);
         }
     }

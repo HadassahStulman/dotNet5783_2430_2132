@@ -34,7 +34,7 @@ internal class DalProduct:IProduct
     {
         bool flag= false;
         for (int i = 0; i < ProductList.Count; i++)
-            if (ProductList[i].Value.ID == pID)
+            if (ProductList[i]?.ID == pID)
             {
                 ProductList.RemoveAt(i);
                 flag = true;
@@ -50,7 +50,7 @@ internal class DalProduct:IProduct
     {
         bool flag = false;
         for (int i= 0; i<ProductList.Count(); i++)
-            if (ProductList[i].Value.ID == p.ID)
+            if (ProductList[i]?.ID == p.ID)
             {
                 ProductList[i] = p;
                 flag = true;
@@ -69,7 +69,7 @@ internal class DalProduct:IProduct
         bool flag = false;
         int i = 0;
        for(;i<ProductList.Count();i++)
-            if (ProductList[i].Value.ID == id)
+            if (ProductList[i]?.ID == id)
             {
                 flag = true;
                 break;
