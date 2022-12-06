@@ -35,5 +35,4 @@ public interface ICart
     /// <returns>int</returns>
     public int OrderCart(BO.Cart crt);
 
-
 }
