@@ -67,8 +67,9 @@ internal class Product : IProduct
 
     }
 
-    public IEnumerable<BO.ProductForList?> GetAll()
+    public IEnumerable<BO.ProductForList?> GetAll(Func<BO.ProductForList?, bool>? condition)
     {
+
         IEnumerable<DO.Product?> Plst = Dal.Product.GetList();
         List<BO.ProductForList> lst = new List<BO.ProductForList>();
         foreach (DO.Product? p in Plst) // for each product in dal create product for list
@@ -85,6 +86,8 @@ internal class Product : IProduct
                 lst.Add(pfl);
             }
         }
+        if (condition != null)
+            return lst.AsEnumerable().Where(condition);
         return lst;
     }
 
