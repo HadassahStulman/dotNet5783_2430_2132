@@ -21,15 +21,17 @@ VerticalAlignment="Stretch" Width="auto">
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
             <ComboBox x:Name="CategorySelector" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="CategorySelector_SelectionChanged"/>
-            <Label Content="Label" Grid.Column="0"/>
+            <Label Content="Category" Grid.Column="0"/>
         </Grid>
-        <ListView x:Name="ProductListView" Grid.Row="1" SelectionChanged="ProductListView_SelectionChanged">
+
+        <ListView x:Name="ProductListView" Grid.Row="1" MouseDoubleClick="productDoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
+        <Button x:Name="GoToAddProductButton" Content="Add new Product" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Top" Click="GoToAddProductButton_Click" Height="35" Width="200" FontSize="16" FontWeight="Bold" />
 
     </Grid>
 </Window>

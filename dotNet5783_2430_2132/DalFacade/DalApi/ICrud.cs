@@ -49,6 +49,6 @@ namespace DalApi
         /// </summary>
         /// <param name="func"></param>
         /// <returns>T</returns>
-        public T? GetIf(Func<T?, bool>? func);
+        public T? GetIf(Func<T?, bool> func);
     }
 }

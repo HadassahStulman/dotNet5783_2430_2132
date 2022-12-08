@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Button x:Name="ViewProductList" Content="view Product List" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ShowProductListButton_Click" Height="45" Width="178"/>
+    <Grid Background="{DynamicResource {x:Static SystemColors.MenuBarBrushKey}}">
+        <Button x:Name="ViewProductList" Content="view Product List" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ShowProductListButton_Click" Height="45" Width="178" Background="#FF7FDEB9" FontSize="16" FontWeight="Bold"/>
 
     </Grid>
 </Window>

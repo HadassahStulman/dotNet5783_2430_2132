@@ -31,6 +31,7 @@ public class OrderForList
     customer's name: {CustomerName}
     order's status: {Status}
     amount of items: {AmountOfItems}
-    total price: {TotalPrice}";
+    total price: {TotalPrice}
+";
 
 }

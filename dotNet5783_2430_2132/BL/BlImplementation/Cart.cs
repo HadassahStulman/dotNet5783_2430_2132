@@ -24,41 +24,65 @@ internal class Cart : ICart
     {
         try
         {
-            bool flag = false;
+
             DO.Product? p = Dal.Product.GetByID(pID); // finding product (that we're adding to cart) in products catalog 
 
-            if (crt.Items?.Count() != 0)  // checking that cart is not empty
-            {
-                foreach (BO.OrderItem? oi in crt.Items) // running on list of all items in cart
-                    if (oi?.ID == pID)
-                    {
-                        flag = true; // item already exists in cart
-                        if (p?.InStock <= oi.Amount) // if there is not enough of the product (that we want to add) in stock then throw
-                            throw new OutOfStockException(); // failed adding product to cart because: product to add is out of stock
-                        oi.Amount += 1;
-                        oi.TotalPrice += oi.Price;
-                        crt.TotalPrice += oi.Price;
-                        break;
-                    }
-            }
+            crt.Items ??= new List<BO.OrderItem?>();
 
-            if (!flag) // if the product to add does not exists in shopping cart and it is in stock then add the product to shopping cart
+            BO.OrderItem? orderItem = crt.Items.FirstOrDefault(item => item?.ID == pID);
+            if (orderItem != null)
             {
+                if (p?.InStock <= orderItem.Amount) // if there is not enough of the product (that we want to add) in stock then throw
+                    throw new OutOfStockException(); // failed adding product to cart because: product to add is out of stock
+                orderItem.Amount += 1;
+                orderItem.TotalPrice += orderItem.Price;
+                crt.TotalPrice += orderItem.Price;
+            }
+            //foreach (BO.OrderItem? oi in crt.Items!) // running on list of all items in cart
+            //    if (oi?.ID == pID)
+            //    {
+            //        flag = true; // item already exists in cart
+            //        if (p?.InStock <= oi.Amount) // if there is not enough of the product (that we want to add) in stock then throw
+            //            throw new OutOfStockException(); // failed adding product to cart because: product to add is out of stock
+            //        oi.Amount += 1;
+            //        oi.TotalPrice += oi.Price;
+            //        crt.TotalPrice += oi.Price;
+            //        break;
+            //    }
+
+            else
+            { 
                 if (p?.InStock <= 0) // if product to add is out of stock then throw
                     throw new OutOfStockException(); // failed adding product to cart because: product to add is out of stock
-                if (crt.Items.Count() == 0) // if List of order Items is empty.
-                    crt.Items = new List<BO.OrderItem?>();
                 crt.Items.Add(new BO.OrderItem
                 {
                     Name = p?.Name,
                     ProductID = pID,
-                    Price = p.Value.Price,
+                    Price = p?.Price ?? 0,
                     Amount = 1,
-                    TotalPrice = p.Value.Price
+                    TotalPrice = p?.Price ?? 0
 
                 }); // adding product to cart
-                crt.TotalPrice += p.Value.Price; // updating the shopping cart total price}
+                crt.TotalPrice += p?.Price ?? 0; // updating the shopping cart total price}
             }
+
+            //if (!flag) // if the product to add does not exists in shopping cart and it is in stock then add the product to shopping cart
+            //{
+            //    if (p?.InStock <= 0) // if product to add is out of stock then throw
+            //        throw new OutOfStockException(); // failed adding product to cart because: product to add is out of stock
+            //    if (crt.Items.Count() == 0) // if List of order Items is empty.
+            //        crt.Items = new List<BO.OrderItem?>();
+            //    crt.Items.Add(new BO.OrderItem
+            //    {
+            //        Name = p?.Name,
+            //        ProductID = pID,
+            //        Price = p?.Price??0,
+            //        Amount = 1,
+            //        TotalPrice = p?.Price??0
+
+            //    }); // adding product to cart
+            //    crt.TotalPrice += p.Value.Price; // updating the shopping cart total price}
+            //}
             return crt;
         }
         catch (Exception ex) { throw new FailedAddingObjectException(ex); } // failed adding product to cart because: product to add does not exist in catalog
@@ -81,11 +105,11 @@ internal class Cart : ICart
             if (amount < 0 || amount > p?.InStock) // if amount is negative or if there is not enough of product in stock  then throw message
                 throw new IlegalDataException("Ilegal amount"); // failed updating product in cart beacuse of ilega data 
 
-            if (crt.Items?.Count() == 0) // if cart is empty then throw not existing ecxeption
+            if (crt.Items?.Count == 0) // if cart is empty then throw not existing ecxeption
                 throw new DalApi.NotExistingException();
 
             bool flag = false;
-            foreach (BO.OrderItem? oi in crt.Items) // running on list of all items in cart
+            foreach (BO.OrderItem? oi in crt.Items!) // running on list of all items in cart
                 if (oi?.ProductID == pID) // if product was found then update data
                 {
                     flag = true;
@@ -116,9 +140,9 @@ internal class Cart : ICart
                 throw new DalApi.NotExistingException();
 
             DO.Product? dproduct;
-            foreach (BO.OrderItem? item in crt.Items)
+            foreach (BO.OrderItem? item in crt.Items!)
             {
-                dproduct = Dal.Product.GetByID(item.ProductID); // finding product (that we're adding to cart) in products catalog
+                dproduct = Dal.Product.GetByID(item?.ProductID ?? 0); // finding product (that we're adding to cart) in products catalog
                 if (item?.Amount <= 0)  // if the amount of product is negative then throw message
                     throw new IlegalDataException("Ilegal amount of products");
                 if (dproduct?.InStock < item?.Amount) // if the amount of a specific order item in shopping cart is bigger then the amount of that specific product in stock then throw message
@@ -142,21 +166,21 @@ internal class Cart : ICart
             {
                 Dal.OrderItem.Add(new DO.OrderItem
                 {
-                    ProductId = item.ProductID,
+                    ProductId = item?.ProductID ?? 0,
                     OrderId = oID,
-                    Price = item.Price,
-                    Amount = item.Amount,
+                    Price = item?.Price ?? 0,
+                    Amount = item?.Amount ?? 0,
                 }); // adding current order item to order item list in data surce.
-                dproduct = Dal.Product.GetByID(item.ProductID);
+                dproduct = Dal.Product.GetByID(item?.ProductID ?? 0);
 
 
                 Dal.Product.Update(new DO.Product()
                 {
-                    ID = item.ProductID,
+                    ID = item?.ProductID ?? 0,
                     Name = dproduct?.Name,
                     Category = dproduct?.Category,
-                    Price = dproduct.Value.Price,
-                    InStock = dproduct.Value.InStock - item.Amount,// updating stock in data surce after the order has been confirmed 
+                    Price = dproduct?.Price ?? 0,
+                    InStock = dproduct?.InStock ?? 0 - item?.Amount ?? 0,// updating stock in data surce after the order has been confirmed 
                 });
             }
             return oID;

@@ -1,6 +1,7 @@
 ﻿
 using DO;
 using DalApi;
+using System.Security.Cryptography;
 
 namespace Dal
 {
@@ -342,24 +343,32 @@ namespace Dal
         private static void AddOI(int id)
         {
             int amOI = 5;
-            OrderItem _orderItem = new OrderItem();
+            //OrderItem _orderItem = new OrderItem();
             while (amOI > 4) // while amount of Product in order is more than 4
             {
                 Console.WriteLine("enter amount of Product to add to Order, up to 4 Product");
                 int.TryParse(Console.ReadLine(), out amOI);
             }
-            int num;
+            int pid;
+            int amount;
             for (int i = 0; i < amOI; i++) // for every product inorder
             {
                 Console.WriteLine("enter product uniqe ID number");
-                int.TryParse(Console.ReadLine(), out num); // convert input to integer
-                _orderItem.ProductId = num;
-                _orderItem.OrderId = id;
-                _orderItem.Price = DalList.Product.GetByID(id).Value.Price; // get price of product from product list
-                Console.WriteLine("enter amount of copies of " + DalList.Product.GetByID(id).Value.Name);
-                int.TryParse(Console.ReadLine(), out num); // convert input to integer
-                _orderItem.Amount = num;
-                DalList.OrderItem.Add(_orderItem); // add new order item to list
+                if (!int.TryParse(Console.ReadLine(), out pid)) // convert input to integer
+                    throw new FormatException();
+                Product? prod = DalList.Product.GetByID(id); // get price of product from product list
+                Console.WriteLine("enter amount of copies of " + prod?.Name);
+                if (!int.TryParse(Console.ReadLine(), out amount)) // convert input to integer
+                    throw new FormatException();
+                DalList.OrderItem.Add(new OrderItem()
+                {
+                    ID = 0,
+                    ProductId = pid,
+                    OrderId = id,
+                    Price = prod?.Price ?? 0,
+                    Amount = amount
+                });
+                ; // add new order item to list
             }
         }
 
@@ -373,22 +382,29 @@ namespace Dal
             while (amOI > 4) // while amount of product to update in order is more than 4
             {
                 Console.WriteLine("enter amount of order items to update");
-                int.TryParse(Console.ReadLine(), out amOI);
-                   
+                if(!int.TryParse(Console.ReadLine(), out amOI))
+                    throw new FormatException();
+
             }
-            int num;
+            int pid;
+            int amount;
             for (int i = 0; i < amOI; i++) // update all order items that the user requested
             {
-                OrderItem _orderItem = new OrderItem();
-                _orderItem.OrderId = id;//updated order id
-                Console.WriteLine("enter ID of product to update");
-                int.TryParse(Console.ReadLine(), out num); // convet input to integer
-                _orderItem.ProductId = num;
-                _orderItem.Price = DalList.Product.GetByID(num).Value.Price; // get updated product's price
-                Console.WriteLine("enter amount of copies of " + DalList.Product.GetByID(id).Value.Name);
-                int.TryParse(Console.ReadLine(), out num); // convert input to integer
-                _orderItem.Amount = num;
-                DalList.OrderItem.Add(_orderItem);
+                Console.WriteLine("enter product uniqe ID number");
+                if (!int.TryParse(Console.ReadLine(), out pid)) // convert input to integer
+                    throw new FormatException();
+                Product? prod = DalList.Product.GetByID(id); // get price of product from product list
+                Console.WriteLine("enter amount of copies of " + prod?.Name);
+                if (!int.TryParse(Console.ReadLine(), out amount)) // convert input to integer
+                    throw new FormatException();
+                DalList.OrderItem.Add(new OrderItem()
+                {
+                    ID = 0,
+                    ProductId = pid,
+                    OrderId = id,
+                    Price = prod?.Price ?? 0,
+                    Amount = amount
+                });
             }
         }
 
@@ -401,13 +417,15 @@ namespace Dal
             while (amOI > 4) // while amount of Product to delete from order is more than 4
             {
                 Console.WriteLine("enter amount of order items to delete");
-                int.TryParse(Console.ReadLine(), out amOI); // convert input to integer
+                if(!int.TryParse(Console.ReadLine(), out amOI)) // convert input to integer
+                    throw new FormatException();
             }
             int id;
             for (int i = 0; i < amOI; i++) // delete all order items that the user requested
             {
                 Console.WriteLine("enter ID of order item to delete");
-                int.TryParse(Console.ReadLine(), out id); // convet input to integer
+                if(!int.TryParse(Console.ReadLine(), out id)) // convet input to integer
+                    throw new FormatException();
                 DalList.OrderItem.Delete(id);
             }
         }
@@ -429,12 +447,11 @@ namespace Dal
         /// </summary>
         private static void OrderItemDesc()
         {
-            OrderItem? _orderI = new();
             Console.WriteLine("enter order item ID");
             int ID;
-            int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
-            _orderI = DalList.OrderItem.GetByID(ID);// find order that matches this ID.
-            Console.WriteLine(_orderI); ;// printing description.
+            if(!int.TryParse(Console.ReadLine(), out ID)) // converts the input to integer
+                throw new FormatException();
+            Console.WriteLine(DalList.OrderItem.GetByID(ID)); ;// printing description.
         }
 
         /// <summary>
@@ -442,15 +459,15 @@ namespace Dal
         /// </summary>
         private static void OrderItemDescBy2ID()
         {
-            OrderItem? _orderI = new OrderItem();
             Console.WriteLine("enter product ID");
             int pID;
-            int.TryParse(Console.ReadLine(), out pID); // converts the input to integer
+            if(!int.TryParse(Console.ReadLine(), out pID)) // converts the input to integer
+                throw new FormatException();
             Console.WriteLine("enter order ID");
             int oID;
-            int.TryParse(Console.ReadLine(), out oID); // converts the input to integer
-            _orderI = DalList.OrderItem.GetIf(item => item?.ProductId == pID && item?.OrderId == oID); // find order item according to both IDs.
-            Console.WriteLine(_orderI); ;// printing description.
+            if(!int.TryParse(Console.ReadLine(), out oID)) // converts the input to integer
+                throw new FormatException();
+            Console.WriteLine(DalList.OrderItem.GetIf(item => item?.ProductId == pID && item?.OrderId == oID)); ;// printing description.
         }
         /// <summary>
         /// printing list of all order items
@@ -459,7 +476,8 @@ namespace Dal
         {
             Console.WriteLine("enter order ID");
             int ID;
-            int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
+            if (!int.TryParse(Console.ReadLine(), out ID)) // converts the input to integer
+                throw new FormatException();
             IEnumerable<OrderItem?> iE = DalList.OrderItem.GetList(item => item?.OrderId == ID); // returns list of order item
             foreach (OrderItem? item in iE) // printing description
                 Console.WriteLine(item);

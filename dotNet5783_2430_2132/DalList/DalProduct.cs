@@ -9,7 +9,7 @@ using System;
 
 namespace Dal;
 
-internal class DalProduct:IProduct
+internal class DalProduct : IProduct
 {
     /// <summary>
     /// Adding a new product to list. If product (to add) allready exists then throw error.
@@ -17,7 +17,7 @@ internal class DalProduct:IProduct
     /// <returns>int</returns>
     /// <param name="p"></param>
     /// <exception cref="Exception"></exception>
- 
+
     public int Add(Product p)
     {
         if (ProductList.Contains(p))
@@ -32,7 +32,7 @@ internal class DalProduct:IProduct
     /// <exception cref="Exception"></exception>
     public void Delete(int pID)
     {
-        bool flag= false;
+        bool flag = false;
         for (int i = 0; i < ProductList.Count; i++)
             if (ProductList[i]?.ID == pID)
             {
@@ -48,16 +48,22 @@ internal class DalProduct:IProduct
     /// <param name="p"></param>
     public void Update(Product p)
     {
-        bool flag = false;
-        for (int i= 0; i<ProductList.Count(); i++)
-            if (ProductList[i]?.ID == p.ID)
-            {
-                ProductList[i] = p;
-                flag = true;
-                break;
-            }
-        if (!flag)
-            throw new NotExistingException();
+        //bool flag = false;
+        //for (int i = 0; i < ProductList.Count(); i++)
+        //    if (ProductList[i]?.ID == p.ID)
+        //    {
+        //        ProductList[i] = p;
+        //        flag = true;
+        //        break;
+        //    }
+        //if (!flag)
+        var productToUpdate= ProductList.FirstOrDefault(product => (product?.ID ?? 0) == p.ID);
+        if (productToUpdate!=null)
+        {
+            ProductList.Remove(productToUpdate);
+            ProductList.Add(p);
+        }
+        else throw new NotExistingException();
     }
     /// <summary>
     /// recieves Uniqe ID for identifing the product and returns product object
@@ -68,7 +74,7 @@ internal class DalProduct:IProduct
     {
         bool flag = false;
         int i = 0;
-       for(;i<ProductList.Count();i++)
+        for (; i < ProductList.Count(); i++)
             if (ProductList[i]?.ID == id)
             {
                 flag = true;
@@ -84,17 +90,18 @@ internal class DalProduct:IProduct
     /// </summary>
     /// <returns>IEnumerable<Product></Product></returns>
     public IEnumerable<Product?> GetList(Func<Product?, bool>? condition)
-    { 
-        List<Product?> products = new List<Product?>();
-        if(condition != null)
-            foreach (Product? product in ProductList)
-            {
-                if(condition(product))
-                    products.Add(product);
-            }
-        else
-            products.AddRange(ProductList);
-        return products;
+    {
+        //List<Product?> products = new List<Product?>();
+        //if (condition != null)
+        //    foreach (Product? product in ProductList)
+        //    {
+        //        if (condition(product))
+        //            products.Add(product);
+        //    }
+        //else
+        //    products.AddRange(ProductList);
+        //return products;
+        return ProductList.Where(product => condition is null ? true : condition(product));
     }
 
     /// <summary>
@@ -106,11 +113,11 @@ internal class DalProduct:IProduct
     {
         foreach (Product? item in ProductList)
         {
-            if (item!=null&& item.Value.ID == id)
+            if (item != null && item?.ID == id)
                 return false;
         }
         return true;
     }
 
-    public Product? GetIf(Func<Product?,bool>? condition) => ProductList.First(condition);
+    public Product? GetIf(Func<Product?, bool> condition) => ProductList.FirstOrDefault(condition);
 }

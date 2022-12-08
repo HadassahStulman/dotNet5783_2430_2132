@@ -5,8 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Products"
         mc:Ignorable="d"
-        Title="ProductWindow" Height="450" Width="800">
+        Title="ProductWindow" Height="541" Width="531">
     <Grid>
-        
+        <Label Content="ID:" HorizontalAlignment="Left" Margin="121,128,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
+        <Label Content="Category:" HorizontalAlignment="Left" Margin="121,168,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
+        <Label Content="Name:" HorizontalAlignment="Left" Margin="121,208,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
+        <Label Content="Price:" HorizontalAlignment="Left" Margin="121,248,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
+        <Label Content="In Stock" HorizontalAlignment="Left" Margin="121,288,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
+        <TextBox x:Name="IDTextBox" HorizontalAlignment="Left" Margin="236,135,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Height="25"/>
+        <TextBox x:Name="NameTextBox" HorizontalAlignment="Left" Margin="236,215,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Height="25"/>
+        <TextBox x:Name="PriceTextBox" HorizontalAlignment="Left" Margin="236,255,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Height="25"/>
+        <TextBox x:Name="InStockTextBox" HorizontalAlignment="Left" Margin="236,295,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="120" Height="25"/>
+        <ComboBox x:Name="CategoryCombobox" HorizontalAlignment="Left" Margin="236,175,0,0" VerticalAlignment="Top" Width="120" Height="25"/>
+        <Button x:Name="AddProductButton" Content="Add" HorizontalAlignment="Left" Margin="137,362,0,0" VerticalAlignment="Top" Height="25" Width="80" Click="AddProductButton_Click" Visibility="Hidden"/>
+        <Button x:Name="UpdateProductButton" Content="Update" HorizontalAlignment="Left" Margin="137,362,0,0" VerticalAlignment="Top" Height="25" Width="80" IsEnabled="False" Visibility="Hidden" Click="UpdateProductButton_Click"/>
+
     </Grid>
 </Window>

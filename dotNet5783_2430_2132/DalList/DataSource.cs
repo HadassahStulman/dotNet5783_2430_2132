@@ -86,10 +86,13 @@ internal static class DataSource
             //while (!dp.isIDUniqe(id)) // generates new id until id is uniqe
             //    id = rnd.Next(10000, 99999);
             p.ID = id;
-            int cat = rnd.Next(1, 6); // random category
+            int cat = rnd.Next(0, 5); // random category
             // choose a name from a random category
             switch (cat)
             {
+                case 0:
+                    p.Name = textBookName[i];
+                    break;
                 case 1:
                     p.Name = CookBookName[i];
                     break;
@@ -101,9 +104,6 @@ internal static class DataSource
                     break;
                 case 4:
                     p.Name = ReadingBookName[i];
-                    break;
-                case 5:
-                    p.Name = textBookName[i];
                     break;
                 default:
                     break;
@@ -149,9 +149,9 @@ internal static class DataSource
                 OrderItem oi = new OrderItem()
                 {  // new order item
                     ID = DataSource.Config.getIdNewO(),
-                    OrderId = orderList[i].Value.ID,
-                    ProductId = ProductList[ranP].Value.ID, // random product
-                    Price = ProductList[ranP].Value.Price, // random price according to product list
+                    OrderId = orderList[i]?.ID??0,
+                    ProductId = ProductList[ranP]?.ID??0, // random product
+                    Price = ProductList[ranP]?.Price??0, // random price according to product list
                     Amount = rnd.Next(1, 6) // random amount of copies
                 };
                 addOrderItem(oi);

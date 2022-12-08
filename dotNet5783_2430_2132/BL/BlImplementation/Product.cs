@@ -76,19 +76,16 @@ internal class Product : IProduct
         {
             if (p != null)
             {
-                BO.ProductForList pfl = new BO.ProductForList()
+                lst.Add(new BO.ProductForList()
                 {
-                    ID = p.Value.ID,
-                    Name = p.Value.Name,
-                    Price = p.Value.Price,
-                    Category = (BO.Enums.Category?)p?.Category
-                };
-                lst.Add(pfl);
+                    ID = p?.ID ?? 0,
+                    Name = p?.Name,
+                    Price = p?.Price ?? 0,
+                    Category = (BO.Enums.Category)p?.Category!
+                });
             }
         }
-        if (condition != null)
-            return lst.AsEnumerable().Where(condition);
-        return lst;
+        return lst.AsEnumerable().Where(item => condition is null ? true : condition(item));
     }
 
 
@@ -101,11 +98,11 @@ internal class Product : IProduct
             DO.Product? dproduct = Dal.Product.GetByID(pID);
             BO.Product bproduct = new BO.Product()
             {
-                ID = dproduct.Value.ID,
+                ID = dproduct?.ID??0,
                 Name = dproduct?.Name,
-                Price = dproduct.Value.Price,
-                Category = (BO.Enums.Category?)dproduct?.Category,
-                InStock = dproduct.Value.InStock
+                Price = dproduct?.Price??0,
+                Category = (BO.Enums.Category)dproduct?.Category!,
+                InStock = dproduct?.InStock??0
             };
             return bproduct;
         }
@@ -127,12 +124,12 @@ internal class Product : IProduct
                 inStock = true;
             BO.ProductItem bproduct = new BO.ProductItem()
             {
-                ID = dproduct.Value.ID,
-                Name = dproduct.Value.Name,
-                Price = dproduct.Value.Price,
-                Category = (BO.Enums.Category?)dproduct?.Category,
+                ID = dproduct?.ID??0,
+                Name = dproduct?.Name,
+                Price = dproduct?.Price??0,
+                Category = (BO.Enums.Category)dproduct?.Category!,
                 InStock = inStock,
-                Amount = crt.Items.Find(item => item?.ProductID == pID).Amount
+                Amount = crt.Items!.Find(item => item?.ProductID == pID)?.Amount??0
             };
             return bproduct;
         }

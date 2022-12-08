@@ -13,7 +13,7 @@ public interface IOrder
     /// FOR MANAGER
     /// </summary>
     /// <returns>IEnumerable<BO.OrderForList></OrderForList></returns>
-    public IEnumerable<BO.OrderForList?> GetList(Func<OrderForList?, bool>? condition);
+    public IEnumerable<BO.OrderForList?> GetList(Func<OrderForList?, bool>? condition=null);
 
 
     /// <summary>
@@ -58,7 +58,7 @@ public interface IOrder
     /// </summary>
     /// <param name="oID"></param>
     /// <returns>BO.Order</returns>
-    public BO.Order ManagerUpdateOrder(int oID);
+    public BO.Order? ManagerUpdateOrder(int oID);
 
     /// <summary>
     ///  the method receives as input an order and returns its status

@@ -49,16 +49,20 @@ internal class DalOrderItem : IOrderItem
     /// <param name="oi"></param>
     public void Update(OrderItem oi)
     {
-        bool flag = false;
-        for (int i = 0; i < orderItemList.Count(); i++)
-            if (orderItemList[i]?.ID == oi.ID)
-            {
-                orderItemList[i] = oi;
-                flag = true;
-                break;
-            }
-        if (!flag)
-            throw new NotExistingException();
+        //for (int i = 0; i < orderItemList.Count(); i++)
+        //    if (orderItemList[i]?.ID == oi.ID)
+        //    {
+        //        orderItemList[i] = oi;
+        //        flag = true;
+        //        break;
+        //    }
+        var OrderItemToUpdate = orderItemList.FirstOrDefault(item => item?.ID == oi.ID);
+        if (OrderItemToUpdate!=null)
+        {
+            orderItemList.Remove(OrderItemToUpdate);
+            orderItemList.Add(oi);
+        }
+        else throw new NotExistingException();
     }
     /// <summary>
     /// recieves Uniqe ID for identifing the order item and returns order item object
@@ -86,17 +90,19 @@ internal class DalOrderItem : IOrderItem
     /// <returns>IEnumerable</returns>
     public IEnumerable<OrderItem?> GetList(Func<OrderItem?, bool>? condition)
     {
-        List<OrderItem?> orderIs = new List<OrderItem?>();
-        if (condition != null)
-            foreach (OrderItem? item in orderItemList)
-            {
-                if (condition(item))
-                    orderIs.Add(item);
-            }
-        else
-            orderIs.AddRange(orderItemList);
-        return orderIs;
+        //List<OrderItem?> orderLst = new List<OrderItem?>();
+        //if (condition != null)
+        //    foreach (OrderItem? item in orderItemList)
+        //    {
+        //        if (condition(item))
+        //            orderIs.Add(item);
+        //    }
+        //else
+        //    orderIs.AddRange(orderItemList);
+        /*orderLst =*/
+        return orderItemList.Where(orderItem => condition is null ? true : condition(orderItem));
+        //return orderLst;
     }
 
-    public OrderItem? GetIf(Func<OrderItem?, bool>? condition) => orderItemList.First(condition);
+    public OrderItem? GetIf(Func<OrderItem?, bool> condition) => orderItemList.FirstOrDefault(condition);
 }

@@ -21,5 +21,5 @@ public class ProductForList
     /// product category
     /// </summary>
     public Enums.Category? Category { get; set; }
-    public override string ToString() => $"ID: {ID}\nName: {Name}\nPrice: {Price}\nCategory: {Category}";
+    public override string ToString() => $"ID: {ID}\nName: {Name}\nPrice: {Price}\nCategory: {Category}\n";
 }

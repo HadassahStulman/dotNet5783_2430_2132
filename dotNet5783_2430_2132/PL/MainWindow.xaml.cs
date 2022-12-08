@@ -1,7 +1,4 @@
 ﻿using PL.Products;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 
 namespace PL;
@@ -17,4 +14,5 @@ public partial class MainWindow : Window
     }
 
     private void ShowProductListButton_Click(object sender, RoutedEventArgs e) => new ProductForListWindow().Show();
+
 }
