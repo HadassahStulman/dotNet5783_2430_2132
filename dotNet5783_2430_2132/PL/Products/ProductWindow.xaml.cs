@@ -90,4 +90,9 @@ public partial class ProductWindow : Window
             MessageBox.Show(ex.ToString(), "Exception Thrown");
         }
     }
+
+    private void IDTextBox_TextChanged(object sender, TextChangedEventArgs e)
+    {
+
+    }
 }

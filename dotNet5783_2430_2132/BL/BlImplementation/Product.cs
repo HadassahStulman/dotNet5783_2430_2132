@@ -15,7 +15,7 @@ internal class Product : IProduct
     {
         // checkig if all product's details are legal
         if (Bproduct.ID < 100000)
-            throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ileal ID"));
+            throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal ID"));
         if (string.IsNullOrEmpty(Bproduct.Name))
             throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal name"));
         if (Bproduct.Price <= 0)
@@ -143,7 +143,7 @@ internal class Product : IProduct
     {
         // checkig if all product's details are legal
         if (Bproduct.ID < 100000)
-            throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ileal ID"));
+            throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal ID"));
         if (string.IsNullOrEmpty(Bproduct.Name))
             throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal name"));
         if (Bproduct.Price <= 0)

@@ -14,24 +14,45 @@
             <RowDefinition Height="500*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid Name="UpGrid" HorizontalAlignment="Stretch" Height="auto" Grid.Row="0"
-VerticalAlignment="Stretch" Width="auto">
+        <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto" Grid.ColumnSpan="7" Margin="0,0,0,545" Grid.RowSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox x:Name="CategorySelector" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="CategorySelector_SelectionChanged"/>
-            <Label Content="Category" Grid.Column="0" FontSize="16" FontWeight="Bold"/>
+            <ComboBox x:Name="CategorySelector" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="CategorySelector_SelectionChanged">
+                <ComboBox.Background>
+                    <LinearGradientBrush EndPoint="0,1" Opacity="0.7">
+                        <GradientStop Color="#FFF0F0F0"/>
+                        <GradientStop Color="#FF7FDEB9" Offset="1"/>
+                        <GradientStop Offset="0.67"/>
+                        <GradientStop Color="#E5F1F1F1" Offset="0.067"/>
+                        <GradientStop Color="#58F9F9F9" Offset="0.438"/>
+                        <GradientStop Offset="0.558"/>
+                    </LinearGradientBrush>
+                </ComboBox.Background>
+            </ComboBox>
+            <Label Content="Category" Grid.Column="0" FontWeight="Bold">
+                <Label.Background>
+                    <SolidColorBrush Opacity="0.7"/>
+                </Label.Background>
+            </Label>
         </Grid>
 
-        <ListView x:Name="ProductListView" Grid.Row="1" MouseDoubleClick="productDoubleClick">
+        <ListView x:Name="ProductListView" Grid.Row="1" MouseDoubleClick="productDoubleClick" SelectionChanged="ProductListView_SelectionChanged" Grid.ColumnSpan="7">
+            <ListView.Background>
+                <SolidColorBrush Color="#FFE8E6E6" Opacity="0.6"/>
+            </ListView.Background>
             <ListView.View>
                 <GridView>
                     <GridViewColumn/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="GoToAddProductButton" Content="Add new Product" Grid.Row="2" HorizontalAlignment="Right" VerticalAlignment="Top" Click="GoToAddProductButton_Click" Height="35" Width="200" FontSize="16" FontWeight="Bold" />
+        <Button x:Name="GoToAddProductButton" Content="Add new Product" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" Click="GoToAddProductButton_Click" Height="35" Width="200" FontSize="16" FontWeight="Bold" Grid.ColumnSpan="7" Margin="600,0,0,0" >
+            <Button.Background>
+                <SolidColorBrush Color="#FF7FDEB9" Opacity="0.8"/>
+            </Button.Background>
+        </Button>
 
     </Grid>
 </Window>

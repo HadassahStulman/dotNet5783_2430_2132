@@ -1,5 +1,8 @@
 ﻿using BlApi;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -34,6 +37,8 @@ public partial class ProductForListWindow : Window
     {
         string choice = CategorySelector.SelectedItem.ToString() ?? throw new NullReferenceException();
         ProductListView.ItemsSource = bl.Product.GetAll(product => choice == Category.All.ToString() ? true : product?.Category.ToString() == choice);
+        List<Category>lst = ((IEnumerable<Category>)Enum.GetValues(typeof(Category))).Where(item => item.ToString() != choice).ToList();
+        CategorySelector.ItemsSource = lst;
     }
 
     private void GoToAddProductButton_Click(object sender, RoutedEventArgs e) => new ProductWindow("Add", 0).ShowDialog();
@@ -51,5 +56,10 @@ public partial class ProductForListWindow : Window
         {
             MessageBox.Show("please choose a product");
         }
+    }
+
+    private void ProductListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+
     }
 }
