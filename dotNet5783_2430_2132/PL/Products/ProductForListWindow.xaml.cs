@@ -32,19 +32,20 @@ public partial class ProductForListWindow : Window
 
     private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        //BO.Enums.Category cat = (BO.Enums.Category)Enum.Parse(typeof(BO.Enums.Category), CategorySelector.SelectedItem.ToString() ?? throw new NullReferenceException());
         string choice = CategorySelector.SelectedItem.ToString() ?? throw new NullReferenceException();
         ProductListView.ItemsSource = bl.Product.GetAll(product => choice == Category.All.ToString() ? true : product?.Category.ToString() == choice);
     }
 
-    private void GoToAddProductButton_Click(object sender, RoutedEventArgs e) => new ProductWindow("Add", 0).Show();
+    private void GoToAddProductButton_Click(object sender, RoutedEventArgs e) => new ProductWindow("Add", 0).ShowDialog();
 
     private void productDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
         try
         {
             BO.ProductForList p = (ProductListView.SelectedItem as BO.ProductForList) ?? throw new NullReferenceException();
-            new ProductWindow("Update", p.ID).Show();
+            new ProductWindow("Update", p.ID).ShowDialog();
+            ProductListView.ItemsSource = bl.Product.GetAll();
+            CategorySelector.Text = Category.All.ToString();
         }
         catch(Exception)
         {

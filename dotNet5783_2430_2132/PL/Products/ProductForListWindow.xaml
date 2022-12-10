@@ -21,7 +21,7 @@ VerticalAlignment="Stretch" Width="auto">
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
             <ComboBox x:Name="CategorySelector" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="CategorySelector_SelectionChanged"/>
-            <Label Content="Category" Grid.Column="0"/>
+            <Label Content="Category" Grid.Column="0" FontSize="16" FontWeight="Bold"/>
         </Grid>
 
         <ListView x:Name="ProductListView" Grid.Row="1" MouseDoubleClick="productDoubleClick">
