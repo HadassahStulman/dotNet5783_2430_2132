@@ -1,4 +1,6 @@
 ﻿
+using DO;
+
 namespace BO;
 /// <summary>
 /// class for managing product list screen and catalog screen
@@ -21,5 +23,6 @@ public class ProductForList
     /// product category
     /// </summary>
     public Enums.Category? Category { get; set; }
-    public override string ToString() => $"ID: {ID}\nName: {Name}\nPrice: {Price}\nCategory: {Category}\n";
+
+    public override string ToString() => this.ToStringProperty();
 }

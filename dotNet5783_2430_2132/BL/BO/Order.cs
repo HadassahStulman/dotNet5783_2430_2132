@@ -74,12 +74,5 @@ public class Order
         if (Items != null)
             str += string.Join("\n", Items);
         return str;
-        //int i = 1;
-        //foreach (OrderItem? oi in this.Items)
-        //{
-        //    str += $"\n {i}# order item: " + oi.ToString() + "\n";
-        //    i++;
-        //}
-        //return str;
     }
 }

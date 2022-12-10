@@ -1,4 +1,5 @@
 ﻿
+using System.Runtime.CompilerServices;
 using static DO.Enums;
 
 namespace DO;
@@ -33,10 +34,7 @@ public struct Product
     /// returns decription of object (book)
     /// </summary>
     /// <returns>string</returns>
-    public override string ToString() => $@"
-    Product ID={ID}: {Name}
-    cateory - {Category}
-    Price: {Price}
-    Amount in stock: {InStock}";
-  
+    public override string ToString() => this.ToStringProperty();
+
+
 }
