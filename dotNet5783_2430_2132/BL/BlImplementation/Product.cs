@@ -24,8 +24,8 @@ internal class Product : IProduct
             throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal amount in stock"));
         if (Bproduct.Category != BO.Enums.Category.CookBooks && Bproduct.Category != BO.Enums.Category.TextBooks && Bproduct.Category != BO.Enums.Category.ReligiousBooks && Bproduct.Category != BO.Enums.Category.ReadingBooks && Bproduct.Category != BO.Enums.Category.ReligiousBooks && Bproduct.Category != BO.Enums.Category.ToddlerBooks)
             throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilgal category"));
-        if (!Dal.Product.isIDUniqe(Bproduct.ID))
-            throw new BO.FailedAddingObjectException(new BO.IlegalDataException("ID is not uniqe"));
+        //if (!Dal.Product.isIDUniqe(Bproduct.ID))
+        //    throw new BO.FailedAddingObjectException(new BO.IlegalDataException("ID is not uniqe"));
         try
         {
             DO.Product Dproduct = new DO.Product()
@@ -95,14 +95,14 @@ internal class Product : IProduct
             throw new BO.FailedGettingObjectException(new BO.IlegalDataException("Ilegal ID"));
         try
         {
-            DO.Product? dproduct = Dal.Product.GetByID(pID);
+            DO.Product? dproduct = Dal.Product.GetIf(item => item?.ID == pID);
             BO.Product bproduct = new BO.Product()
             {
-                ID = dproduct?.ID??0,
+                ID = dproduct?.ID ?? 0,
                 Name = dproduct?.Name,
-                Price = dproduct?.Price??0,
+                Price = dproduct?.Price ?? 0,
                 Category = (BO.Enums.Category)dproduct?.Category!,
-                InStock = dproduct?.InStock??0
+                InStock = dproduct?.InStock ?? 0
             };
             return bproduct;
         }
@@ -118,18 +118,18 @@ internal class Product : IProduct
             throw new BO.FailedGettingObjectException(new BO.IlegalDataException("Ilegal ID"));
         try
         {
-            DO.Product? dproduct = Dal.Product.GetByID(pID);
+            DO.Product? dproduct = Dal.Product.GetIf(item => item?.ID == pID);
             bool inStock = false;
             if (dproduct?.InStock == 0)
                 inStock = true;
             BO.ProductItem bproduct = new BO.ProductItem()
             {
-                ID = dproduct?.ID??0,
+                ID = dproduct?.ID ?? 0,
                 Name = dproduct?.Name,
-                Price = dproduct?.Price??0,
+                Price = dproduct?.Price ?? 0,
                 Category = (BO.Enums.Category)dproduct?.Category!,
                 InStock = inStock,
-                Amount = crt.Items!.Find(item => item?.ProductID == pID)?.Amount??0
+                Amount = crt.Items!.Find(item => item?.ProductID == pID)?.Amount ?? 0
             };
             return bproduct;
         }

@@ -73,6 +73,7 @@ internal static class DataSource
     /// <param name="oi">void</param>
     private static void addOrderItem(OrderItem oi) { orderItemList.Add(oi); }
 
+
     /// <summary>
     /// initailize data lists with random elements
     /// </summary>
@@ -81,10 +82,9 @@ internal static class DataSource
         Product p = new Product();
         for (int i = 0; i < 10; i++) // initalize product list
         {
-            //DalProduct dp = new DalProduct();
             int id = rnd.Next(100000, 999999); // random id number of 6 digits
-            //while (!dp.isIDUniqe(id)) // generates new id until id is uniqe
-            //    id = rnd.Next(10000, 99999);
+            while (!DalProduct.isIDUniqe(id)) // generates new id until id is uniqe
+                id = rnd.Next(10000, 99999);
             p.ID = id;
             int cat = rnd.Next(0, 5); // random category
             // choose a name from a random category

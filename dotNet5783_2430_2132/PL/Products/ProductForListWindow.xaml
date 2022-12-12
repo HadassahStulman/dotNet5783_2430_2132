@@ -19,7 +19,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions >
-            <ComboBox x:Name="CategorySelector" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="CategorySelector_SelectionChanged">
+            <ComboBox x:Name="CategorySelector" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="CategorySelector_SelectionChanged" Grid.Row="0">
                 <ComboBox.Background>
                     <LinearGradientBrush EndPoint="0,1" Opacity="0.7">
                         <GradientStop Color="#FFF0F0F0"/>
@@ -31,14 +31,13 @@
                     </LinearGradientBrush>
                 </ComboBox.Background>
             </ComboBox>
-            <Label Content="Category" Grid.Column="0" FontWeight="Bold">
+            <Label Content="Category" Grid.Column="0" FontWeight="Bold" Grid.Row="0">
                 <Label.Background>
                     <SolidColorBrush Opacity="0.7"/>
                 </Label.Background>
             </Label>
         </Grid>
-
-        <ListView x:Name="ProductListView" Grid.Row="1" MouseDoubleClick="productDoubleClick" SelectionChanged="ProductListView_SelectionChanged" Grid.ColumnSpan="7">
+        <ListView x:Name="ProductListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDoubleClick="productDoubleClick">
             <ListView.Background>
                 <SolidColorBrush Color="#FFE8E6E6" Opacity="0.6"/>
             </ListView.Background>
@@ -48,7 +47,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="GoToAddProductButton" Content="Add new Product" Grid.Row="1" HorizontalAlignment="Left" Click="GoToAddProductButton_Click" Width="200" FontSize="16" FontWeight="Bold" Margin="600,543,0,0" >
+        <Button x:Name="GoToAddProductButton" Content="Add new Product" Grid.Row="2" HorizontalAlignment="Right" Click="GoToAddProductButton_Click" Width="200" FontSize="16" FontWeight="Bold" Height="40" >
             <Button.Background>
                 <SolidColorBrush Color="#FF7FDEB9" Opacity="0.8"/>
             </Button.Background>

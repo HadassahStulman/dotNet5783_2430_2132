@@ -1,9 +1,7 @@
 ﻿
 using BlApi;
-using BO;
 using System;
 using System.Windows;
-using System.Windows.Controls;
 
 
 namespace PL.Products;
@@ -16,7 +14,7 @@ public partial class ProductWindow : Window
     /// <summary>
     /// private feiled for accessing to bl methods
     /// </summary>
-    private IBl bl = new BlImplementation.Bl();
+    private readonly IBl bl = new BlImplementation.Bl();
 
     /// <summary>
     /// constructor fo product window
@@ -95,7 +93,6 @@ public partial class ProductWindow : Window
         {
             if (!int.TryParse(IDTextBox.Text, out int id)) // convet id fron string to int
                 id = 0;
-            id = 0;
             if (!double.TryParse(PriceTextBox.Text, out double price)) // convert string to double
                 price = 0;
             if (!int.TryParse(InStockTextBox.Text, out int amount)) // convert string to int

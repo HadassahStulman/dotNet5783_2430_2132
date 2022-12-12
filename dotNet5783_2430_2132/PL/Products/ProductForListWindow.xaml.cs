@@ -43,8 +43,6 @@ public partial class ProductForListWindow : Window
     {
         string choice = CategorySelector.SelectedItem.ToString() ?? throw new NullReferenceException();
         ProductListView.ItemsSource = bl.Product.GetAll(product => choice == Category.All.ToString() ? true : product?.Category.ToString() == choice); 
-        //List<Category>lst = ((IEnumerable<Category>)Enum.GetValues(typeof(Category))).Where(item => item.ToString() != choice).ToList();
-        //CategorySelector.ItemsSource = lst;
     }
 
     /// <summary>
@@ -52,7 +50,12 @@ public partial class ProductForListWindow : Window
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void GoToAddProductButton_Click(object sender, RoutedEventArgs e) => new ProductWindow("Add", 0).ShowDialog();
+    private void GoToAddProductButton_Click(object sender, RoutedEventArgs e)
+    {
+        new ProductWindow("Add", 0).ShowDialog();
+        ProductListView.ItemsSource = bl.Product.GetAll();
+        CategorySelector.Text = Category.All.ToString();
+    }
 
     /// <summary>
     /// the DoubleClick (on a specific product) event moves to the ProductWindo display where he can change the details of the product to update
@@ -74,8 +77,4 @@ public partial class ProductForListWindow : Window
         }
     }
 
-    private void ProductListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-
-    }
 }

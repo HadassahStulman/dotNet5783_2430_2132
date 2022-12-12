@@ -17,6 +17,12 @@ public class OrderTracking
     /// list of all tracking stages including description and date
     /// </summary>
     public List<Tuple<DateTime?, string?>>? TrackingStages { get; set; }
+
+    /// <summary>
+    /// convert object to string
+    /// </summary>
+    /// <returns></returns>
+    /// <exception cref="NullReferenceException"></exception>
     public override string ToString() => $@"ID: {ID}
 Status: {Status}
 Tracking stages: 

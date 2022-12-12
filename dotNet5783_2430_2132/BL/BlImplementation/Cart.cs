@@ -25,11 +25,11 @@ internal class Cart : ICart
         try
         {
 
-            DO.Product? p = Dal.Product.GetByID(pID); // finding product (that we're adding to cart) in products catalog 
+            DO.Product? p = Dal.Product.GetIf(item => (item?.ID) == pID); // finding product (that we're adding to cart) in products catalog 
 
             crt.Items ??= new List<BO.OrderItem?>();
 
-            BO.OrderItem? orderItem = crt.Items.FirstOrDefault(item => item?.ID == pID);
+            BO.OrderItem? orderItem = crt.Items.FirstOrDefault(item => (item?.ID ?? 0) == pID);
             if (orderItem != null)
             {
                 if (p?.InStock <= orderItem.Amount) // if there is not enough of the product (that we want to add) in stock then throw
@@ -40,7 +40,7 @@ internal class Cart : ICart
             }
 
             else
-            { 
+            {
                 if (p?.InStock <= 0) // if product to add is out of stock then throw
                     throw new OutOfStockException(); // failed adding product to cart because: product to add is out of stock
                 crt.Items.Add(new BO.OrderItem
@@ -73,7 +73,7 @@ internal class Cart : ICart
     {
         try
         {
-            DO.Product? p = Dal.Product.GetByID(pID); // finding product (that we're adding to cart) in products catalog
+            DO.Product? p = Dal.Product.GetIf(item => (item?.ID ?? 0) == pID); // finding product (that we're adding to cart) in products catalog
             if (amount < 0 || amount > p?.InStock) // if amount is negative or if there is not enough of product in stock  then throw message
                 throw new IlegalDataException("Ilegal amount"); // failed updating product in cart beacuse of ilega data 
 
@@ -121,12 +121,12 @@ internal class Cart : ICart
                 throw new DalApi.NotExistingException();
 
             DO.Product? dproduct;
-            foreach (BO.OrderItem? item in crt.Items!)
+            foreach (BO.OrderItem? orderItem in crt.Items!)
             {
-                dproduct = Dal.Product.GetByID(item?.ProductID ?? 0); // finding product (that we're adding to cart) in products catalog
-                if (item?.Amount <= 0)  // if the amount of product is negative then throw message
+                dproduct = Dal.Product.GetIf(item => (item?.ID ?? 0) == (orderItem?.ProductID ?? 1)); // finding product (that we're adding to cart) in products catalog
+                if (orderItem?.Amount <= 0)  // if the amount of product is negative then throw message
                     throw new IlegalDataException("Ilegal amount of products");
-                if (dproduct?.InStock < item?.Amount) // if the amount of a specific order item in shopping cart is bigger then the amount of that specific product in stock then throw message
+                if (dproduct?.InStock < orderItem?.Amount) // if the amount of a specific order item in shopping cart is bigger then the amount of that specific product in stock then throw message
                     throw new OutOfStockException();
             }
 
@@ -143,25 +143,24 @@ internal class Cart : ICart
                 DeliveryDate = null,
             }); // adding current order to order list in data surce.
 
-            foreach (BO.OrderItem? item in crt.Items) // creating order item objects According to product's in shopping cart and adding them to  order item list in data surce
+            foreach (BO.OrderItem? orderItem in crt.Items) // creating order item objects According to product's in shopping cart and adding them to  order item list in data surce
             {
                 Dal.OrderItem.Add(new DO.OrderItem
                 {
-                    ProductId = item?.ProductID ?? 0,
+                    ProductId = orderItem?.ProductID ?? 0,
                     OrderId = oID,
-                    Price = item?.Price ?? 0,
-                    Amount = item?.Amount ?? 0,
+                    Price = orderItem?.Price ?? 0,
+                    Amount = orderItem?.Amount ?? 0,
                 }); // adding current order item to order item list in data surce.
-                dproduct = Dal.Product.GetByID(item?.ProductID ?? 0);
-
+                dproduct = Dal.Product.GetIf(item => (item?.ID ?? 0) == (orderItem?.ProductID ?? 1));
 
                 Dal.Product.Update(new DO.Product()
                 {
-                    ID = item?.ProductID ?? 0,
+                    ID = orderItem?.ProductID ?? 0,
                     Name = dproduct?.Name,
                     Category = dproduct?.Category,
                     Price = dproduct?.Price ?? 0,
-                    InStock = dproduct?.InStock ?? 0 - item?.Amount ?? 0,// updating stock in data surce after the order has been confirmed 
+                    InStock = dproduct?.InStock ?? 0 - orderItem?.Amount ?? 0,// updating stock in data surce after the order has been confirmed 
                 });
             }
             return oID;

@@ -12,6 +12,6 @@ namespace DalApi
     /// </summary>
     public interface IProduct:ICrud<Product> 
     {
-        public bool isIDUniqe(int id);
+
     }
 }

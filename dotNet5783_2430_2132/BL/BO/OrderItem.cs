@@ -32,6 +32,11 @@ public class OrderItem
     /// total price of item (price of all copies in total)
     /// </summary>
     public double TotalPrice { get; set; }
+
+    /// <summary>
+    /// convert object to string
+    /// </summary>
+    /// <returns>string</returns>
     public override string ToString() => this.ToStringProperty();
 
 }

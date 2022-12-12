@@ -162,8 +162,13 @@ public class Program
         Console.WriteLine("enter the book's uniqe ID number");
         if(!int.TryParse(Console.ReadLine(), out int id)) // convert id from string to int
             throw new BO.IlegalDataException("Ilegal ID");
+        BO.Enums.Category? cat;
         Console.WriteLine("enter the book's category");
-        string? cat = Console.ReadLine();
+        try
+        {
+            cat = (BO.Enums.Category)Enum.Parse(typeof(BO.Enums.Category), Console.ReadLine()!);
+        }
+        catch(Exception) { throw new IlegalDataException("Ilegal Category"); }
         Console.WriteLine("enter the book's name");
         string? name = Console.ReadLine();
         Console.WriteLine("enter the book's price");
@@ -175,7 +180,7 @@ public class Program
         BO.Product p = new()
         {
             ID = id,
-            Category = (BO.Enums.Category)Enum.Parse(typeof(BO.Enums.Category), cat!),
+            Category = cat,
             Name = name,
             Price = price,
             InStock = amount
@@ -215,8 +220,13 @@ public class Program
         Console.WriteLine("enter Id number of book you want to update");
         if (!int.TryParse(Console.ReadLine(), out int id))  // convert input to int
             throw new BO.IlegalDataException("Ilegal ID");
+        BO.Enums.Category? cat;
         Console.WriteLine("enter the book's category");
-        string? cat = Console.ReadLine();
+        try
+        {
+            cat = (BO.Enums.Category?)Enum.Parse(typeof(BO.Enums.Category?), Console.ReadLine()!);
+        }
+        catch (Exception) { throw new IlegalDataException("Ilegal Category"); }
         Console.WriteLine("enter the book's name");
         string? name = Console.ReadLine();
         Console.WriteLine("enter the book's price");
@@ -230,7 +240,7 @@ public class Program
             ID = id,
             Name = name,
             Price = price,
-            Category = (BO.Enums.Category)Enum.Parse(typeof(BO.Enums.Category), cat!), // convert string to enum
+            Category = cat,
             InStock = amount
         };
         Bl.Product.UpdateProduct(p); // updates p in data list;

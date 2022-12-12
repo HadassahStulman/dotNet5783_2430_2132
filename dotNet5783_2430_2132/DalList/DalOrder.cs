@@ -3,8 +3,6 @@
 using DO;
 using static Dal.DataSource;
 using static Dal.DataSource.Config;
-using System.Collections.Generic;
-using System.Collections;
 using DalApi;
 namespace Dal;
 
@@ -48,17 +46,6 @@ internal class DalOrder : IOrder
     /// <param name="o"></param>
     public void Update(Order o)
     {
-        //bool flag = false;
-        //for (int i = 0; i < orderList.Count(); i++)
-        //{
-        //    if (orderList[i]?.ID == o.ID)
-        //    {
-        //        orderList[i] = o;
-        //        flag = true;
-        //        break;
-        //    }
-        //}
-        //if (!flag)
         var orderToUpdate = orderList.FirstOrDefault(order => (order?.ID ?? 0) == o.ID);
         if (orderToUpdate != null)
         {
@@ -67,46 +54,17 @@ internal class DalOrder : IOrder
         }
         else throw new NotExistingException();
     }
-    /// <summary>
-    /// recieves Uniqe ID for identifing the order and returns Order object
-    /// </summary>
-    /// <param name="o"></param>
-    /// <returns>Order</returns>
-    public Order? GetByID(int oId)
-    {
-        bool flag = false;
-        int i = 0;
-        for (; i < orderList.Count(); i++)
-            if (orderList[i]?.ID == oId)
-            {
-                flag = true;
-                break;
-            }
-        if (!flag)
-            throw new NotExistingException();
-        return orderList[i];
-    }
 
     /// <summary>
     /// return list of all Orders
     /// </summary>
     /// <returns>IEnumerable<Order></Order></returns>
-    public IEnumerable<Order?> GetList(Func<Order?, bool>? condition)
-    {
-        //List<Order?> orders = new List<Order?>();
-        //if (func != null)
-        //    //foreach (Order? order in orderList)
-        //    //{
-        //    //    if (func(order))
-        //    //        orders.Add(order);
-        //    //}
-        //    orders = orderList.Where(func).ToList();
-        //else
-        //    //orders.AddRange(orderList);
-        //    orders= orderList.ToList();
-        //return orders;
-        return orderList.Where(order => condition is null ? true : condition(order));
-    }
+    public IEnumerable<Order?> GetList(Func<Order?, bool>? condition)=> orderList.Where(order => condition is null ? true : condition(order));
 
+    /// <summary>
+    /// returns the first Order in orderList that fulfils the condition
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <returns>Order?</returns>
     public Order? GetIf(Func<Order?, bool> condition) => orderList.FirstOrDefault(condition);
 }

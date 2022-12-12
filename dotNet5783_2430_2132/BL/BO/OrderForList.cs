@@ -28,6 +28,10 @@ public class OrderForList
     /// </summary>
     public double TotalPrice { get; set; }
 
+    /// <summary>
+    /// convert object to string
+    /// </summary>
+    /// <returns></returns>
     public override string ToString() => this.ToStringProperty();
 
 }

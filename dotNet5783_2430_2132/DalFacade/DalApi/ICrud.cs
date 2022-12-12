@@ -37,12 +37,6 @@ namespace DalApi
         /// <returns>IEnumerable<typeparamref name="T"/></returns>
         public IEnumerable<T?> GetList(Func<T?, bool>? conditon =null);
 
-        /// <summary>
-        /// base function for getting existing Item by id
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>T</returns>
-        public T? GetByID(int id);
 
         /// <summary>
         /// return all object if func returns true

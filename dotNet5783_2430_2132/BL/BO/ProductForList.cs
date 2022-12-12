@@ -24,5 +24,9 @@ public class ProductForList
     /// </summary>
     public Enums.Category? Category { get; set; }
 
+    /// <summary>
+    /// convert object to string
+    /// </summary>
+    /// <returns></returns>
     public override string ToString() => this.ToStringProperty();
 }

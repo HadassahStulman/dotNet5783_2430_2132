@@ -2,10 +2,7 @@
 using DO;
 using static Dal.DataSource;
 using static Dal.DataSource.Config;
-using System.Collections.Generic;
-using System.Collections;
 using DalApi;
-using System;
 
 namespace Dal;
 
@@ -20,7 +17,7 @@ internal class DalProduct : IProduct
 
     public int Add(Product p)
     {
-        if (ProductList.Contains(p))
+        if (ProductList.FirstOrDefault(item => item?.ID == p.ID) != null)
             throw new AlreadyExistingException();
         ProductList.Add(p);
         return (int)p.ID;
@@ -48,68 +45,34 @@ internal class DalProduct : IProduct
     /// <param name="p"></param>
     public void Update(Product p)
     {
-        //bool flag = false;
-        //for (int i = 0; i < ProductList.Count(); i++)
-        //    if (ProductList[i]?.ID == p.ID)
-        //    {
-        //        ProductList[i] = p;
-        //        flag = true;
-        //        break;
-        //    }
-        //if (!flag)
-        var productToUpdate= ProductList.FirstOrDefault(product => (product?.ID ?? 0) == p.ID);
-        if (productToUpdate!=null)
+        var productToUpdate = ProductList.FirstOrDefault(product => (product?.ID ?? 0) == p.ID);
+        if (productToUpdate != null)
         {
             ProductList.Remove(productToUpdate);
             ProductList.Add(p);
         }
         else throw new NotExistingException();
     }
-    /// <summary>
-    /// recieves Uniqe ID for identifing the product and returns product object
-    /// </summary>
-    /// <param name="p"></param>
-    /// <returns>Product</returns>
-    public Product? GetByID(int id)
-    {
-        bool flag = false;
-        int i = 0;
-        for (; i < ProductList.Count(); i++)
-            if (ProductList[i]?.ID == id)
-            {
-                flag = true;
-                break;
-            }
-        if (!flag)
-            throw new NotExistingException();
-        return ProductList[i];
-    }
 
     /// <summary>
     /// return list of all Product
     /// </summary>
     /// <returns>IEnumerable<Product></Product></returns>
-    public IEnumerable<Product?> GetList(Func<Product?, bool>? condition)
-    {
-        //List<Product?> products = new List<Product?>();
-        //if (condition != null)
-        //    foreach (Product? product in ProductList)
-        //    {
-        //        if (condition(product))
-        //            products.Add(product);
-        //    }
-        //else
-        //    products.AddRange(ProductList);
-        //return products;
-        return ProductList.Where(product => condition is null ? true : condition(product));
-    }
+    public IEnumerable<Product?> GetList(Func<Product?, bool>? condition) => ProductList.Where(product => condition is null ? true : condition(product));
 
     /// <summary>
-    /// check if the id already exist in other items
+    /// returns the first Product in orderList that fulfils the condition
+    /// </summary>
+    /// <param name="condition"></param>
+    /// <returns></returns>
+    public Product? GetIf(Func<Product?, bool> condition) => ProductList.FirstOrDefault(condition);
+
+    /// <summary>
+    /// check if the id already exist in other products
     /// </summary>
     /// <param name="id"></param>
     /// <returns>bool</returns>
-    public bool isIDUniqe(int id)
+    public static bool isIDUniqe(int id)
     {
         foreach (Product? item in ProductList)
         {
@@ -118,6 +81,4 @@ internal class DalProduct : IProduct
         }
         return true;
     }
-
-    public Product? GetIf(Func<Product?, bool> condition) => ProductList.FirstOrDefault(condition);
 }

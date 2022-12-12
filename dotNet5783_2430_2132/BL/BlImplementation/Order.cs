@@ -29,11 +29,6 @@ internal class Order : IOrder
                 double oTotalPrice = 0;
                 int oAmount = 0;
                 IEnumerable<DO.OrderItem?> oiLst = Dal.OrderItem.GetList(item => item?.OrderId == order?.ID);
-                //foreach (DO.OrderItem? oiItem in oiLst) // calculating the amont of products and the total price of current order
-                //{
-                //    oAmount += oiItem.Value.Amount;
-                //    oTotalPrice += oiItem.Value.Price * oiItem.Value.Amount;
-                //}
                 oAmount = oiLst.Sum(oi => oi?.Amount ?? 0);
                 oTotalPrice = oiLst.Sum(oi => oi?.Price ?? 0 * oi?.Amount ?? 0);
                 ofl.Add(new BO.OrderForList
@@ -57,7 +52,7 @@ internal class Order : IOrder
         {
             if (oID < 100000) // if order ID is ilegal then throw iligal data exception
                 throw new BO.IlegalDataException("Ilegal order ID");
-            DO.Order? order = Dal.Order.GetByID(oID);
+            DO.Order? order = Dal.Order.GetIf(item => (item?.ID ?? 0) == oID);
             List<BO.OrderItem> BOoiLst = new List<BO.OrderItem>(); // creating new list for order items from BO
             int oAmount = 0; // counter for calculating the amont of products in order
             double oTotalPrice = 0;// counter for calculating the total price of order
@@ -67,7 +62,7 @@ internal class Order : IOrder
                 oAmount += (int)oiItem?.Amount!;
                 oTotalPrice += (int)oiItem?.Price! * (int)oiItem?.Amount!;
 
-                DO.Product? p = Dal.Product.GetByID(oiItem?.ProductId ?? 0); // getting prodct by ID from data surce, in order to have the name of order item
+                DO.Product? p = Dal.Product.GetIf(item => item?.ID == oiItem?.ProductId); // getting prodct by ID from data surce, in order to have the name of order item
                 BOoiLst.Add(new BO.OrderItem
                 {
                     ID = oiItem?.ID ?? 0,
@@ -77,7 +72,6 @@ internal class Order : IOrder
                     Amount = oiItem?.Amount ?? 0,
                     TotalPrice = (oiItem?.Price ?? 0) * (oiItem?.Amount ?? 0)
                 }); // adding order item to list of order Items in BO
-
             }
             return new BO.Order
             {
@@ -104,7 +98,7 @@ internal class Order : IOrder
         {
             if (oID < 10000) // if order ID is a negative number then throw iligal data exception
                 throw new BO.IlegalDataException("Ilegal order ID");
-            DO.Order? dOrder = Dal.Order.GetByID(oID);
+            DO.Order? dOrder = Dal.Order.GetIf(item => item?.ID == oID);
             if (dOrder?.ShipDate != null) // checking if the order was already shipped. if so then throw status exception
                 throw new BO.ConflictingStatusException("The order has already been shipped");
             Dal.Order.Update(new DO.Order()
@@ -129,7 +123,7 @@ internal class Order : IOrder
             if (oID < 10000) // if order ID is a negative number then throw iligal data exception
                 throw new BO.IlegalDataException("Ilegal Order Id");
 
-            DO.Order? dOrder = Dal.Order.GetByID(oID);
+            DO.Order? dOrder = Dal.Order.GetIf(item => item?.ID == oID);
             if (dOrder == null)
                 throw new BO.FailedUpdatingObjectException(new DalApi.NotExistingException());
 
@@ -161,7 +155,7 @@ internal class Order : IOrder
         {
             if (oID < 100000) // if order ID is ilegal number then throw iligal data exception
                 throw new BO.FailedUpdatingObjectException(new BO.IlegalDataException("Ilegal Order ID "));
-            DO.Order? dOrder = Dal.Order.GetByID(oID);
+            DO.Order? dOrder = Dal.Order.GetIf(item => item?.ID == oID);
             if (dOrder == null)
                 throw new BO.FailedToTrackOrderException(new DalApi.NotExistingException());
             List<Tuple<DateTime?, string?>> trackingLst = new List<Tuple<DateTime?, string?>>(); // description list of the order status 
@@ -197,15 +191,14 @@ internal class Order : IOrder
                 throw new DalApi.NotExistingException();
 
             Console.WriteLine("Enter ID of product that you want to update:");
-            int pID;
-            if (!int.TryParse(Console.ReadLine(), out pID)) // converts the input to integer
+            if (!int.TryParse(Console.ReadLine(), out int pID)) // converts the input to integer
                 throw new BO.FailedUpdatingObjectException(new BO.IlegalDataException("Ilegal ID"));
 
 
             BO.OrderItem? orderItemToUpdate = orderToUpdate?.Items?.FindAll(oi => oi.ProductID == pID).FirstOrDefault();
             if (orderItemToUpdate != null)
             {
-                DO.Product? p = Dal.Product.GetByID(pID);
+                DO.Product? p = Dal.Product.GetIf(item => (item?.ID ?? 0) == pID);
                 int pAmount = p?.InStock ?? 0 + orderItemToUpdate.Amount; // max amount in stock
                 Console.WriteLine($"Enter products updated amount, up to-{pAmount}");
                 int UpdatedAmount;
@@ -245,47 +238,6 @@ internal class Order : IOrder
                 });
             }
             return orderToUpdate;
-
-            //bool flag = false;
-            //foreach (BO.OrderItem? oi in o.Items!)
-            //{
-            //    if (oi?.ProductID == pID)
-            //    {
-            //        flag = true;
-            //        DO.Product? p = Dal.Product.GetByID(pID);
-            //        int pAmount = p?.InStock ?? 0 + oi.Amount; // max amount in stock
-            //        Console.WriteLine($"Enter products updated amount, up to-{pAmount}");
-            //        int UpdatedAmount;
-            //        if (!int.TryParse(Console.ReadLine(), out UpdatedAmount) || UpdatedAmount < 0 || UpdatedAmount > pAmount) // if input is ilegal
-            //            throw new IlegalDataException("Invalid amount");
-            //        if (UpdatedAmount == 0) // if amount to update is zero 
-            //        {
-            //            o.Items?.Remove(oi); // remove item from order
-            //            Dal.OrderItem.Delete(oi.ID); // deleting item from order list (in data surce) 
-            //        }
-            //        else Dal.OrderItem.Update(new DO.OrderItem
-            //        {
-            //            ID = oi.ID,
-            //            ProductId = oi.ProductID,
-            //            OrderId = oID,
-            //            Price = oi.Price,
-            //            Amount = UpdatedAmount
-            //        }); // updating list of Order item (in data surce)
-
-            //        Dal.Product.Update(new DO.Product()  // updating product amount in product list 
-            //        {
-            //            ID = p.Value.ID,
-            //            Name = p?.Name,
-            //            Category = p?.Category,
-            //            Price = p?.Price ?? 0,
-            //            InStock = p?.InStock ?? 0 + oi.Amount - UpdatedAmount // updating stock of products
-            //        });
-            //        break;
-            //    }
-            //}
-            //if (!flag) // if order item doesn't exist in order then throw- not existing exception
-            //    throw new DalApi.NotExistingException();
-            //return o;
 
         }
         catch (Exception ex) { throw new FailedUpdatingObjectException(ex); } // faild updating order because: order or product don't exist in data surce or ilegal ID  
