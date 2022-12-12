@@ -1,11 +1,8 @@
 ﻿using BlApi;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
+
 
 namespace PL.Products;
  
@@ -25,24 +22,43 @@ public partial class ProductForListWindow : Window
         ReadingBooks, // different genre of books for pleasure (novels, fantacy...)
         All // for getting all categories
     };
+
+    /// <summary>
+    /// ctor of ProductForListWindow and setting the Sources with data from the other layers
+    /// </summary>
     public ProductForListWindow()
     {
         InitializeComponent();
         ProductListView.ItemsSource = bl.Product.GetAll();
         CategorySelector.ItemsSource = Enum.GetValues(typeof(Category));
-
     }
 
+    /// <summary>
+    /// the SelectionChanged event shows on display all the products according to the selection you clicked on
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    /// <exception cref="NullReferenceException"></exception>
     private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         string choice = CategorySelector.SelectedItem.ToString() ?? throw new NullReferenceException();
-        ProductListView.ItemsSource = bl.Product.GetAll(product => choice == Category.All.ToString() ? true : product?.Category.ToString() == choice);
-        List<Category>lst = ((IEnumerable<Category>)Enum.GetValues(typeof(Category))).Where(item => item.ToString() != choice).ToList();
-        CategorySelector.ItemsSource = lst;
+        ProductListView.ItemsSource = bl.Product.GetAll(product => choice == Category.All.ToString() ? true : product?.Category.ToString() == choice); 
+        //List<Category>lst = ((IEnumerable<Category>)Enum.GetValues(typeof(Category))).Where(item => item.ToString() != choice).ToList();
+        //CategorySelector.ItemsSource = lst;
     }
 
+    /// <summary>
+    /// the click event moves to the ProductWindo display where he can enter the details of the new product to add 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void GoToAddProductButton_Click(object sender, RoutedEventArgs e) => new ProductWindow("Add", 0).ShowDialog();
 
+    /// <summary>
+    /// the DoubleClick (on a specific product) event moves to the ProductWindo display where he can change the details of the product to update
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void productDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
     {
         try
