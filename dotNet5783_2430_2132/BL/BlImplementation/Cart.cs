@@ -38,17 +38,6 @@ internal class Cart : ICart
                 orderItem.TotalPrice += orderItem.Price;
                 crt.TotalPrice += orderItem.Price;
             }
-            //foreach (BO.OrderItem? oi in crt.Items!) // running on list of all items in cart
-            //    if (oi?.ID == pID)
-            //    {
-            //        flag = true; // item already exists in cart
-            //        if (p?.InStock <= oi.Amount) // if there is not enough of the product (that we want to add) in stock then throw
-            //            throw new OutOfStockException(); // failed adding product to cart because: product to add is out of stock
-            //        oi.Amount += 1;
-            //        oi.TotalPrice += oi.Price;
-            //        crt.TotalPrice += oi.Price;
-            //        break;
-            //    }
 
             else
             { 
@@ -66,23 +55,6 @@ internal class Cart : ICart
                 crt.TotalPrice += p?.Price ?? 0; // updating the shopping cart total price}
             }
 
-            //if (!flag) // if the product to add does not exists in shopping cart and it is in stock then add the product to shopping cart
-            //{
-            //    if (p?.InStock <= 0) // if product to add is out of stock then throw
-            //        throw new OutOfStockException(); // failed adding product to cart because: product to add is out of stock
-            //    if (crt.Items.Count() == 0) // if List of order Items is empty.
-            //        crt.Items = new List<BO.OrderItem?>();
-            //    crt.Items.Add(new BO.OrderItem
-            //    {
-            //        Name = p?.Name,
-            //        ProductID = pID,
-            //        Price = p?.Price??0,
-            //        Amount = 1,
-            //        TotalPrice = p?.Price??0
-
-            //    }); // adding product to cart
-            //    crt.TotalPrice += p.Value.Price; // updating the shopping cart total price}
-            //}
             return crt;
         }
         catch (Exception ex) { throw new FailedAddingObjectException(ex); } // failed adding product to cart because: product to add does not exist in catalog
@@ -132,6 +104,15 @@ internal class Cart : ICart
     }
 
 
+    /// <summary>
+    /// order all products in cart - create a new order and order items for all products
+    /// </summary>
+    /// <param name="crt"></param>
+    /// <returns></returns>
+    /// <exception cref="DalApi.NotExistingException"></exception>
+    /// <exception cref="IlegalDataException"></exception>
+    /// <exception cref="OutOfStockException"></exception>
+    /// <exception cref="FailedToConfirmOrderException"></exception>
     public int OrderCart(BO.Cart crt)
     {
         try
