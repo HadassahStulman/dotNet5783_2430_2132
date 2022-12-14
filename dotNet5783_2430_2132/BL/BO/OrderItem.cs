@@ -1,5 +1,4 @@
 ﻿
-using DO;
 
 namespace BO;
 
@@ -37,6 +36,6 @@ public class OrderItem
     /// convert object to string
     /// </summary>
     /// <returns>string</returns>
-    public override string ToString() => this.ToStringProperty();
+    public override string ToString() => DO.ExtentionMethods.ToStringProperty(this);
 
 }

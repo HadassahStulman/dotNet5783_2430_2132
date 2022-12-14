@@ -1,5 +1,4 @@
 ﻿
-using DO;
 
 namespace BO;
 /// <summary>
@@ -32,6 +31,6 @@ public class OrderForList
     /// convert object to string
     /// </summary>
     /// <returns></returns>
-    public override string ToString() => this.ToStringProperty();
+    public override string ToString() => DO.ExtentionMethods.ToStringProperty(this);
 
 }

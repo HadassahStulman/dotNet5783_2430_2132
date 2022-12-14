@@ -1,5 +1,6 @@
 ﻿
-using System.ComponentModel;
+
+using DO;
 
 namespace BO;
 /// <summary>
@@ -32,5 +33,5 @@ public class Product
     /// convert object to string
     /// </summary>
     /// <returns></returns>
-    public override string ToString() => $"ID: {ID}\n Name: {Name}\n Price: {Price}\n Category:{Category}\n Amount In Stock:{InStock}\n";
+    public override string ToString() => DO.ExtentionMethods.ToStringProperty(this);
 }

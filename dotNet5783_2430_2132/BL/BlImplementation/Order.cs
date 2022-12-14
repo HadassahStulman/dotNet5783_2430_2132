@@ -1,8 +1,5 @@
 ﻿
 using BlApi;
-using BO;
-using DO;
-using System.Collections.Generic;
 using static BO.Enums;
 
 namespace BlImplementation;
@@ -12,10 +9,10 @@ internal class Order : IOrder
     /// <summary>
     /// private field for allowing accsess from BL to Dal
     /// </summary>
-    private DalApi.IDal Dal = new Dal.DalList();
+    private DalApi.IDal Dal = DalApi.Factory.Get()!;
 
 
-    public IEnumerable<BO.OrderForList> GetList(Func<OrderForList?, bool>? condition)
+    public IEnumerable<BO.OrderForList> GetList(Func<BO.OrderForList?, bool>? condition)
     {
 
         IEnumerable<DO.Order?> oLst = Dal.Order.GetList(); // list of orders from data surce
@@ -185,7 +182,7 @@ internal class Order : IOrder
         {
             BO.Order? orderToUpdate = GetByID(oID);
             if (orderToUpdate?.ShipDate != null) // if order has been shipped then throw exception status exception
-                throw new ConflictingStatusException("Order has already been shipped");
+                throw new BO.ConflictingStatusException("Order has already been shipped");
 
             if (orderToUpdate?.Items?.Count == 0) // if there are no order items in order then throw not existing exception
                 throw new DalApi.NotExistingException();
@@ -203,7 +200,7 @@ internal class Order : IOrder
                 Console.WriteLine($"Enter products updated amount, up to-{pAmount}");
                 int UpdatedAmount;
                 if (!int.TryParse(Console.ReadLine(), out UpdatedAmount) || UpdatedAmount < 0 || UpdatedAmount > pAmount) // if input is ilegal
-                    throw new IlegalDataException("Invalid amount");
+                    throw new BO.IlegalDataException("Invalid amount");
 
                 orderToUpdate?.Items?.Remove(orderItemToUpdate); // remove item from order
                 if (UpdatedAmount == 0) // if amount to update is zero  
@@ -240,7 +237,7 @@ internal class Order : IOrder
             return orderToUpdate;
 
         }
-        catch (Exception ex) { throw new FailedUpdatingObjectException(ex); } // faild updating order because: order or product don't exist in data surce or ilegal ID  
+        catch (Exception ex) { throw new BO.FailedUpdatingObjectException(ex); } // faild updating order because: order or product don't exist in data surce or ilegal ID  
     }
 
     /// <summary>

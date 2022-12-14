@@ -1,5 +1,4 @@
 ﻿
-using DO;
 
 namespace BO;
 /// <summary>
@@ -28,5 +27,5 @@ public class ProductForList
     /// convert object to string
     /// </summary>
     /// <returns></returns>
-    public override string ToString() => this.ToStringProperty();
+    public override string ToString() => DO.ExtentionMethods.ToStringProperty(this);
 }

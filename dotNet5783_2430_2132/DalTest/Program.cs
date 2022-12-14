@@ -1,14 +1,11 @@
 ﻿
 using DO;
 using DalApi;
-using System.Security.Cryptography;
-using System.Data;
-
 namespace Dal
 {
     public class Program
     {
-        private static IDal DalList = new DalList();
+        private static IDal DalList = DalApi.Factory.Get()!;
 
         /// <summary>
         /// Main program

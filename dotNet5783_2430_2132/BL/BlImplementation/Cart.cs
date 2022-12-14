@@ -1,6 +1,5 @@
 ﻿
 using BlApi;
-using BO;
 using System.ComponentModel.DataAnnotations;
 
 namespace BlImplementation;
@@ -10,8 +9,7 @@ internal class Cart : ICart
     /// <summary>
     /// private field for allowing accsess from BL to Dal
     /// </summary>
-    private DalApi.IDal Dal = new Dal.DalList();
-
+    private DalApi.IDal Dal = DalApi.Factory.Get()!;
 
     /// <summary>
     /// The method recieves as input a specific shopping cart and a product ID. The method identifing the product useing the Uniqe ID and adds it to cart, finally the method returns as output the updated shopping Cart.
@@ -33,7 +31,7 @@ internal class Cart : ICart
             if (orderItem != null)
             {
                 if (p?.InStock <= orderItem.Amount) // if there is not enough of the product (that we want to add) in stock then throw
-                    throw new OutOfStockException(); // failed adding product to cart because: product to add is out of stock
+                    throw new BO.OutOfStockException(); // failed adding product to cart because: product to add is out of stock
                 orderItem.Amount += 1;
                 orderItem.TotalPrice += orderItem.Price;
                 crt.TotalPrice += orderItem.Price;
@@ -42,7 +40,7 @@ internal class Cart : ICart
             else
             {
                 if (p?.InStock <= 0) // if product to add is out of stock then throw
-                    throw new OutOfStockException(); // failed adding product to cart because: product to add is out of stock
+                    throw new BO.OutOfStockException(); // failed adding product to cart because: product to add is out of stock
                 crt.Items.Add(new BO.OrderItem
                 {
                     Name = p?.Name,
@@ -57,7 +55,7 @@ internal class Cart : ICart
 
             return crt;
         }
-        catch (Exception ex) { throw new FailedAddingObjectException(ex); } // failed adding product to cart because: product to add does not exist in catalog
+        catch (Exception ex) { throw new BO.FailedAddingObjectException(ex); } // failed adding product to cart because: product to add does not exist in catalog
     }
 
 
@@ -75,7 +73,7 @@ internal class Cart : ICart
         {
             DO.Product? p = Dal.Product.GetIf(item => (item?.ID ?? 0) == pID); // finding product (that we're adding to cart) in products catalog
             if (amount < 0 || amount > p?.InStock) // if amount is negative or if there is not enough of product in stock  then throw message
-                throw new IlegalDataException("Ilegal amount"); // failed updating product in cart beacuse of ilega data 
+                throw new BO.IlegalDataException("Ilegal amount"); // failed updating product in cart beacuse of ilega data 
 
             if (crt.Items?.Count == 0) // if cart is empty then throw not existing ecxeption
                 throw new DalApi.NotExistingException();
@@ -100,7 +98,7 @@ internal class Cart : ICart
             return crt;
 
         }
-        catch (Exception ex) { throw new FailedUpdatingObjectException(ex); } // failed updating product to cart because: product to update does not exist in catalog 
+        catch (Exception ex) { throw new BO.FailedUpdatingObjectException(ex); } // failed updating product to cart because: product to update does not exist in catalog 
     }
 
 
@@ -125,13 +123,13 @@ internal class Cart : ICart
             {
                 dproduct = Dal.Product.GetIf(item => (item?.ID ?? 0) == (orderItem?.ProductID ?? 1)); // finding product (that we're adding to cart) in products catalog
                 if (orderItem?.Amount <= 0)  // if the amount of product is negative then throw message
-                    throw new IlegalDataException("Ilegal amount of products");
+                    throw new BO.IlegalDataException("Ilegal amount of products");
                 if (dproduct?.InStock < orderItem?.Amount) // if the amount of a specific order item in shopping cart is bigger then the amount of that specific product in stock then throw message
-                    throw new OutOfStockException();
+                    throw new BO.OutOfStockException();
             }
 
             if (!new EmailAddressAttribute().IsValid(crt.CustomerEmail))
-                throw new IlegalDataException("Ilegal email");
+                throw new BO.IlegalDataException("Ilegal email");
 
             int oID = Dal.Order.Add(new DO.Order
             {
@@ -165,7 +163,7 @@ internal class Cart : ICart
             }
             return oID;
         }
-        catch (Exception e) { throw new FailedToConfirmOrderException(e); } // failed updating product to cart because: product to update does not exist in catalog
+        catch (Exception e) { throw new BO.FailedToConfirmOrderException(e); } // failed updating product to cart because: product to update does not exist in catalog
 
     }
 

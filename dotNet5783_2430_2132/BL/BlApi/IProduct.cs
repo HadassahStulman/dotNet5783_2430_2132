@@ -1,8 +1,5 @@
 ﻿
 
-
-using System.Runtime.CompilerServices;
-
 namespace BlApi;
 
 /// <summary>

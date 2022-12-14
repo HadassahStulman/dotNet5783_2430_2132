@@ -1,5 +1,4 @@
 ﻿
-using BlApi;
 using System;
 using System.Windows;
 
@@ -14,7 +13,7 @@ public partial class ProductWindow : Window
     /// <summary>
     /// private feiled for accessing to bl methods
     /// </summary>
-    private readonly IBl bl = new BlImplementation.Bl();
+    private readonly BlApi.IBl bl = BlApi.Factory.Get();
 
     /// <summary>
     /// constructor fo product window

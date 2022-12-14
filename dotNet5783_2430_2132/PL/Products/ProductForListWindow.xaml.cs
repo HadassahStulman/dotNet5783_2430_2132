@@ -1,4 +1,4 @@
-﻿using BlApi;
+﻿
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,7 +12,7 @@ namespace PL.Products;
 /// </summary>
 public partial class ProductForListWindow : Window
 {
-    private IBl bl = new BlImplementation.Bl();
+    private BlApi.IBl bl = BlApi.Factory.Get();
     public enum Category
     {
         TextBooks, // school and study books

@@ -8,7 +8,7 @@ internal class Product : IProduct
     /// <summary>
     /// private field for allowing accsess from BL to Dal
     /// </summary>
-    private DalApi.IDal Dal = new Dal.DalList();
+    private DalApi.IDal Dal = DalApi.Factory.Get()!;
 
 
     public void AddProduct(BO.Product Bproduct)

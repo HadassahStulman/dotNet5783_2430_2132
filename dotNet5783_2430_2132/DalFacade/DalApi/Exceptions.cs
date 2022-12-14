@@ -38,4 +38,14 @@ public class AlreadyExistingException : Exception
     /// </summary>
     /// <returns>string</returns>
     public override string ToString() => $" {Message}";
+
 }
+
+
+[Serializable]
+public class DalConfigException : Exception
+{
+    public DalConfigException(string msg) : base(msg) { }
+    public DalConfigException(string msg, Exception ex) : base(msg, ex) { }
+}
+
