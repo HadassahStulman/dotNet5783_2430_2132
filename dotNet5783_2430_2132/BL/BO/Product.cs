@@ -1,7 +1,5 @@
 ﻿
 
-using DO;
-
 namespace BO;
 /// <summary>
 /// class for managing products
