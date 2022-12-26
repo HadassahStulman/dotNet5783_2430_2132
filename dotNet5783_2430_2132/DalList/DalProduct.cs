@@ -29,15 +29,10 @@ internal class DalProduct : IProduct
     /// <exception cref="Exception"></exception>
     public void Delete(int pID)
     {
-        bool flag = false;
-        for (int i = 0; i < ProductList.Count; i++)
-            if (ProductList[i]?.ID == pID)
-            {
-                ProductList.RemoveAt(i);
-                flag = true;
-            }
-        if (!flag)
+        Product? delProduct= ProductList.Find(product => product?.ID == pID);
+        if(delProduct== null)
             throw new NotExistingException();
+        ProductList.Remove(delProduct);   
     }
     /// <summary>
     /// Updating an product in list. If product (to update) does not exist then throw error.
@@ -74,11 +69,9 @@ internal class DalProduct : IProduct
     /// <returns>bool</returns>
     public static bool isIDUniqe(int id)
     {
-        foreach (Product? item in ProductList)
-        {
-            if (item != null && item?.ID == id)
-                return false;
-        }
-        return true;
+        var product = ProductList.FirstOrDefault(product => (product?.ID ?? 0) == id);
+        if (product == null)
+            return true;
+        return false;
     }
 }

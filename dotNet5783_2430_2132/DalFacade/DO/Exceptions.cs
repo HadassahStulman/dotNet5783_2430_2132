@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DalApi;
+﻿
+namespace DO;
 
 /// <summary>
 /// Excepsion class for trying to delete, update or get an object thet doesn't exist
@@ -12,14 +7,14 @@ namespace DalApi;
 [Serializable]
 public class NotExistingException : Exception
 {
-  // uniqe message for the specific exception
-    public override string Message => "This Object Does Not Exist"; 
-    
+    // uniqe message for the specific exception
+    public override string Message => "This Object Does Not Exist";
+
     /// <summary>
     /// convert description of exception to string
     /// </summary>
     /// <returns>string</returns>
-    public override string ToString() =>$" {Message}";
+    public override string ToString() => $" {Message}";
 
 }
 

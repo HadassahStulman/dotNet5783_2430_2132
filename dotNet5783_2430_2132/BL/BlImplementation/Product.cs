@@ -1,5 +1,6 @@
 ﻿
 using BlApi;
+using System.Security.Cryptography;
 
 namespace BlImplementation;
 
@@ -36,6 +37,8 @@ internal class Product : IProduct
                 Category = (DO.Enums.Category)Bproduct.Category,
                 InStock = Bproduct.InStock
             };
+            //DO.Product dp = new DO.Product();
+            //dp = DO.ExtentionMethods.ConvertToBO(Bproduct, dp);
             Dal.Product.Add(Dproduct);
         }
         catch (Exception Ex)
@@ -52,9 +55,8 @@ internal class Product : IProduct
         foreach (DO.Order? order in Orderlst)
         {
             IEnumerable<DO.OrderItem?> lstOi = Dal.OrderItem.GetList(item => item?.OrderId == order?.ID);
-            foreach (DO.OrderItem? Oitem in lstOi)
-                if (Oitem?.ProductId == pID) // the product to delete s ordered by someone
-                    throw new BO.FailedToDeleteObjectException(new BO.ProductIsOrderedException());
+            if (lstOi.Where(Oitem => Oitem?.ProductId == pID).FirstOrDefault() != null)
+                throw new BO.FailedToDeleteObjectException(new BO.ProductIsOrderedException());
         }
         try
         {
@@ -71,20 +73,31 @@ internal class Product : IProduct
     {
 
         IEnumerable<DO.Product?> Plst = Dal.Product.GetList();
-        List<BO.ProductForList> lst = new List<BO.ProductForList>();
-        foreach (DO.Product? p in Plst) // for each product in dal create product for list
-        {
-            if (p != null)
+        var lst =
+            from product in Dal.Product.GetList()
+            where product != null
+            select new BO.ProductForList()
             {
-                lst.Add(new BO.ProductForList()
-                {
-                    ID = p?.ID ?? 0,
-                    Name = p?.Name,
-                    Price = p?.Price ?? 0,
-                    Category = (BO.Enums.Category)p?.Category!
-                });
-            }
-        }
+                ID = product?.ID ?? 0,
+                Name = product?.Name,
+                Price = product?.Price ?? 0,
+                Category = (BO.Enums.Category)product?.Category!
+            };
+    
+        //List<BO.ProductForList> lst = new List<BO.ProductForList>();
+        //foreach (DO.Product? p in Plst) // for each product in dal create product for list
+        //{
+        //    if (p != null)
+        //    {
+        //        lst.Add(new BO.ProductForList()
+        //        {
+        //            ID = p?.ID ?? 0,
+        //            Name = p?.Name,
+        //            Price = p?.Price ?? 0,
+        //            Category = (BO.Enums.Category)p?.Category!
+        //        });
+        //    }
+        //}
         return lst.AsEnumerable().Where(item => condition is null ? true : condition(item));
     }
 

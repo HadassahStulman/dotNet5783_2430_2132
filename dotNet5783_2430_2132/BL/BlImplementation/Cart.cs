@@ -76,26 +76,37 @@ internal class Cart : ICart
                 throw new BO.IlegalDataException("Ilegal amount"); // failed updating product in cart beacuse of ilega data 
 
             if (crt.Items?.Count == 0) // if cart is empty then throw not existing ecxeption
-                throw new DalApi.NotExistingException();
+                throw new DO.NotExistingException();
 
-            bool flag = false;
-            foreach (BO.OrderItem? oi in crt.Items!) // running on list of all items in cart
-                if (oi?.ProductID == pID) // if product was found then update data
-                {
-                    flag = true;
-                    crt.TotalPrice += (amount - oi.Amount) * oi.Price;
-                    if (amount != 0)
-                    {
-                        oi.TotalPrice += (amount - oi.Amount) * oi.Price;
-                        oi.Amount = amount;
-                    }
-                    else // if amount is zero then delete item from cart
-                        crt.Items.Remove(oi);
-                    break;
-                }
-            if (!flag) // if order item was not found in shopping cart then throw not existing exception
-                throw new DalApi.NotExistingException();
-            return crt;
+            var item = crt?.Items!.Find(item => item?.ProductID == pID);
+            if (item == null)
+                throw new DO.NotExistingException();
+            crt!.TotalPrice += (amount - item.Amount) * item.Price;
+            if (amount != 0)
+            {
+                item.TotalPrice += (amount - item.Amount) * item.Price;
+                item.Amount = amount;
+            }
+            else // if amount is zero then delete item from cart
+                crt?.Items!.Remove(item);
+
+            //foreach (BO.OrderItem? oi in crt.Items!) // running on list of all items in cart
+            //    if (oi?.ProductID == pID) // if product was found then update data
+            //    {
+            //        flag = true;
+            //        crt.TotalPrice += (amount - oi.Amount) * oi.Price;
+            //        if (amount != 0)
+            //        {
+            //            oi.TotalPrice += (amount - oi.Amount) * oi.Price;
+            //            oi.Amount = amount;
+            //        }
+            //        else // if amount is zero then delete item from cart
+            //            crt.Items.Remove(oi);
+            //        break;
+            //    }
+            //if (!flag) // if order item was not found in shopping cart then throw not existing exception
+            //    throw new DalApi.NotExistingException();
+            return crt!;
 
         }
         catch (Exception ex) { throw new BO.FailedUpdatingObjectException(ex); } // failed updating product to cart because: product to update does not exist in catalog 
@@ -107,7 +118,7 @@ internal class Cart : ICart
     /// </summary>
     /// <param name="crt"></param>
     /// <returns></returns>
-    /// <exception cref="DalApi.NotExistingException"></exception>
+    /// <exception cref="DO.NotExistingException"></exception>
     /// <exception cref="IlegalDataException"></exception>
     /// <exception cref="OutOfStockException"></exception>
     /// <exception cref="FailedToConfirmOrderException"></exception>
@@ -116,7 +127,7 @@ internal class Cart : ICart
         try
         {
             if (crt.Items?.Count == 0) // if cart is empty then throw not existing ecxeption
-                throw new DalApi.NotExistingException();
+                throw new DO.NotExistingException();
 
             DO.Product? dproduct;
             foreach (BO.OrderItem? orderItem in crt.Items!)

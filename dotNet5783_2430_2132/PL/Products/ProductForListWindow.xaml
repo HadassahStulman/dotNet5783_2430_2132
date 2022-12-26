@@ -37,7 +37,7 @@
                 </Label.Background>
             </Label>
         </Grid>
-        <ListView x:Name="ProductListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDoubleClick="productDoubleClick">
+        <ListView x:Name="ProductListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDoubleClick="productDoubleClick" ItemsSource="{Binding}">
             <ListView.Background>
                 <SolidColorBrush Color="#FFE8E6E6" Opacity="0.6"/>
             </ListView.Background>

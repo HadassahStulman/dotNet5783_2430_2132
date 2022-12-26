@@ -1,5 +1,7 @@
 ﻿
 
+using System.ComponentModel;
+
 namespace BO;
 /// <summary>
 /// class for managing products
@@ -26,6 +28,7 @@ public class Product
     /// amount of products in stock
     /// </summary>
     public int InStock { get; set; }
+
 
     /// <summary>
     /// convert object to string

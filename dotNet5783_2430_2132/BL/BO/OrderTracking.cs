@@ -26,5 +26,6 @@ public class OrderTracking
     public override string ToString() => $@"ID: {ID}
 Status: {Status}
 Tracking stages: 
-{string.Join("\n", TrackingStages ?? throw new NullReferenceException() )}\n";
+{string.Join("\n", TrackingStages ?? throw new NullReferenceException() )}
+";
 }

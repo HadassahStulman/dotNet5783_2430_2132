@@ -16,7 +16,7 @@ public class Program
     /// <summary>
     /// in order to allow acsses ta all bl methods
     /// </summary>
-    private static BlApi.IBl Bl = new BlImplementation.Bl();
+    private static BlApi.IBl Bl = Factory.Get();
     static void Main()
     {
         try

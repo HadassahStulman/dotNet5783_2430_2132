@@ -14,7 +14,7 @@ public partial class ProductWindow : Window
     /// private feiled for accessing to bl methods
     /// </summary>
     private readonly BlApi.IBl bl = BlApi.Factory.Get();
-
+    BO.Product? myProduct=null;
     /// <summary>
     /// constructor fo product window
     /// </summary>
@@ -23,24 +23,24 @@ public partial class ProductWindow : Window
     public ProductWindow(string source, int id)
     {
         InitializeComponent();
+        this.DataContext = myProduct;
         CategoryCombobox.ItemsSource = Enum.GetValues(typeof(BO.Enums.Category)); // initialize categry combobox
         if (source == "Add") // if window was opened for adding
         {
             AddProductButton.IsEnabled = true;
             AddProductButton.Visibility = Visibility.Visible; // show add button
+            IDTextBox.IsReadOnly = false;
         }
-        else  // if window was opeaned for updating
+        else  // if window was opeaned for viewing
         {
-            IDTextBox.IsReadOnly = true;
-            BO.Product? product = bl.Product.GetByID(id); // get product to update fro data 
-            // initialize all textboxes according to product to update values
-            IDTextBox.Text = product?.ID.ToString();
-            NameTextBox.Text = product?.Name!.ToString();
-            PriceTextBox.Text = product?.Price.ToString();
-            InStockTextBox.Text = product?.InStock.ToString();
-            CategoryCombobox.Text = product?.Category.ToString();
-            UpdateProductButton.IsEnabled = true;
-            UpdateProductButton.Visibility = Visibility.Visible; // show update button
+            myProduct = bl.Product.GetByID(id);
+            UpdateOptionButton.Visibility = Visibility.Visible;
+            UpdateOptionButton.IsEnabled = true;
+
+            NameTextBox.IsReadOnly = true;
+            PriceTextBox.IsReadOnly = true;
+            InStockTextBox.IsReadOnly = true;
+            CategoryCombobox.IsEnabled = false;
         }
     }
 
@@ -54,23 +54,16 @@ public partial class ProductWindow : Window
     {
         try
         {
-            if (!int.TryParse(IDTextBox.Text, out int id)) // convet id fron string to int
-                id = 0;
-            if (!double.TryParse(PriceTextBox.Text, out double price)) // convert string to double
-                price = 0;
-            if (!int.TryParse(InStockTextBox.Text, out int amount)) // convert string to int
-                amount = -1;
-            string? cat = CategoryCombobox.Text;
-            if (string.IsNullOrEmpty(cat)) // if no category was chosen
-                throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal Category"));
-                bl.Product.AddProduct(new BO.Product() 
-                {
-                    ID = id,
-                    Category = (BO.Enums.Category)Enum.Parse(typeof(BO.Enums.Category), cat!),
-                    Price = price,
-                    Name = NameTextBox.Text,
-                    InStock = amount
-                }); // add new product to data
+            //if (!int.TryParse(IDTextBox.Text, out int id)) // convet id fron string to int
+            //    id = 0;
+            //if (!double.TryParse(PriceTextBox.Text, out double price)) // convert string to double
+            //    price = 0;
+            //if (!int.TryParse(InStockTextBox.Text, out int amount)) // convert string to int
+            //    amount = -1;
+            //string? cat = CategoryCombobox.Text;
+            //if (string.IsNullOrEmpty(cat)) // if no category was chosen
+            //    throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal Category"));
+            bl.Product.AddProduct(myProduct!);
             MessageBox.Show("Successfully added");
             Close();
         }
@@ -90,8 +83,6 @@ public partial class ProductWindow : Window
     {
         try
         {
-            if (!int.TryParse(IDTextBox.Text, out int id)) // convet id fron string to int
-                id = 0;
             if (!double.TryParse(PriceTextBox.Text, out double price)) // convert string to double
                 price = 0;
             if (!int.TryParse(InStockTextBox.Text, out int amount)) // convert string to int
@@ -99,14 +90,7 @@ public partial class ProductWindow : Window
             string? cat = CategoryCombobox.Text;
             if (string.IsNullOrEmpty(cat))
                 throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal Category"));
-            bl.Product.UpdateProduct(new BO.Product()
-            {
-                ID = id,
-                Category = (BO.Enums.Category)Enum.Parse(typeof(BO.Enums.Category), CategoryCombobox.Text),
-                Price = price,
-                Name = NameTextBox.Text,
-                InStock = amount
-            }); ;
+            bl.Product.UpdateProduct(myProduct!);
             MessageBox.Show("Successfully updated");
             Close();
         }
@@ -116,4 +100,16 @@ public partial class ProductWindow : Window
         }
     }
 
+    private void UpdateOptionButton_Click(object sender, RoutedEventArgs e)
+    {
+        UpdateOptionButton.Visibility = Visibility.Hidden;
+        UpdateOptionButton.IsEnabled = false;
+        UpdateProductButton.IsEnabled = true;
+        UpdateProductButton.Visibility = Visibility.Visible;
+
+        NameTextBox.IsReadOnly = false;
+        PriceTextBox.IsReadOnly = false;
+        InStockTextBox.IsReadOnly = false;
+        CategoryCombobox.IsEnabled = true;
+    }
 }

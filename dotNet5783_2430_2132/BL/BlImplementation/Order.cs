@@ -1,6 +1,6 @@
 ﻿
 using BlApi;
-using static BO.Enums;
+
 
 namespace BlImplementation;
 
@@ -15,33 +15,51 @@ internal class Order : IOrder
     public IEnumerable<BO.OrderForList> GetList(Func<BO.OrderForList?, bool>? condition)
     {
 
-        IEnumerable<DO.Order?> oLst = Dal.Order.GetList(); // list of orders from data surce
-        List<BO.OrderForList> ofl = new List<BO.OrderForList>();
-
-        foreach (DO.Order? order in oLst) // building a new list (OrderForList) based on order's list data
+        /* IEnumerable<DO.Order?> oLst = Dal.Order.GetList(); */// list of orders from data surce
+                                                                //List<BO.OrderForList> ofl = new List<BO.OrderForList>();
+        try
         {
-            try
-            {
-                string oStatus = OrderStatus(order); // status of current order
-                double oTotalPrice = 0;
-                int oAmount = 0;
-                IEnumerable<DO.OrderItem?> oiLst = Dal.OrderItem.GetList(item => item?.OrderId == order?.ID);
-                oAmount = oiLst.Sum(oi => oi?.Amount ?? 0);
-                oTotalPrice = oiLst.Sum(oi => oi?.Price ?? 0 * oi?.Amount ?? 0);
-                ofl.Add(new BO.OrderForList
+            var ofllst =
+                from order in Dal.Order.GetList()
+                let oStatus = OrderStatus(order) // status of current order
+                let oiLst = Dal.OrderItem.GetList(item => item?.OrderId == order?.ID)
+                let oAmount = oiLst.Sum(oi => oi?.Amount ?? 0)
+                let oTotalPrice = oiLst.Sum(oi => oi?.Price ?? 0 * oi?.Amount ?? 0)
+                select new BO.OrderForList
                 {
                     ID = order?.ID ?? 0,
                     CustomerName = order?.CustomerName,
                     Status = (BO.Enums.OrderStatus)Enum.Parse(typeof(BO.Enums.OrderStatus), oStatus),
                     AmountOfItems = oAmount,
                     TotalPrice = oTotalPrice
-                }); // adding order to list of- OrderForList
-            }
-            catch (Exception ex) { throw new BO.FailedGettingObjectException(ex); }; // if order has 0 items then don't add it to OrderForList
+                }; // adding order to list of- OrderForList
+            return ofllst.AsEnumerable().Where(order => condition is null ? true : condition(order));
         }
-        return ofl.AsEnumerable().Where(order => condition is null ? true : condition(order));
-    }
+        catch (Exception ex) { throw new BO.FailedGettingObjectException(ex); }; // if order has 0 items then don't add it to OrderForList
 
+        //foreach (DO.Order? order in oLst) // building a new list (OrderForList) based on order's list data
+        //{
+        //    try
+        //    {
+        //        string oStatus = OrderStatus(order); // status of current order
+        //        double oTotalPrice = 0;
+        //        int oAmount = 0;
+        //        IEnumerable<DO.OrderItem?> oiLst = Dal.OrderItem.GetList(item => item?.OrderId == order?.ID);
+        //        oAmount = oiLst.Sum(oi => oi?.Amount ?? 0);
+        //        oTotalPrice = oiLst.Sum(oi => oi?.Price ?? 0 * oi?.Amount ?? 0);
+        //        ofl.Add(new BO.OrderForList
+        //        {
+        //            ID = order?.ID ?? 0,
+        //            CustomerName = order?.CustomerName,
+        //            Status = (BO.Enums.OrderStatus)Enum.Parse(typeof(BO.Enums.OrderStatus), oStatus),
+        //            AmountOfItems = oAmount,
+        //            TotalPrice = oTotalPrice
+        //        }); // adding order to list of- OrderForList
+        //    }
+        //    catch (Exception ex) { throw new BO.FailedGettingObjectException(ex); }; // if order has 0 items then don't add it to OrderForList
+        //}
+
+    }
 
     public BO.Order GetByID(int oID)
     {
@@ -49,27 +67,39 @@ internal class Order : IOrder
         {
             if (oID < 100000) // if order ID is ilegal then throw iligal data exception
                 throw new BO.IlegalDataException("Ilegal order ID");
-            DO.Order? order = Dal.Order.GetIf(item => (item?.ID ?? 0) == oID);
-            List<BO.OrderItem> BOoiLst = new List<BO.OrderItem>(); // creating new list for order items from BO
-            int oAmount = 0; // counter for calculating the amont of products in order
-            double oTotalPrice = 0;// counter for calculating the total price of order
+            /*List<BO.OrderItem> BOoiLst = new List<BO.OrderItem>();*/ // creating new list for order items from BO
             IEnumerable<DO.OrderItem?> DALoiLst = Dal.OrderItem.GetList(item => item?.OrderId == oID); // list of order items from data surce
-            foreach (DO.OrderItem? oiItem in DALoiLst)
-            {
-                oAmount += (int)oiItem?.Amount!;
-                oTotalPrice += (int)oiItem?.Price! * (int)oiItem?.Amount!;
-
-                DO.Product? p = Dal.Product.GetIf(item => item?.ID == oiItem?.ProductId); // getting prodct by ID from data surce, in order to have the name of order item
-                BOoiLst.Add(new BO.OrderItem
+            var BOoiLst =
+                from orderItem in DALoiLst
+                let p = Dal.Product.GetIf(item => item?.ID == orderItem?.ProductId)
+                select new BO.OrderItem
                 {
-                    ID = oiItem?.ID ?? 0,
+                    ID = orderItem?.ID ?? 0,
                     Name = p?.Name,
-                    ProductID = oiItem?.ProductId ?? 0,
-                    Price = oiItem?.Price ?? 0,
-                    Amount = oiItem?.Amount ?? 0,
-                    TotalPrice = (oiItem?.Price ?? 0) * (oiItem?.Amount ?? 0)
-                }); // adding order item to list of order Items in BO
-            }
+                    ProductID = orderItem?.ProductId ?? 0,
+                    Price = orderItem?.Price ?? 0,
+                    Amount = orderItem?.Amount ?? 0,
+                    TotalPrice = (orderItem?.Price ?? 0) * (orderItem?.Amount ?? 0)
+                };
+            int oAmount = DALoiLst.Sum(ordetItem => ordetItem?.Amount ?? 0);
+            double oTotalPrice = DALoiLst.Sum(ordetItem => (ordetItem?.Price ?? 0) * (ordetItem?.Amount ?? 0));
+            //foreach (DO.OrderItem? oiItem in DALoiLst)
+            //{
+            //    oAmount += (int)oiItem?.Amount!;
+            //    oTotalPrice += (int)oiItem?.Price! * (int)oiItem?.Amount!;
+
+            //    DO.Product? p = Dal.Product.GetIf(item => item?.ID == oiItem?.ProductId); // getting prodct by ID from data surce, in order to have the name of order item
+            //    BOoiLst.Add(new BO.OrderItem
+            //    {
+            //        ID = oiItem?.ID ?? 0,
+            //        Name = p?.Name,
+            //        ProductID = oiItem?.ProductId ?? 0,
+            //        Price = oiItem?.Price ?? 0,
+            //        Amount = oiItem?.Amount ?? 0,
+            //        TotalPrice = (oiItem?.Price ?? 0) * (oiItem?.Amount ?? 0)
+            //    }); // adding order item to list of order Items in BO
+            //}
+            DO.Order? order = Dal.Order.GetIf(item => (item?.ID ?? 0) == oID);
             return new BO.Order
             {
                 ID = oID,
@@ -122,7 +152,7 @@ internal class Order : IOrder
 
             DO.Order? dOrder = Dal.Order.GetIf(item => item?.ID == oID);
             if (dOrder == null)
-                throw new BO.FailedUpdatingObjectException(new DalApi.NotExistingException());
+                throw new BO.FailedUpdatingObjectException(new DO.NotExistingException());
 
             if (dOrder?.ShipDate == null) // if order wasn't shipped then throw status exception
                 throw new BO.ConflictingStatusException("Order was not shipped Yet");
@@ -154,7 +184,7 @@ internal class Order : IOrder
                 throw new BO.FailedUpdatingObjectException(new BO.IlegalDataException("Ilegal Order ID "));
             DO.Order? dOrder = Dal.Order.GetIf(item => item?.ID == oID);
             if (dOrder == null)
-                throw new BO.FailedToTrackOrderException(new DalApi.NotExistingException());
+                throw new BO.FailedToTrackOrderException(new DO.NotExistingException());
             List<Tuple<DateTime?, string?>> trackingLst = new List<Tuple<DateTime?, string?>>(); // description list of the order status 
             trackingLst.Add(new Tuple<DateTime?, string?>(dOrder?.OrderDate, "Order was Confirmed"));
 
@@ -185,14 +215,14 @@ internal class Order : IOrder
                 throw new BO.ConflictingStatusException("Order has already been shipped");
 
             if (orderToUpdate?.Items?.Count == 0) // if there are no order items in order then throw not existing exception
-                throw new DalApi.NotExistingException();
+                throw new DO.NotExistingException();
 
             Console.WriteLine("Enter ID of product that you want to update:");
             if (!int.TryParse(Console.ReadLine(), out int pID)) // converts the input to integer
                 throw new BO.FailedUpdatingObjectException(new BO.IlegalDataException("Ilegal ID"));
 
 
-            BO.OrderItem? orderItemToUpdate = orderToUpdate?.Items?.FindAll(oi => oi.ProductID == pID).FirstOrDefault();
+            BO.OrderItem? orderItemToUpdate = orderToUpdate?.Items?.Find(oi => oi.ProductID == pID);
             if (orderItemToUpdate != null)
             {
                 DO.Product? p = Dal.Product.GetIf(item => (item?.ID ?? 0) == pID);

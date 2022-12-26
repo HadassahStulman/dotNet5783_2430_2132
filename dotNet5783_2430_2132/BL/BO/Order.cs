@@ -59,17 +59,19 @@ public class Order
     public override string ToString()
     {
         string str = $@"
-    Order ID={ID}
-    customer's name: {CustomerName}
-    customer's Email: {CustomerEmail}
-    customer's adress: {CustomerAdress}
-    order date: {OrderDate}
-    order status: {Status}
-    order payment date: {PaymentDate}
-    ship date: {ShipDate}
-    delivary date: {DeliveryDate}
-    order's total price: {TotalPrice}
-    list of order items:
+Order ID={ID}
+customer's name: {CustomerName}
+customer's Email: {CustomerEmail}
+customer's adress: {CustomerAdress}
+order date: {OrderDate}
+order status: {Status}
+order payment date: {PaymentDate}
+ship date: {ShipDate}
+delivary date: {DeliveryDate}
+order's total price: {TotalPrice}
+
+list of order items:
+
 ";
         if (Items != null)
             str += string.Join("\n", Items);

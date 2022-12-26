@@ -1,11 +1,12 @@
 ﻿
 using System;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 
 
 namespace PL.Products;
- 
+
 
 /// <summary>
 /// Interaction logic for ProductForListWindow.xaml
@@ -13,6 +14,7 @@ namespace PL.Products;
 public partial class ProductForListWindow : Window
 {
     private BlApi.IBl bl = BlApi.Factory.Get();
+    private ObservableCollection<BO.ProductForList?> myProductCollection;
     public enum Category
     {
         TextBooks, // school and study books
@@ -29,7 +31,8 @@ public partial class ProductForListWindow : Window
     public ProductForListWindow()
     {
         InitializeComponent();
-        ProductListView.ItemsSource = bl.Product.GetAll();
+        myProductCollection = new(bl.Product.GetAll());
+        this.DataContext = myProductCollection;
         CategorySelector.ItemsSource = Enum.GetValues(typeof(Category));
     }
 
@@ -42,7 +45,7 @@ public partial class ProductForListWindow : Window
     private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         string choice = CategorySelector.SelectedItem.ToString() ?? throw new NullReferenceException();
-        ProductListView.ItemsSource = bl.Product.GetAll(product => choice == Category.All.ToString() ? true : product?.Category.ToString() == choice); 
+        ProductListView.ItemsSource = bl.Product.GetAll(product => choice == Category.All.ToString() ? true : product?.Category.ToString() == choice);
     }
 
     /// <summary>
@@ -53,7 +56,6 @@ public partial class ProductForListWindow : Window
     private void GoToAddProductButton_Click(object sender, RoutedEventArgs e)
     {
         new ProductWindow("Add", 0).ShowDialog();
-        ProductListView.ItemsSource = bl.Product.GetAll();
         CategorySelector.Text = Category.All.ToString();
     }
 
@@ -67,14 +69,15 @@ public partial class ProductForListWindow : Window
         try
         {
             BO.ProductForList p = (ProductListView.SelectedItem as BO.ProductForList) ?? throw new NullReferenceException();
-            new ProductWindow("Update", p.ID).ShowDialog();
-            ProductListView.ItemsSource = bl.Product.GetAll();
+            new ProductWindow("View", p.ID).ShowDialog();
             CategorySelector.Text = Category.All.ToString();
         }
-        catch(Exception)
+        catch (Exception)
         {
             MessageBox.Show("please choose a product");
         }
     }
 
 }
+
+
