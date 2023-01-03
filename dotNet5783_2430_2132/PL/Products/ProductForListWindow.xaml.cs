@@ -1,6 +1,8 @@
 ﻿
+using BO;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -14,7 +16,7 @@ namespace PL.Products;
 public partial class ProductForListWindow : Window
 {
     private BlApi.IBl bl = BlApi.Factory.Get();
-    private ObservableCollection<BO.ProductForList?> myProductCollection;
+    private ObservableCollection</*IGrouping<BO.Enums.Category?, ProductForList?>*/ProductForList?> myProductCollection;
     public enum Category
     {
         TextBooks, // school and study books
@@ -31,7 +33,7 @@ public partial class ProductForListWindow : Window
     public ProductForListWindow()
     {
         InitializeComponent();
-        myProductCollection = new(bl.Product.GetAll());
+        myProductCollection = new (bl.Product./*GetGroupedList()*/GetAll());
         this.DataContext = myProductCollection;
         CategorySelector.ItemsSource = Enum.GetValues(typeof(Category));
     }

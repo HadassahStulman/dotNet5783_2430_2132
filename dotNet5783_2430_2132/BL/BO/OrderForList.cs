@@ -1,5 +1,4 @@
 ﻿
-
 namespace BO;
 /// <summary>
 /// class for managing order list screen
@@ -13,11 +12,13 @@ public class OrderForList
     /// <summary>
     /// name of customer 
     /// </summary>
-    public string? CustomerName { get; set; }   
+    public string? CustomerName { get; set; }
+
     /// <summary>
     /// status of order
     /// </summary>
     public Enums.OrderStatus? Status { get; set; }
+
     /// <summary>
     /// amount of items items in order
     /// </summary>

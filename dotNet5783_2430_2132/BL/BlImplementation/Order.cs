@@ -25,6 +25,7 @@ internal class Order : IOrder
                 let oiLst = Dal.OrderItem.GetList(item => item?.OrderId == order?.ID)
                 let oAmount = oiLst.Sum(oi => oi?.Amount ?? 0)
                 let oTotalPrice = oiLst.Sum(oi => oi?.Price ?? 0 * oi?.Amount ?? 0)
+                orderby order?.OrderDate
                 select new BO.OrderForList
                 {
                     ID = order?.ID ?? 0,
@@ -121,6 +122,9 @@ internal class Order : IOrder
 
     public BO.Order UpdateShipping(int oID)
     {
+
+       // BO.OrderTracking o = new();
+       // o.TrackingStages.First().Item1;
         try
         {
             if (oID < 10000) // if order ID is a negative number then throw iligal data exception
@@ -206,7 +210,7 @@ internal class Order : IOrder
     }
 
 
-    public BO.Order? ManagerUpdateOrder(int oID)
+    public BO.Order? ManagerUpdateOrder(int oID, int pID,int UpdatedAmount)
     {
         try
         {
@@ -217,9 +221,9 @@ internal class Order : IOrder
             if (orderToUpdate?.Items?.Count == 0) // if there are no order items in order then throw not existing exception
                 throw new DO.NotExistingException();
 
-            Console.WriteLine("Enter ID of product that you want to update:");
-            if (!int.TryParse(Console.ReadLine(), out int pID)) // converts the input to integer
-                throw new BO.FailedUpdatingObjectException(new BO.IlegalDataException("Ilegal ID"));
+            //Console.WriteLine("Enter ID of product that you want to update:");
+            //if (!int.TryParse(Console.ReadLine(), out int pID)) // converts the input to integer
+            //    throw new BO.FailedUpdatingObjectException(new BO.IlegalDataException("Ilegal ID"));
 
 
             BO.OrderItem? orderItemToUpdate = orderToUpdate?.Items?.Find(oi => oi.ProductID == pID);
@@ -227,9 +231,9 @@ internal class Order : IOrder
             {
                 DO.Product? p = Dal.Product.GetIf(item => (item?.ID ?? 0) == pID);
                 int pAmount = p?.InStock ?? 0 + orderItemToUpdate.Amount; // max amount in stock
-                Console.WriteLine($"Enter products updated amount, up to-{pAmount}");
-                int UpdatedAmount;
-                if (!int.TryParse(Console.ReadLine(), out UpdatedAmount) || UpdatedAmount < 0 || UpdatedAmount > pAmount) // if input is ilegal
+                //Console.WriteLine($"Enter products updated amount, up to-{pAmount}");
+                //int UpdatedAmount;
+                if (/*!int.TryParse(Console.ReadLine(), out UpdatedAmount) ||*/ UpdatedAmount < 0 || UpdatedAmount > pAmount) // if input is ilegal
                     throw new BO.IlegalDataException("Invalid amount");
 
                 orderToUpdate?.Items?.Remove(orderItemToUpdate); // remove item from order
@@ -287,3 +291,4 @@ internal class Order : IOrder
     }
 
 }
+

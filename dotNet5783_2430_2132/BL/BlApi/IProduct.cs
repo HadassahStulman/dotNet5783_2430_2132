@@ -1,5 +1,7 @@
 ﻿
 
+using BO;
+
 namespace BlApi;
 
 /// <summary>
@@ -56,5 +58,11 @@ public interface IProduct
     /// </summary>
     /// <param name="p"></param>
     public void UpdateProduct(BO.Product p);
+
+    /// <summary>
+    /// return productList grouped by category
+    /// </summary>
+    /// <returns>IEnumerable<IGrouping<BO.Enums.Category?, ProductForList?></returns>
+    public IEnumerable<IGrouping<BO.Enums.Category?, ProductForList?>> GetGroupedList();
 
 }

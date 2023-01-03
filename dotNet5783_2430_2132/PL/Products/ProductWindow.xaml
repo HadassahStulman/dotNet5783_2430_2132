@@ -16,11 +16,11 @@
             <Label Content="Name:" HorizontalAlignment="Left" Margin="121,208,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
             <Label Content="Price:" HorizontalAlignment="Left" Margin="121,248,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
             <Label Content="In Stock" HorizontalAlignment="Left" Margin="121,288,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
-            <TextBox x:Name="IDTextBox" Text="{Binding Path=ID }" HorizontalAlignment="Left" Margin="236,135,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="200" Height="25" IsReadOnly="True" MaxLines="1" MaxLength="10"/>
-            <TextBox x:Name="NameTextBox" Text="{Binding Path=Name}" HorizontalAlignment="Left" Margin="236,215,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="200" Height="25" IsReadOnly="False"/>
-            <TextBox x:Name="PriceTextBox" Text="{Binding Path=Price}" HorizontalAlignment="Left" Margin="236,255,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="200" Height="25" IsReadOnly="False"/>
-            <TextBox x:Name="InStockTextBox" Text="{Binding Path=InStock}" HorizontalAlignment="Left" Margin="236,295,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="200" Height="25" IsReadOnly="False"/>
-            <ComboBox x:Name="CategoryCombobox" Text="{Binding Path=Category}" HorizontalAlignment="Left" Margin="236,175,0,0" VerticalAlignment="Top" Width="200" Height="25" IsEnabled="True"/>
+        <TextBox x:Name="IDTextBox" Text="{Binding Path=ID, UpdateSourceTrigger=Explicit}" HorizontalAlignment="Left" Margin="236,135,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="200" Height="25" IsReadOnly="True" MaxLines="1" MaxLength="10"/>
+        <TextBox x:Name="NameTextBox" Text="{Binding Path=Name, UpdateSourceTrigger=Explicit}" HorizontalAlignment="Left" Margin="236,215,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="200" Height="25" IsReadOnly="False"/>
+        <TextBox x:Name="PriceTextBox" Text="{Binding Path=Price, UpdateSourceTrigger=Explicit}" HorizontalAlignment="Left" Margin="236,255,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="200" Height="25" IsReadOnly="False"/>
+        <TextBox x:Name="InStockTextBox" Text="{Binding Path=InStock, UpdateSourceTrigger=Explicit}" HorizontalAlignment="Left" Margin="236,295,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="200" Height="25" IsReadOnly="False"/>
+        <ComboBox x:Name="CategoryCombobox" Text="{Binding Path=Category, UpdateSourceTrigger=Explicit}" HorizontalAlignment="Left" Margin="236,175,0,0" VerticalAlignment="Top" Width="200" Height="25" IsEnabled="True"/>
             <Button x:Name="AddProductButton" Content="Add" HorizontalAlignment="Left" Margin="121,358,0,0" VerticalAlignment="Top" Height="25" Width="80" Click="AddProductButton_Click" IsEnabled="False" Visibility="Hidden"/>
             <Button x:Name="UpdateProductButton" Content="Update" HorizontalAlignment="Left" Margin="121,358,0,0" VerticalAlignment="Top" Height="24" Width="80" IsEnabled="False" Visibility="Hidden"  Click="UpdateProductButton_Click"/>
         <Button x:Name="UpdateOptionButton" Content="Update Product" HorizontalAlignment="Left" Margin="296,358,0,0" VerticalAlignment="Top" Height="24" Width="100" IsEnabled="False" Visibility="Hidden" Click="UpdateOptionButton_Click"/>

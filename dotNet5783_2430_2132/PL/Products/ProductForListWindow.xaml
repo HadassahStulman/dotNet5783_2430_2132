@@ -43,7 +43,10 @@
             </ListView.Background>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Path= ID }" Width="80"/>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Path=Name }" Width="200"/>
+                    <GridViewColumn Header="Category" DisplayMemberBinding="{Binding Path=Category }" Width="150"/>
+                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Path=Price }" Width="80"/>
                 </GridView>
             </ListView.View>
         </ListView>

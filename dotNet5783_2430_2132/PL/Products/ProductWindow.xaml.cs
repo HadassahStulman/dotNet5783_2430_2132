@@ -8,13 +8,14 @@ namespace PL.Products;
 /// <summary>
 /// Interaction logic for ProductWindow.xaml
 /// </summary>
+
 public partial class ProductWindow : Window
 {
     /// <summary>
     /// private feiled for accessing to bl methods
     /// </summary>
     private readonly BlApi.IBl bl = BlApi.Factory.Get();
-    BO.Product? myProduct=null;
+    BO.Product? myProduct = null;
     /// <summary>
     /// constructor fo product window
     /// </summary>
@@ -23,7 +24,6 @@ public partial class ProductWindow : Window
     public ProductWindow(string source, int id)
     {
         InitializeComponent();
-        this.DataContext = myProduct;
         CategoryCombobox.ItemsSource = Enum.GetValues(typeof(BO.Enums.Category)); // initialize categry combobox
         if (source == "Add") // if window was opened for adding
         {
@@ -42,6 +42,8 @@ public partial class ProductWindow : Window
             InStockTextBox.IsReadOnly = true;
             CategoryCombobox.IsEnabled = false;
         }
+        this.DataContext = myProduct;
+
     }
 
 
@@ -54,15 +56,15 @@ public partial class ProductWindow : Window
     {
         try
         {
-            //if (!int.TryParse(IDTextBox.Text, out int id)) // convet id fron string to int
-            //    id = 0;
-            //if (!double.TryParse(PriceTextBox.Text, out double price)) // convert string to double
-            //    price = 0;
-            //if (!int.TryParse(InStockTextBox.Text, out int amount)) // convert string to int
-            //    amount = -1;
-            //string? cat = CategoryCombobox.Text;
-            //if (string.IsNullOrEmpty(cat)) // if no category was chosen
-            //    throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal Category"));
+            if (!int.TryParse(IDTextBox.Text, out int id)) // convet id fron string to int
+                id = 0;
+            if (!double.TryParse(PriceTextBox.Text, out double price)) // convert string to double
+                price = 0;
+            if (!int.TryParse(InStockTextBox.Text, out int amount)) // convert string to int
+                amount = -1;
+            string? cat = CategoryCombobox.Text;
+            if (string.IsNullOrEmpty(cat)) // if no category was chosen
+                throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal Category"));
             bl.Product.AddProduct(myProduct!);
             MessageBox.Show("Successfully added");
             Close();

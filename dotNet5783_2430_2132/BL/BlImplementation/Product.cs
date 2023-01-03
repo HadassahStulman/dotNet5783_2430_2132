@@ -1,5 +1,6 @@
 ﻿
 using BlApi;
+using BO;
 using System.Security.Cryptography;
 
 namespace BlImplementation;
@@ -83,21 +84,6 @@ internal class Product : IProduct
                 Price = product?.Price ?? 0,
                 Category = (BO.Enums.Category)product?.Category!
             };
-    
-        //List<BO.ProductForList> lst = new List<BO.ProductForList>();
-        //foreach (DO.Product? p in Plst) // for each product in dal create product for list
-        //{
-        //    if (p != null)
-        //    {
-        //        lst.Add(new BO.ProductForList()
-        //        {
-        //            ID = p?.ID ?? 0,
-        //            Name = p?.Name,
-        //            Price = p?.Price ?? 0,
-        //            Category = (BO.Enums.Category)p?.Category!
-        //        });
-        //    }
-        //}
         return lst.AsEnumerable().Where(item => condition is null ? true : condition(item));
     }
 
@@ -183,4 +169,14 @@ internal class Product : IProduct
         }
 
     }
+
+    public IEnumerable<IGrouping<BO.Enums.Category?,ProductForList?>> GetGroupedList()
+    {
+        var groupedProduct = from p in Dal.Product.GetList()
+                             let pl=new ProductForList { ID=p?.ID ?? 0,Name=p?.Name, Category= (BO.Enums.Category)p?.Category!,Price=p?.Price??0}
+                             group pl by pl?.Category into categoryGroup
+                             select categoryGroup;
+        return groupedProduct;  
+    }
+
 }

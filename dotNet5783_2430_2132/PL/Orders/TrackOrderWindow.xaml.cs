@@ -1,27 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
-namespace PL.Orders
+
+namespace PL.Orders;
+
+/// <summary>
+/// Interaction logic for TrackOrderWindow.xaml
+/// </summary>
+public partial class TrackOrderWindow: Window
 {
     /// <summary>
-    /// Interaction logic for TrackOrderWindow.xaml
+    /// private feiled for accessing to bl methods
     /// </summary>
-    public partial class TrackOrderWindow : Window
+    private readonly BlApi.IBl bl = BlApi.Factory.Get();
+    BO.Order? myOrder = null;
+    /// <summary>
+    /// constructer
+    /// </summary>
+    /// <param name="id"></param>
+    public TrackOrderWindow(int id)
     {
-        public TrackOrderWindow()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
+        myOrder = bl.Order.GetByID(id);
+        this.DataContext = myOrder;
+        OrderStages_ListBox.DataContext = bl.Order.TrackOrder(id).TrackingStages; // difining the source of data to be the list of tracking stagese
     }
+
+
 }

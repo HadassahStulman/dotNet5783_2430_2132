@@ -6,7 +6,37 @@
         xmlns:local="clr-namespace:PL.Orders"
         mc:Ignorable="d"
         Title="TrackOrderWindow" Height="450" Width="800">
+
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.4*"/>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="0.3*"/>
+
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions >
+            <ColumnDefinition Width="0.4*"/>
+            <ColumnDefinition Width="0.4*"/>
+            <ColumnDefinition Width="0.2*"/>
+        </Grid.ColumnDefinitions>
+
+        <Label x:Name="Status_Label" Content="Order Status:" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left" Margin="75,70,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
+        <Label x:Name="Stages_Label" Content="Order Stagees:" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left" Margin="75,0,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20"/>
+        <TextBox x:Name="OrderStatus_TextBox" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Margin="0,82,0,0" TextWrapping="Wrap" Text="{Binding Path=Status }" IsReadOnly="True" VerticalAlignment="Top" Width="150" FontSize="16"/>
+        <TextBox x:Name="OrderStages_TextBox" HorizontalAlignment="Left" Margin="400,148,0,0" TextWrapping="Wrap" Text="{Binding Path=TrackingStages }" VerticalAlignment="Top" Width="120" FontSize="16" Height="23"/>
+        <Grid/>
+        <ListView x:Name="OrderStages_ListBox" ItemsSource = "{Binding}"   Grid.Column="1" Grid.Row="1">
+
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Date" DisplayMemberBinding="{Binding Path= Item1}"  Width="158"/>
+                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Path= Item2}" Width="158"/>
+
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+
+
     </Grid>
 </Window>
