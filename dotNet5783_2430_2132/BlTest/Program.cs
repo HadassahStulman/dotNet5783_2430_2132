@@ -326,7 +326,14 @@ public class Program
         Console.WriteLine("enter order ID");
         if (!int.TryParse(Console.ReadLine(), out int ID)) // converts the input to integer
             throw new BO.IlegalDataException("Ilegal ID");
-        Bl.Order.ManagerUpdateOrder(ID);
+        Console.WriteLine("Enter ID of product that you want to update:");
+        if (!int.TryParse(Console.ReadLine(), out int pID)) // converts the input to integer
+           throw new BO.FailedUpdatingObjectException(new BO.IlegalDataException("Ilegal ID"));
+        Console.WriteLine($"Enter products updated amount");
+        
+        if (!int.TryParse(Console.ReadLine(), out int UpdatedAmount)) // if input is ilegal
+            throw new BO.IlegalDataException("Invalid amount");
+        Bl.Order.ManagerUpdateOrder(ID, pID, UpdatedAmount);
     }
 
     /// <summary>

@@ -7,11 +7,8 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid Background="#FFE8E6E6">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="9*"/>
-            <ColumnDefinition Width="91*"/>
-        </Grid.ColumnDefinitions>
-        <Button x:Name="ViewProductList" Content="view Product List" HorizontalAlignment="Left" VerticalAlignment="Center" Click="ShowProductListButton_Click" Height="45" Width="178" FontSize="16" FontWeight="Bold" Grid.Column="1" Margin="239,0,0,0">
+
+        <Button x:Name="ViewProductList" Content="view Product List" HorizontalAlignment="Center" VerticalAlignment="Center" Click="ShowProductListButton_Click" Height="45" Width="178" FontSize="16" FontWeight="Bold">
             <Button.Background>
                 <SolidColorBrush Color="#FF7FDEB9" Opacity="0.85"/>
             </Button.Background>

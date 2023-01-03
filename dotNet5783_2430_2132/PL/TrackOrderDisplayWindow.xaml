@@ -1,0 +1,30 @@
+﻿<Window x:Class="PL.TrackOrderDiplayWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL"
+        mc:Ignorable="d"
+        Title="TrackOrderDiplayWindow" Height="450" Width="800">
+
+    <Window.Resources>
+        <Style x:Key="myButtonStyle" TargetType="Button">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Width" Value="120"/>
+            <Setter Property="Height" Value="30"/>
+            <Setter Property="VerticalAlignment" Value="Top"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Label x:Name="ID_Lable" Content="Enter Order's ID:" HorizontalAlignment="Left" Margin="75,70,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
+        <TextBox x:Name="ID_TextBox" HorizontalAlignment="Left" Margin="300,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="145" FontSize="20" TextChanged="ID_TextBox_TextChanged"/>
+        <Button x:Name="TrackOrder_Butten" Content="Track Order" Style="{StaticResource myButtonStyle}" Margin="90,300,0,0" IsEnabled="False" Click="TrackOrder_Butten_Click" />
+        <Button x:Name="ViewOrder_Button" Content="View Order" Style="{StaticResource myButtonStyle}" Margin="326,300,0,0"  IsEnabled="False" Click="ViewOrder_Button_Click"/>
+        <Button x:Name="Back_button" Content="Back" Style="{StaticResource myButtonStyle}"  Margin="581,355,0,0" Click="Back_button_Click"/>
+
+
+    </Grid>
+</Window>

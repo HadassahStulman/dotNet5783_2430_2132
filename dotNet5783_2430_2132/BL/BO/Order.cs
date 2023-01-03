@@ -1,12 +1,16 @@
 ﻿
+using System.ComponentModel;
+
 
 namespace BO;
 
 /// <summary>
 /// information of a single order
 /// </summary>
-public class Order
+public class Order : INotifyPropertyChanged
 {
+    public event PropertyChangedEventHandler? PropertyChanged;
+
     /// <summary>
     /// order id
     /// </summary>
@@ -27,30 +31,81 @@ public class Order
     /// date of ordering 
     /// </summary>
     public DateTime? OrderDate { get; set; }
+
+
     /// <summary>
     /// status of order (if shiped, delivered...)
     /// </summary>
-    public Enums.OrderStatus? Status { get; set; }
+    private Enums.OrderStatus status;
+    public Enums.OrderStatus Status
+    {
+        get { return status; }
+        set
+        {
+            status = value;
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs("Status"));
+        }
+    }
+
+
     /// <summary>
     /// date of order confirmation / pament
     /// </summary>
     public DateTime? PaymentDate { get; set; }
+
+
     /// <summary>
     /// shipping date
     /// </summary>
-    public DateTime? ShipDate { get; set; }
+    private DateTime? shipDate;
+    public DateTime? ShipDate
+    {
+        get { return shipDate; }
+        set
+        {
+            shipDate = value;
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs("ShipDate"));
+        }
+    }
+
+
     /// <summary>
     /// delivery date
     /// </summary>
-    public DateTime? DeliveryDate { get; set; }
+    private DateTime? deliveryDate;
+    public DateTime? DeliveryDate
+    {
+        get { return deliveryDate; }
+        set
+        {
+            deliveryDate = value;
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs("DeliveryDate"));
+        }
+    }
+
     /// <summary>
     /// list of items in order
     /// </summary>
-    public List<OrderItem>? Items { get; set; }
+    public List<BO.OrderItem>? Items { get; set; }
+
+
     /// <summary>
     /// total price of all products in order
     /// </summary>
-    public double TotalPrice { get; set; }
+    private double totalPrice;
+    public double TotalPrice
+    {
+        get { return totalPrice; }
+        set
+        {
+            totalPrice = value;
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs("TotalPrice"));
+        }
+    }
 
     /// <summary>
     /// returns description of order
@@ -70,11 +125,15 @@ ship date: {ShipDate}
 delivary date: {DeliveryDate}
 order's total price: {TotalPrice}
 
-list of order items:
+    list of order items:
 
-";
+    ";
         if (Items != null)
             str += string.Join("\n", Items);
         return str;
     }
 }
+
+
+
+

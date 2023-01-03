@@ -18,12 +18,12 @@ internal static class DataSource
         /// return ID for new order
         /// </summary>
         /// <returns>int</returns>
-        public static int getIdNewO() { idNewOrder += 1; return idNewOrder; }
+        public static int getIdNewO() { idNewOrder+=1; return idNewOrder; }
         /// <summary>
         /// return ID for new order item
         /// </summary>
         /// <returns>int</returns>
-        public static int getIdNewOI() { idNewOrderItem += 1; return idNewOrderItem; }
+        public static int getIdNewOI() { idNewOrderItem+=1; return idNewOrderItem; }
     }
 
     internal static readonly Random rnd = new Random();

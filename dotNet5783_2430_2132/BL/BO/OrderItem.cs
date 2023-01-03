@@ -1,12 +1,16 @@
 ﻿
 
+using System.ComponentModel;
+
 namespace BO;
 
 /// <summary>
 /// information of a single item in order or cart
 /// </summary>
-public class OrderItem
+public class OrderItem: INotifyPropertyChanged
 {
+    public event PropertyChangedEventHandler? PropertyChanged;
+
     /// <summary>
     /// item's ID
     /// </summary>
@@ -27,10 +31,24 @@ public class OrderItem
     /// amount of copies of the product
     /// </summary>
     public int Amount { get; set; }
+
+
     /// <summary>
     /// total price of item (price of all copies in total)
     /// </summary>
-    public double TotalPrice { get; set; }
+    //public double TotalPrice { get; set; }
+    private double totalPrice;
+    public double TotalPrice
+    {
+        get { return totalPrice; }
+        set
+        {
+            totalPrice = value;
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs("TotalPrice"));
+        }
+    }
+
 
     /// <summary>
     /// convert object to string

@@ -57,7 +57,7 @@ public interface IOrder
     /// </summary>
     /// <param name="oID"></param>
     /// <returns>BO.Order</returns>
-    public BO.Order? ManagerUpdateOrder(int oID);
+    public BO.Order? ManagerUpdateOrder(int oID, int oiId, int updateAmount);
 
     /// <summary>
     ///  the method receives as input an order and returns its status
