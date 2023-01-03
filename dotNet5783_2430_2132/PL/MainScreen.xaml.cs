@@ -18,7 +18,7 @@ public partial class MainScreen : Window
 
     private void ManagerDisplayButton_Click(object sender, RoutedEventArgs e) => new ManagerDisplayWindow().ShowDialog();
 
-    private void NewOrderButton_Click(object sender, RoutedEventArgs e) => new OrderWindow().ShowDialog();
+    private void NewOrderButton_Click(object sender, RoutedEventArgs e) => new NewOrderWindow().ShowDialog();
 
     private void TrackOrderButton_Click(object sender, RoutedEventArgs e) => new TrackOrderWindow().ShowDialog();
 }

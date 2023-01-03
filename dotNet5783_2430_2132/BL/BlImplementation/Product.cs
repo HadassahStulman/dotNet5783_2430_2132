@@ -1,6 +1,6 @@
 ﻿
 using BlApi;
-using System.Security.Cryptography;
+
 
 namespace BlImplementation;
 
@@ -11,10 +11,10 @@ internal class Product : IProduct
     /// </summary>
     private DalApi.IDal Dal = DalApi.Factory.Get()!;
 
-
     public void AddProduct(BO.Product Bproduct)
     {
         // checkig if all product's details are legal
+        #region inputCheck
         if (Bproduct.ID < 100000)
             throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal ID"));
         if (string.IsNullOrEmpty(Bproduct.Name))
@@ -25,8 +25,7 @@ internal class Product : IProduct
             throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal amount in stock"));
         if (Bproduct.Category != BO.Enums.Category.CookBooks && Bproduct.Category != BO.Enums.Category.TextBooks && Bproduct.Category != BO.Enums.Category.ReligiousBooks && Bproduct.Category != BO.Enums.Category.ReadingBooks && Bproduct.Category != BO.Enums.Category.ReligiousBooks && Bproduct.Category != BO.Enums.Category.ToddlerBooks)
             throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilgal category"));
-        //if (!Dal.Product.isIDUniqe(Bproduct.ID))
-        //    throw new BO.FailedAddingObjectException(new BO.IlegalDataException("ID is not uniqe"));
+        #endregion
         try
         {
             DO.Product Dproduct = new DO.Product()
@@ -76,14 +75,24 @@ internal class Product : IProduct
         var lst =
             from product in Dal.Product.GetList()
             where product != null
-            select new BO.ProductForList()
+            let Bproduct = new BO.ProductForList()
             {
                 ID = product?.ID ?? 0,
-                Name = product?.Name,
+                Name = product?.Name ?? "",
                 Price = product?.Price ?? 0,
                 Category = (BO.Enums.Category)product?.Category!
-            };
-    
+            }
+            where condition is null ? true : condition(Bproduct)
+            orderby Bproduct.Name
+            select Bproduct;
+        //select new BO.ProductForList()
+        //{
+        //    ID = product?.ID ?? 0,
+        //    Name = product?.Name ?? "",
+        //    Price = product?.Price ?? 0,
+        //    Category = (BO.Enums.Category)product?.Category!
+        //};
+
         //List<BO.ProductForList> lst = new List<BO.ProductForList>();
         //foreach (DO.Product? p in Plst) // for each product in dal create product for list
         //{
@@ -98,9 +107,9 @@ internal class Product : IProduct
         //        });
         //    }
         //}
-        return lst.AsEnumerable().Where(item => condition is null ? true : condition(item));
+        //return lst.AsEnumerable().Where(item => condition is null ? true : condition(item));
+        return lst;
     }
-
 
     public BO.Product GetByID(int pID)
     {
@@ -133,7 +142,7 @@ internal class Product : IProduct
         {
             DO.Product? dproduct = Dal.Product.GetIf(item => item?.ID == pID);
             bool inStock = false;
-            if (dproduct?.InStock == 0)
+            if (dproduct?.InStock != 0)
                 inStock = true;
             BO.ProductItem bproduct = new BO.ProductItem()
             {
@@ -154,6 +163,7 @@ internal class Product : IProduct
 
     public void UpdateProduct(BO.Product Bproduct)
     {
+        #region inputCheck
         // checkig if all product's details are legal
         if (Bproduct.ID < 100000)
             throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal ID"));
@@ -165,6 +175,7 @@ internal class Product : IProduct
             throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal amount in stock"));
         if (Bproduct.Category != BO.Enums.Category.CookBooks && Bproduct.Category != BO.Enums.Category.TextBooks && Bproduct.Category != BO.Enums.Category.ReligiousBooks && Bproduct.Category != BO.Enums.Category.ReadingBooks && Bproduct.Category != BO.Enums.Category.ReligiousBooks && Bproduct.Category != BO.Enums.Category.ToddlerBooks)
             throw new BO.FailedAddingObjectException(new BO.IlegalDataException("Ilegal category"));
+        #endregion 
         try
         {
             DO.Product Dproduct = new DO.Product()

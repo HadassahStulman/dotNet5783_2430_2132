@@ -43,7 +43,7 @@ public static class ExtentionMethods
             if (Kitem != null)
             {
                 object obj = Titem.GetValue(t, null)!;
-                Kitem.SetValue(boxedk, Convert.ChangeType(obj, Kitem.PropertyType));
+                Kitem.SetValue(boxedk, Convert.ChangeType(obj!, Kitem.PropertyType), null);
                 //object objconverted= (typeK.GetProperty(Titem.Name)!)obj;
                 //Kitem.SetValue(boxedk,obj , null);
             }

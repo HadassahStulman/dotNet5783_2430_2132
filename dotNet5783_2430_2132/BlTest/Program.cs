@@ -88,14 +88,14 @@ public class Program
     private static void Customer()
     {
         bool flag = true;
-        Console.WriteLine("please enter your name, email and adress");
+        Console.WriteLine("please enter your name, email and address");
         string? name = Console.ReadLine();
         string? Email = Console.ReadLine();
-        string? adress = Console.ReadLine();
+        string? address = Console.ReadLine();
         BO.Cart cart = new()
         {
             CustomerName = name,
-            CustomerAdress = adress,
+            CustomerAddress = address,
             CustomerEmail = Email,
             TotalPrice = 0,
             Items = new List<BO.OrderItem?>()

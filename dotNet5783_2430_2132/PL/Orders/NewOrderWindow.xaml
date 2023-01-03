@@ -1,0 +1,25 @@
+﻿<Window x:Class="PL.Orders.NewOrderWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL.Orders"
+        mc:Ignorable="d"
+        Title="NewOrderWindow" Height="450" Width="600">
+    <Grid>
+        <StackPanel Margin="180,118,350,167">
+            <Label Content="Full Name" HorizontalAlignment="Center" VerticalAlignment="Center" Height="38"/>
+            <Label Content="Email" HorizontalAlignment="Center" VerticalAlignment="Top" Height="38"/>
+            <Label Content="address" HorizontalAlignment="Center"  VerticalAlignment="Top" Height="38"/>
+        </StackPanel>
+        <StackPanel Margin="250,118,200,167">
+            <TextBox x:Name="lastNameTextBox" TextWrapping="Wrap"  Width="120" Height="35" Text="{Binding CustomerName}"/>
+            <TextBox x:Name="emailTextBox" TextWrapping="Wrap"  Width="120" Height="35" Text="{Binding CustomerEmail}"/>
+            <TextBox x:Name="addressTextBox" TextWrapping="Wrap"  Width="120" Height="35" Text="{Binding CustomerAddress}"/>
+
+        </StackPanel>
+        <Button x:Name="ShopButton" Content="start shoping" HorizontalAlignment="Center" Margin="0,320,0,0" VerticalAlignment="Top" Height="34" Width="168" Click="ShopButton_Click"/>
+        <Label Content="Please Enter Some initial Information" HorizontalAlignment="Center" Margin="0,50,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold" HorizontalContentAlignment="Center"/>
+
+    </Grid>
+</Window>

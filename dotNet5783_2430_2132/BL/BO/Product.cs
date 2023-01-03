@@ -1,8 +1,8 @@
 ﻿
 
-using System.ComponentModel;
-
 namespace BO;
+
+
 /// <summary>
 /// class for managing products
 /// </summary>

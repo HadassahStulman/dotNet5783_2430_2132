@@ -211,7 +211,7 @@ namespace Dal
             Console.WriteLine("enter your email address");
             _order.CustomerEmail = Console.ReadLine(); // receiving email address of customer.
             Console.WriteLine("enter your address");
-            _order.CustomerAdress = Console.ReadLine();// receiving address of customer.
+            _order.CustomerAddress = Console.ReadLine();// receiving address of customer.
             _order.OrderDate = DateTime.Now; // order date is- current date.
             _order.ShipDate = DateTime.Now.AddDays(5); // shipping date is five days from order.
             _order.DeliveryDate = DateTime.Now.AddDays(7); // delivery date is seven days from order.
@@ -257,7 +257,7 @@ namespace Dal
             Console.WriteLine("enter updated email address");
             _order.CustomerEmail = Console.ReadLine(); // receiving updated email address of customer.
             Console.WriteLine("enter updated address");
-            _order.CustomerAdress = Console.ReadLine();// receiving updated address of customer.
+            _order.CustomerAddress = Console.ReadLine();// receiving updated address of customer.
             _order.OrderDate = DateTime.Now; // order date is- current date.
             _order.ShipDate = DateTime.Now.AddDays(5); // shipping date is five days from order.
             _order.DeliveryDate = DateTime.Now.AddDays(7); // delivery date is seven days from order.

@@ -1,0 +1,52 @@
+﻿<Window x:Class="PL.Cart.ProductItemWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PL.Cart"
+        mc:Ignorable="d"
+        Title="ProductItemWindow" Height="538" Width="450">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition x:Name="Top" Height="70"/>
+            <RowDefinition x:Name="Middle" Height="*"/>
+            <RowDefinition x:Name="Bottom" Height="150"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Label Content="hello" Grid.Row="0"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="80"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="1">
+                <Label Content="ID" Height="35"/>
+                <Label Content="Name" Height="35"/>
+                <Label Content="Categoy" Height="35"/>
+                <Label Content="Price" Height="35"/>
+                <Label Content="Amount" Height="35"/>
+                <Label Content="In Stock" Height="35"/>
+            </StackPanel>
+            <StackPanel Grid.Column="2">
+                <TextBlock TextWrapping="Wrap" Height="35" Text="{Binding ID}"/>
+                <TextBlock TextWrapping="Wrap" Height="35" Text="{Binding Name}" />
+                <TextBlock TextWrapping="Wrap" Height="35" Text="{Binding Category}"/>
+                <TextBlock TextWrapping="Wrap" Height="35" Text="{Binding Price}"/>
+                <TextBlock TextWrapping="Wrap" Height="35" Text="{Binding Amount}"/>
+                <CheckBox Height="35" HorizontalAlignment="Left" FlowDirection="RightToLeft" IsChecked="{Binding InStock}" IsEnabled="False"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="2">
+            <StackPanel Orientation="Horizontal" Height="30" Width="150" VerticalAlignment="top">
+                <Button x:Name="plusButton" Content="+" Width="50" FontSize="18" FontWeight="Bold" Height="30" VerticalContentAlignment="Top" Click="plusButton_Click"/>
+                <TextBlock TextWrapping="Wrap" Text="{Binding Amount}" Width="50" Height="30" Background="#FFA09A9A" TextAlignment="Center" FontSize="16" FontWeight="Bold" />
+                <Button x:Name="minusButton" Content="-" FontSize="18" FontWeight="Bold" Width="50" Height="30" Click="minusButton_Click"/>
+            </StackPanel>
+            <Button x:Name="AddItemButton" Content="Add To Cart" Height="40" Margin="271,89,40,21" Click="AddItemButton_Click" Visibility="Hidden" IsEnabled="False"/>
+            <Button x:Name="UpdateItemButton" Content="Update Item" Height="40" Margin="271,89,40,21" Visibility="Hidden" Click="UpdateItemButton_Click" IsEnabled="False"/>
+        </Grid>
+    </Grid>
+</Window>

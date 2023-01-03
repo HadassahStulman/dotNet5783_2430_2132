@@ -16,13 +16,13 @@ public class Order
     /// </summary>
     public string? CustomerName { get; set; }
     /// <summary>
-    /// customer's Email adress
+    /// customer's Email address
     /// </summary>
     public string? CustomerEmail { get; set; }
     /// <summary>
-    /// customer's adress for delivery
+    /// customer's address for delivery
     /// </summary>
-    public string? CustomerAdress { get; set; }
+    public string? CustomerAddress { get; set; }
     /// <summary>
     /// date of ordering 
     /// </summary>
@@ -62,7 +62,7 @@ public class Order
 Order ID={ID}
 customer's name: {CustomerName}
 customer's Email: {CustomerEmail}
-customer's adress: {CustomerAdress}
+customer's address: {CustomerAddress}
 order date: {OrderDate}
 order status: {Status}
 order payment date: {PaymentDate}

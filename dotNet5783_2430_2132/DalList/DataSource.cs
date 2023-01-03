@@ -35,7 +35,7 @@ internal static class DataSource
     private static string[] textBookName = { "Calculuse 1", "Programming For Fun", "Basic Fisicis", "Mathematics for first grade", "I love Science", "Advaced Biology", "Basic C++", "Game Theory", "High School Chimistrey", "ABC For Fun", "Fisiology" };
 
     private static string[] customerName = { "Esther_Nusbacher", "Malka_Cohen", "yaffa_Levi", "Hadassah_Stulman", "Ayala_Chaim", "Sam_Cowell", "Shlomo_Raviv", "Yael_Levin", "Yoni_Smith", "Beth_Ben", "Daniel_Keys", "Ishay_Erez" };
-    private static string[] customerAdress = { "Nachal Refa'im", "Nachal Dolev", "Nachal Ein Gedi", "Nachal Shimshone", "Nachal Katlav", "Nachal Timna", "Nachal Habesor" };
+    private static string[] CustomerAddress = { "Nachal Refa'im", "Nachal Dolev", "Nachal Ein Gedi", "Nachal Shimshone", "Nachal Katlav", "Nachal Timna", "Nachal Habesor" };
 
 
     /// <summary>
@@ -122,7 +122,7 @@ internal static class DataSource
             o.ID = DataSource.Config.getIdNewO(); // id from config
             o.CustomerName = customerName[i % 5];// customer name
             o.CustomerEmail = customerName[i % 5] + "@gmail.com"; // customer Email
-            o.CustomerAdress = customerAdress[i % 5] + "_" + i;// costumer adress
+            o.CustomerAddress = CustomerAddress[i % 5] + "_" + i;// costumer address
             o.ShipDate = null; // minimal date for orders that weren't shiped yet
             o.DeliveryDate = null; // minimal date for orders that weren't delivered yet
             DateTime date = DateTime.Now.AddDays(rnd.Next(-30, -1));

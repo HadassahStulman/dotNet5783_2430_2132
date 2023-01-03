@@ -22,7 +22,6 @@ internal class Cart : ICart
     {
         try
         {
-
             DO.Product? p = Dal.Product.GetIf(item => (item?.ID) == pID); // finding product (that we're adding to cart) in products catalog 
 
             crt.Items ??= new List<BO.OrderItem?>();
@@ -48,7 +47,6 @@ internal class Cart : ICart
                     Price = p?.Price ?? 0,
                     Amount = 1,
                     TotalPrice = p?.Price ?? 0
-
                 }); // adding product to cart
                 crt.TotalPrice += p?.Price ?? 0; // updating the shopping cart total price}
             }
@@ -82,13 +80,15 @@ internal class Cart : ICart
             if (item == null)
                 throw new DO.NotExistingException();
             crt!.TotalPrice += (amount - item.Amount) * item.Price;
+            crt?.Items!.Remove(item);
             if (amount != 0)
             {
                 item.TotalPrice += (amount - item.Amount) * item.Price;
                 item.Amount = amount;
+                crt?.Items!.Add(item);
             }
-            else // if amount is zero then delete item from cart
-                crt?.Items!.Remove(item);
+            //else // if amount is zero then delete item from cart
+            //    crt?.Items!.Remove(item);
 
             //foreach (BO.OrderItem? oi in crt.Items!) // running on list of all items in cart
             //    if (oi?.ProductID == pID) // if product was found then update data
@@ -146,7 +146,7 @@ internal class Cart : ICart
             {
                 CustomerName = crt.CustomerName,
                 CustomerEmail = crt.CustomerEmail,
-                CustomerAdress = crt.CustomerAdress,
+                CustomerAddress = crt.CustomerAddress,
                 OrderDate = DateTime.Now,
                 ShipDate = null,
                 DeliveryDate = null,

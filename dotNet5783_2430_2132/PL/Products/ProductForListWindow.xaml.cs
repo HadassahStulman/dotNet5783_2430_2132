@@ -1,7 +1,9 @@
 ﻿
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Controls;
 
 
@@ -13,28 +15,42 @@ namespace PL.Products;
 /// </summary>
 public partial class ProductForListWindow : Window
 {
-    private BlApi.IBl bl = BlApi.Factory.Get();
-    private ObservableCollection<BO.ProductForList?> myProductCollection;
-    public enum Category
-    {
-        TextBooks, // school and study books
-        CookBooks, // recipes
-        ToddlerBooks, // children and first reading books
-        ReligiousBooks,  // jewish textbooks
-        ReadingBooks, // different genre of books for pleasure (novels, fantacy...)
-        All // for getting all categories
-    };
+    private static BlApi.IBl bl = BlApi.Factory.Get();
+    private CollectionView? view;
+    public ObservableCollection<BO.ProductForList?> myProductCollection { get; set; }
 
     /// <summary>
-    /// ctor of ProductForListWindow and setting the Sources with data from the other layers
+    /// constructor of ProductForListWindow and setting the Sources with data from the other layers
     /// </summary>
     public ProductForListWindow()
     {
         InitializeComponent();
-        myProductCollection = new(bl.Product.GetAll());
+        myProductCollection = new ObservableCollection<BO.ProductForList?>(bl.Product.GetAll());
         this.DataContext = myProductCollection;
-        CategorySelector.ItemsSource = Enum.GetValues(typeof(Category));
+        CategorySelector.ItemsSource = Enum.GetValues(typeof(Enums.Category));
     }
+
+    /// <summary>
+    /// adds new product to observable collection
+    /// </summary>
+    /// <param name="productToAdd"></param>
+    private void addProduct(BO.ProductForList productToAdd, int id = 0) => myProductCollection.Add(productToAdd);
+
+    /// <summary>
+    /// updates product in observable collection
+    /// </summary>
+    /// <param name="productToUpdate"></param>
+    private void updateProduct(BO.ProductForList productToUpdate, int prevID)
+    {
+
+        var prevProduct = myProductCollection.FirstOrDefault(product => product?.ID == prevID);
+        int index = myProductCollection.IndexOf(prevProduct);
+        if (productToUpdate == null)
+            myProductCollection.Remove(prevProduct);
+        else
+            myProductCollection[index] = productToUpdate;
+    }
+
 
     /// <summary>
     /// the SelectionChanged event shows on display all the products according to the selection you clicked on
@@ -45,7 +61,11 @@ public partial class ProductForListWindow : Window
     private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         string choice = CategorySelector.SelectedItem.ToString() ?? throw new NullReferenceException();
-        ProductListView.ItemsSource = bl.Product.GetAll(product => choice == Category.All.ToString() ? true : product?.Category.ToString() == choice);
+        myProductCollection = new(/*from product in*/ bl.Product.GetAll(product => choice == Enums.Category.All.ToString() ? true : product?.Category.ToString() == choice));
+        //where choice == Enums.Category.All.ToString() ? true : product?.Category.ToString() == choice
+        //select product);
+        this.DataContext = myProductCollection;
+        this.view = null;
     }
 
     /// <summary>
@@ -53,11 +73,7 @@ public partial class ProductForListWindow : Window
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void GoToAddProductButton_Click(object sender, RoutedEventArgs e)
-    {
-        new ProductWindow("Add", 0).ShowDialog();
-        CategorySelector.Text = Category.All.ToString();
-    }
+    private void GoToAddProductButton_Click(object sender, RoutedEventArgs e) => new ProductWindow(addProduct).ShowDialog();
 
     /// <summary>
     /// the DoubleClick (on a specific product) event moves to the ProductWindo display where he can change the details of the product to update
@@ -69,8 +85,7 @@ public partial class ProductForListWindow : Window
         try
         {
             BO.ProductForList p = (ProductListView.SelectedItem as BO.ProductForList) ?? throw new NullReferenceException();
-            new ProductWindow("View", p.ID).ShowDialog();
-            CategorySelector.Text = Category.All.ToString();
+            new ProductWindow(updateProduct, p).ShowDialog();
         }
         catch (Exception)
         {
@@ -78,6 +93,15 @@ public partial class ProductForListWindow : Window
         }
     }
 
+    private void GroupByCatButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (view == null)
+        {
+            view = (CollectionView)CollectionViewSource.GetDefaultView(myProductCollection);
+            PropertyGroupDescription groupDescription = new PropertyGroupDescription("Category");
+            view?.GroupDescriptions.Add(groupDescription);
+        }
+    }
 }
 
 

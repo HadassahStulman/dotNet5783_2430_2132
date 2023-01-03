@@ -35,7 +35,7 @@ internal class DalOrderItem : IOrderItem
         OrderItem? delOI = orderItemList.Find(OI => OI?.ID == oiID);
         if (delOI == null)
             throw new NotExistingException();
-       orderItemList.Remove(delOI);
+        orderItemList.Remove(delOI);
     }
     /// <summary>
     /// Updating an order item in list. If order item (to update) does not exist then throw error.
@@ -58,10 +58,19 @@ internal class DalOrderItem : IOrderItem
     /// <returns>IEnumerable</returns>
     public IEnumerable<OrderItem?> GetList(Func<OrderItem?, bool>? condition) => orderItemList.Where(orderItem => condition is null ? true : condition(orderItem));
 
+
     /// <summary>
     /// returns the first OrderItem in orderList that fulfils the condition
     /// </summary>
     /// <param name="condition"></param>
     /// <returns>OrderItem?</returns>
     public OrderItem? GetIf(Func<OrderItem?, bool> condition) => orderItemList.FirstOrDefault(condition);
+
+    public IEnumerable<IGrouping<int, OrderItem?>> GetGrouped()
+    {
+        var GroupedLst = from orderItem in orderItemList
+                         group orderItem by (int)orderItem?.OrderId! into orderGroup
+                         select orderGroup;
+        return GroupedLst;
+    }
 }

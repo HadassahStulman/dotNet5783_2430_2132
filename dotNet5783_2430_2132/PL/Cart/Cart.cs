@@ -1,34 +1,9 @@
 ﻿
-
+using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace BO;
+namespace PL.Cart;
 
-///// <summary>
-///// information about customer's shopping cart
-///// </summary>
-//public class Cart
-//{
-//    /// <summary>
-//    /// customer's name
-//    /// </summary>
-//    public string? CustomerName { get; set; }
-//    /// <summary>
-//    /// customer's Email address
-//    /// </summary>
-//    public string? CustomerEmail { get; set; }
-//    /// <summary>
-//    /// customer's address
-//    /// </summary>
-//    public string? CustomerAddress { get; set; }
-//    /// <summary>
-//    /// list of all items in cart
-//    /// </summary>
-//    public List<BO.OrderItem?>? Items { get; set; }
-//    /// <summary>
-//    /// total price of all items in cart
-//    /// </summary>
-//    public double TotalPrice { get; set; }
 public class Cart : INotifyPropertyChanged
 {
     /// <summary>
@@ -115,10 +90,4 @@ public class Cart : INotifyPropertyChanged
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
-
-
-    public Cart()
-    {
-        Items = new List<BO.OrderItem?>();
-    }
 }

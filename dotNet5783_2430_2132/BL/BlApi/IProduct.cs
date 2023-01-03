@@ -14,7 +14,6 @@ public interface IProduct
     /// <returns>IEnumerable<BO.ProductForList></BO.ProductForList></returns>
     public IEnumerable<BO.ProductForList?> GetAll(Func<BO.ProductForList?, bool>? condition = null);
 
-
     /// <summary>
     /// returns product object for manager according to it's ID
     /// FOR MANAGER
@@ -22,7 +21,6 @@ public interface IProduct
     /// <param name="pID"></param>
     /// <returns>BO.Product</returns>
     public BO.Product GetByID(int pID);
-
 
     /// <summary>
     /// returns a certain product descrio=ption according to ID and amount in cart
@@ -33,7 +31,6 @@ public interface IProduct
     /// <returns>BO.ProductItem</returns>
     public BO.ProductItem GetByID(int pID, BO.Cart crt);
 
-
     /// <summary>
     /// FOR MANAGER
     /// recieves new product description and add to product list
@@ -41,14 +38,12 @@ public interface IProduct
     /// <param name=""></param>
     public void AddProduct(BO.Product product);
 
-
     /// <summary>
     /// delete a product from product list
     /// FOR MANAGER
     /// </summary>
     /// <param name="pID"></param>
     public void DeleteProduct(int pID);
-
 
     /// <summary>
     /// update existing product 

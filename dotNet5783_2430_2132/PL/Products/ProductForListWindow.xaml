@@ -6,15 +6,13 @@
         xmlns:local="clr-namespace:PL.Products"
         mc:Ignorable="d"
         Title="ProductForListWindow" Height="640" Width="800">
-
-
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="40*"/>
             <RowDefinition Height="500*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto" Grid.ColumnSpan="7">
+        <Grid Name="UpGrid" Height="auto" Grid.Row="0" Width="auto" Margin="168,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -31,27 +29,47 @@
                     </LinearGradientBrush>
                 </ComboBox.Background>
             </ComboBox>
-            <Label Content="Category" Grid.Column="0" FontWeight="Bold" Grid.Row="0">
+ 
+            <Label Content="Category:  " Grid.Column="0" FontWeight="Bold" Grid.Row="0" FontSize="17" HorizontalContentAlignment="Right">
                 <Label.Background>
                     <SolidColorBrush Opacity="0.7"/>
                 </Label.Background>
             </Label>
         </Grid>
-        <ListView x:Name="ProductListView" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDoubleClick="productDoubleClick" ItemsSource="{Binding}">
+        <ListView x:Name="ProductListView" 
+                  Grid.Row="1"
+                  HorizontalAlignment="Stretch" 
+                  VerticalAlignment="Stretch"
+                  FontSize="14"
+                  MouseDoubleClick="productDoubleClick" 
+                  ItemsSource="{Binding}">
             <ListView.Background>
                 <SolidColorBrush Color="#FFE8E6E6" Opacity="0.6"/>
             </ListView.Background>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn Header="ID" Width="100" DisplayMemberBinding="{Binding ID}"/>
+                    <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Category" Width="200" DisplayMemberBinding="{Binding Category}"/>
+                    <GridViewColumn Header="Price" Width="100" DisplayMemberBinding="{Binding Price}"/>
                 </GridView>
             </ListView.View>
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <TextBlock FontWeight="Bold" FontSize="15" Text="{Binding Path=Name}"  Height="30" Width="800" Background="PaleTurquoise" />
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ListView.GroupStyle>
         </ListView>
         <Button x:Name="GoToAddProductButton" Content="Add new Product" Grid.Row="2" HorizontalAlignment="Right" Click="GoToAddProductButton_Click" Width="200" FontSize="16" FontWeight="Bold" Height="40" >
             <Button.Background>
                 <SolidColorBrush Color="#FF7FDEB9" Opacity="0.8"/>
             </Button.Background>
         </Button>
+        <Button x:Name="GroupByCat" Content="Group By Category" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top" Grid.RowSpan="2" Height="40" Width="200" FontSize="14" FontWeight="Bold" Click="GroupByCatButton_Click"/>
 
     </Grid>
 </Window>

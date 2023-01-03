@@ -21,19 +21,22 @@ internal class Order : IOrder
         {
             var ofllst =
                 from order in Dal.Order.GetList()
+                where order != null
                 let oStatus = OrderStatus(order) // status of current order
                 let oiLst = Dal.OrderItem.GetList(item => item?.OrderId == order?.ID)
                 let oAmount = oiLst.Sum(oi => oi?.Amount ?? 0)
                 let oTotalPrice = oiLst.Sum(oi => oi?.Price ?? 0 * oi?.Amount ?? 0)
-                select new BO.OrderForList
+                let ofl = new BO.OrderForList
                 {
                     ID = order?.ID ?? 0,
                     CustomerName = order?.CustomerName,
                     Status = (BO.Enums.OrderStatus)Enum.Parse(typeof(BO.Enums.OrderStatus), oStatus),
                     AmountOfItems = oAmount,
                     TotalPrice = oTotalPrice
-                }; // adding order to list of- OrderForList
-            return ofllst.AsEnumerable().Where(order => condition is null ? true : condition(order));
+                } // adding order to list of- OrderForList
+                where condition is null ? true : condition(ofl)
+                select ofl;
+            return ofllst;/*.AsEnumerable().Where(order => condition is null ? true : condition(order));*/
         }
         catch (Exception ex) { throw new BO.FailedGettingObjectException(ex); }; // if order has 0 items then don't add it to OrderForList
 
@@ -68,9 +71,11 @@ internal class Order : IOrder
             if (oID < 100000) // if order ID is ilegal then throw iligal data exception
                 throw new BO.IlegalDataException("Ilegal order ID");
             /*List<BO.OrderItem> BOoiLst = new List<BO.OrderItem>();*/ // creating new list for order items from BO
-            IEnumerable<DO.OrderItem?> DALoiLst = Dal.OrderItem.GetList(item => item?.OrderId == oID); // list of order items from data surce
+            //IEnumerable<DO.OrderItem?> DALoiLst = Dal.OrderItem.GetList(item => item?.OrderId == oID); // list of order items from data surce
+            IEnumerable<IGrouping<int, DO.OrderItem?>> dalGroupedList = Dal.OrderItem.GetGrouped();
+            IGrouping<int, DO.OrderItem?>? orderItemsInOrder = dalGroupedList.FirstOrDefault(item => item.Key == oID);
             var BOoiLst =
-                from orderItem in DALoiLst
+                from orderItem in orderItemsInOrder ?? throw new BO.FailedGettingObjectException(new BO.IlegalDataException("Order does not contain any items"))
                 let p = Dal.Product.GetIf(item => item?.ID == orderItem?.ProductId)
                 select new BO.OrderItem
                 {
@@ -81,8 +86,8 @@ internal class Order : IOrder
                     Amount = orderItem?.Amount ?? 0,
                     TotalPrice = (orderItem?.Price ?? 0) * (orderItem?.Amount ?? 0)
                 };
-            int oAmount = DALoiLst.Sum(ordetItem => ordetItem?.Amount ?? 0);
-            double oTotalPrice = DALoiLst.Sum(ordetItem => (ordetItem?.Price ?? 0) * (ordetItem?.Amount ?? 0));
+            int oAmount = orderItemsInOrder.Sum(ordetItem => ordetItem?.Amount ?? 0);
+            double oTotalPrice = orderItemsInOrder.Sum(ordetItem => (ordetItem?.Price ?? 0) * (ordetItem?.Amount ?? 0));
             //foreach (DO.OrderItem? oiItem in DALoiLst)
             //{
             //    oAmount += (int)oiItem?.Amount!;
@@ -105,7 +110,7 @@ internal class Order : IOrder
                 ID = oID,
                 CustomerName = order?.CustomerName,
                 CustomerEmail = order?.CustomerEmail,
-                CustomerAdress = order?.CustomerAdress,
+                CustomerAddress = order?.CustomerAddress,
                 OrderDate = order?.OrderDate,
                 Status = (BO.Enums.OrderStatus)Enum.Parse(typeof(BO.Enums.OrderStatus), OrderStatus(order)), //convert string to enum
                 PaymentDate = order?.OrderDate,
@@ -132,7 +137,7 @@ internal class Order : IOrder
             {
                 ID = dOrder?.ID ?? 0,
                 CustomerName = dOrder?.CustomerName,
-                CustomerAdress = dOrder?.CustomerAdress,
+                CustomerAddress = dOrder?.CustomerAddress,
                 CustomerEmail = dOrder?.CustomerEmail,
                 OrderDate = dOrder?.OrderDate,
                 ShipDate = DateTime.Now, // updating the order shipping date in data surce
@@ -164,7 +169,7 @@ internal class Order : IOrder
             {
                 ID = dOrder?.ID ?? 0,
                 CustomerName = dOrder?.CustomerName,
-                CustomerAdress = dOrder?.CustomerAdress,
+                CustomerAddress = dOrder?.CustomerAddress,
                 CustomerEmail = dOrder?.CustomerEmail,
                 OrderDate = dOrder?.OrderDate,
                 ShipDate = dOrder?.ShipDate, // updating the order shipping date in data surce

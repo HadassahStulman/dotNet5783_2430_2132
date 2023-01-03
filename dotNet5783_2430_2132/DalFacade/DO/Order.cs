@@ -19,9 +19,9 @@ public struct Order
     /// </summary>
     public string? CustomerEmail { get; set; }
     /// <summary>
-    /// customer's adress for delivery
+    /// customer's address for delivery
     /// </summary>
-    public string? CustomerAdress { get; set; }
+    public string? CustomerAddress { get; set; }
     /// <summary>
     /// ordering date
     /// </summary>
