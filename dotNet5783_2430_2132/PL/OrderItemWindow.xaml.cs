@@ -12,7 +12,7 @@ public partial class OrderItemWindow : Window
     /// </summary>
     private readonly BlApi.IBl bl = BlApi.Factory.Get();
     private BO.OrderItem myOrderItem;
-    int oID = 0;
+    BO.Order myOrder;
 
     /// <summary>
     /// constructer
@@ -20,15 +20,15 @@ public partial class OrderItemWindow : Window
     /// <param name="source"></param>
     /// <param name="id"></param>
     /// <param name="oi"></param>
-    public OrderItemWindow(string source, string orderStatus, int id, BO.OrderItem oi)
+    public OrderItemWindow(string source, ref BO.Order orderToUpdate, ref BO.OrderItem oi)
     {
         InitializeComponent();
 
         myOrderItem = oi;
         this.DataContext = myOrderItem;
-        oID = id;
+        myOrder = orderToUpdate;
 
-        if (source == "manager" && orderStatus == "OrderConfirmed") 
+        if (source == "manager" && orderToUpdate.Status.ToString() == "OrderConfirmed") 
         {
             
             UpdateAmount_Button.Visibility = Visibility.Visible;
@@ -45,11 +45,13 @@ public partial class OrderItemWindow : Window
     /// <param name="e"></param>
     private void UpdateAmount_Button_Click(object sender, RoutedEventArgs e)
     {
-        try {
+        try 
+        {
 
-            bl.Order.ManagerUpdateOrder(oID, myOrderItem.ProductID, myOrderItem.Amount);
+            myOrder = bl.Order.ManagerUpdateOrder(myOrder.ID, myOrderItem.ProductID, myOrderItem.Amount)!;
             myOrderItem.TotalPrice = myOrderItem.Amount * myOrderItem.Price;
             MessageBox.Show("The order has been successfully updated!");
+            Close();
         }
         catch(Exception ex) {
             MessageBox.Show( ex.ToString()); 

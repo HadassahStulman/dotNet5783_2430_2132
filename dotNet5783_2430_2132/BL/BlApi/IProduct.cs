@@ -58,6 +58,6 @@ public interface IProduct
     /// return productList grouped by category
     /// </summary>
     /// <returns>IEnumerable<IGrouping<BO.Enums.Category?, ProductForList?></returns>
-    public IEnumerable<IGrouping<BO.Enums.Category?, ProductForList?>> GetGroupedList();
+    //public IEnumerable<IGrouping<BO.Enums.Category?, ProductForList?>> GetGroupedList();
 
 }

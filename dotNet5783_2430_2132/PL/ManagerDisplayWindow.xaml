@@ -5,20 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="ManagerDisplayWindow" Height="450" Width="800">
+        Title="ManagerDisplayWindow" Height="450" Width="800" Style="{StaticResource backgroundImage}" >
     <Window.Resources>
-        <Style x:Key="myButtonStyle" TargetType="Button">
-            <Setter Property="FontSize" Value="16" />
-            <Setter Property="FontWeight" Value="Bold" />
-            <Setter Property="Width" Value="160"/>
-            <Setter Property="Height" Value="30"/>
+        <Style x:Key="myButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+            <Setter Property="Width" Value="250"/>
+            <Setter Property="Height" Value="100"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
         </Style>
     </Window.Resources>
-    <Grid HorizontalAlignment="Left" Width="800">
-        <Button x:Name="ProductForListDisplay" Content="Product List Display" Style="{StaticResource myButtonStyle}" HorizontalAlignment="Left" Margin="200,200,0,0" Click="ProductForListDisplay_Click"  />
-        <Button x:Name="OrderForListDisplay" Content="Order List Display" Style="{StaticResource myButtonStyle}"  Margin="439,200,201,0" Click="OrderForListDisplay_Click" />
-        <Button x:Name="Back_Button" Content="Back" Style="{StaticResource myButtonStyle}" HorizontalAlignment="Left" Margin="561,319,0,0" VerticalAlignment="Top" Click="Back_Button_Click"/>
+    <Grid >
+        <Button x:Name="ProductForListDisplay" Content="Product List Display" Style="{StaticResource myButtonStyle}" HorizontalAlignment="Left" Click="ProductForListDisplay_Click" Margin="118,0,0,0" VerticalAlignment="Center"  />
+        <Button x:Name="OrderForListDisplay" Content="Order List Display" Style="{StaticResource myButtonStyle}"   Click="OrderForListDisplay_Click" Margin="439,0,0,0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="250" />
+        <Button x:Name="Back_Button" Content="Back" Style="{StaticResource myButtonStyle}" HorizontalAlignment="Left" Click="Back_Button_Click" Margin="596,358,0,0" Height="40" Width="150"/>
+        <Label Content="Hello Manager  :)" HorizontalAlignment="Center" VerticalAlignment="Top" Background="#FFB76D6D" Height="40" Width="300" FontSize="22" FontWeight="Heavy" HorizontalContentAlignment="Center" Margin="0,59,0,0" />
 
     </Grid>
 </Window>

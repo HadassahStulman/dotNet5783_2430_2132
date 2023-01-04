@@ -5,7 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Cart"
         mc:Ignorable="d"
-        Title="CartWindow" Height="450" Width="924">
+        Title="CartWindow" Height="450" Width="924" Style="{StaticResource backgroundColor}">
+    <Window.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}"/>
+        <Style TargetType="Label" BasedOn="{StaticResource LableStyle}"/>
+        <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}"/>
+
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
@@ -20,16 +26,19 @@
             <ColumnDefinition Width="60"/>
         </Grid.ColumnDefinitions>
         <ListView x:Name="ItemListView" Grid.Column="3" Grid.Row="1" ItemsSource="{Binding Items}" MouseDoubleClick="ItemListView_MouseDoubleClick">
+            <ListView.Background>
+                <SolidColorBrush Color="#FFE8E6E6" Opacity="0.6"/>
+            </ListView.Background>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="230"/>
-                    <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount}" Width="70"/>
-                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="70"/>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="210"/>
+                    <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount}" Width="80"/>
+                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="80"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <Button x:Name="ConfirmOrder" Grid.Column="3" Content="Confirm Order" Grid.Row="2" Margin="167,26,10,10" Click="ConfirmOrder_Click" />
+        <Button x:Name="ConfirmOrder" Grid.Column="3" Content="Confirm Order" Grid.Row="2" Click="ConfirmOrder_Click" Width="200" Height="50"/>
         <Grid Grid.Row="1" Grid.Column="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -45,11 +54,10 @@
                 <TextBox Text="{Binding CustomerName}" Height="39"/>
                 <TextBox Text="{Binding CustomerEmail}" Height="39"/>
                 <TextBox Text="{Binding CustomerAddress}" Height="39"/>
-                <TextBox Text="{Binding TotalPrice}" Height="39"/>
+                <TextBox Text="{Binding TotalPrice}" Height="39" IsReadOnly="true"/>
             </StackPanel>
         </Grid>
-        <Label Grid.Column="3" Content="Ordered Items" HorizontalAlignment="Left" Margin="10,40,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.258,1.233"/>
-        <Label Grid.Column="1" Content="Customer Information" HorizontalAlignment="Left" Margin="0,40,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="ContinueShopping" Grid.Column="1" Content="Continue Shopping" Grid.Row="2" Click="ContinueShopping_Click" />
+        <Label Content="Order Information" HorizontalContentAlignment="Center" Background="#FFB76D6D" Grid.Column="1" Margin="296,18,320,22" Grid.ColumnSpan="3"/>
+        <Button x:Name="ContinueShopping" Grid.Column="1" Content="Continue Shopping" Grid.Row="2" Click="ContinueShopping_Click" Width="220" Height="50"/>
     </Grid>
 </Window>

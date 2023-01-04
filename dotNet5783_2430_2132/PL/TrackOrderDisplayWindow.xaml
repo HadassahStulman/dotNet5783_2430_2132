@@ -5,26 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="TrackOrderDiplayWindow" Height="450" Width="800">
+        Title="TrackOrderDiplayWindow" Height="450" Width="800" Style="{StaticResource backgroundImage}">
 
     <Window.Resources>
-        <Style x:Key="myButtonStyle" TargetType="Button">
-            <Setter Property="FontSize" Value="20" />
-            <Setter Property="FontWeight" Value="Bold" />
-            <Setter Property="Width" Value="120"/>
-            <Setter Property="Height" Value="30"/>
+        <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+            <Setter Property="Width" Value="230"/>
+            <Setter Property="Height" Value="70"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
         </Style>
     </Window.Resources>
 
     <Grid>
-        <Label x:Name="ID_Lable" Content="Enter Order's ID:" HorizontalAlignment="Left" Margin="75,70,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold"/>
-        <TextBox x:Name="ID_TextBox" HorizontalAlignment="Left" Margin="300,75,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="145" FontSize="20" TextChanged="ID_TextBox_TextChanged"/>
-        <Button x:Name="TrackOrder_Butten" Content="Track Order" Style="{StaticResource myButtonStyle}" Margin="90,300,0,0" IsEnabled="False" Click="TrackOrder_Butten_Click" />
-        <Button x:Name="ViewOrder_Button" Content="View Order" Style="{StaticResource myButtonStyle}" Margin="326,300,0,0"  IsEnabled="False" Click="ViewOrder_Button_Click"/>
-        <Button x:Name="Back_button" Content="Back" Style="{StaticResource myButtonStyle}"  Margin="581,355,0,0" Click="Back_button_Click"/>
-
-
+        <StackPanel Orientation="Horizontal" Width="320" Height="40"  Background="#FFC1B2A4" Margin="246,177,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Label x:Name="ID_Lable" Content="Enter Order's ID:      " Style="{StaticResource LableStyle}" VerticalAlignment="Center"/>
+            <TextBox x:Name="ID_TextBox" Width="150" Height="30" HorizontalAlignment="Left" TextChanged="ID_TextBox_TextChanged"/>
+        </StackPanel>
+        <Button x:Name="TrackOrder_Butten" Content="Track Order" Margin="149,252,0,0" IsEnabled="False" Click="TrackOrder_Butten_Click" />
+        <Button x:Name="ViewOrder_Button" Content="View Order"  Margin="451,252,0,0"  IsEnabled="False" Click="ViewOrder_Button_Click"/>
+        <Button x:Name="Back_button" Content="Back" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="50" Width="150" Click="Back_button_Click" Margin="0,0,48,10"/>
+        <Label Content="Order View Options" HorizontalAlignment="Left" Margin="246,47,0,0" VerticalAlignment="Top"  Background="#FFB76D6D" Width="320" Height="40" FontSize="25" HorizontalContentAlignment="Center" FontWeight="Heavy"/>
     </Grid>
 </Window>

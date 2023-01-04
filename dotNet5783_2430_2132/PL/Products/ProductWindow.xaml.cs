@@ -50,8 +50,8 @@ public partial class ProductWindow : Window
         this.DataContext = myProduct;
         UpdateOptionButton.Visibility = Visibility.Visible;
         UpdateOptionButton.IsEnabled = true;
-        DeleteOptionButton.Visibility = Visibility.Visible;
-        DeleteOptionButton.IsEnabled = true;
+        //DeleteOptionButton.Visibility = Visibility.Visible;
+        //DeleteOptionButton.IsEnabled = true;
 
         NameTextBox.IsReadOnly = true;
         PriceTextBox.IsReadOnly = true;
@@ -164,6 +164,8 @@ public partial class ProductWindow : Window
         UpdateOptionButton.IsEnabled = false;
         UpdateProductButton.IsEnabled = true;
         UpdateProductButton.Visibility = Visibility.Visible;
+        DeleteOptionButton.Visibility = Visibility.Hidden;
+        DeleteOptionButton.IsEnabled = false;
 
         NameTextBox.IsReadOnly = false;
         PriceTextBox.IsReadOnly = false;

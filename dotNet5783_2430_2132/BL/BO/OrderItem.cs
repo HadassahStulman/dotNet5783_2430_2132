@@ -30,7 +30,17 @@ public class OrderItem: INotifyPropertyChanged
     /// <summary>
     /// amount of copies of the product
     /// </summary>
-    public int Amount { get; set; }
+    private int amount;
+    public int Amount
+    {
+        get { return amount; }
+        set
+        {
+            amount = value;
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs("Amount"));
+        }
+    }
 
 
     /// <summary>

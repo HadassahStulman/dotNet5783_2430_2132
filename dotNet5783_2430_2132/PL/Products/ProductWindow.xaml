@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Products"
         mc:Ignorable="d"
-        Title="ProductWindow" Height="541" Width="531">
+        Title="ProductWindow" Height="541" Width="531" Style="{StaticResource backgroundColor}">
+    <Window.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}"/>
+    </Window.Resources>
     <Grid>
-        <Grid.Background>
-            <SolidColorBrush Color="#FF7FDEB9" Opacity="0.5"/>
-        </Grid.Background>
 
         <Label Content="ID:" HorizontalAlignment="Left" Margin="121,128,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
         <Label Content="Category:" HorizontalAlignment="Left" Margin="121,168,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Bold"/>
@@ -21,10 +21,10 @@
         <TextBox x:Name="PriceTextBox" Text="{Binding Path=Price, Mode=TwoWay}" HorizontalAlignment="Left" Margin="236,255,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="200" Height="25" IsReadOnly="False"/>
         <TextBox x:Name="InStockTextBox" Text="{Binding Path=InStock, Mode=TwoWay}" HorizontalAlignment="Left" Margin="236,295,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="200" Height="25" IsReadOnly="False"/>
         <ComboBox x:Name="CategoryCombobox" Text="{Binding Path=Category, Mode=TwoWay}" HorizontalAlignment="Left" Margin="236,175,0,0" VerticalAlignment="Top" Width="200" Height="25" IsEnabled="True"/>
-        <Button x:Name="AddProductButton" Content="Add" HorizontalAlignment="Left" Margin="121,358,0,0" VerticalAlignment="Top" Height="25" Width="80" Click="AddProductButton_Click" IsEnabled="False" Visibility="Hidden"/>
-        <Button x:Name="UpdateProductButton" Content="Update" HorizontalAlignment="Left" Margin="121,358,0,0" VerticalAlignment="Top" Height="24" Width="80" IsEnabled="False" Visibility="Hidden"  Click="UpdateProductButton_Click"/>
-        <Button x:Name="UpdateOptionButton" Content="Update Product" HorizontalAlignment="Left" Margin="336,358,0,0" VerticalAlignment="Top" Height="24" Width="100" IsEnabled="False" Visibility="Visible" Click="UpdateOptionButton_Click"/>
-        <Button x:Name="DeleteOptionButton" Content="Delete Product" HorizontalAlignment="Left" Margin="336,399,0,0" VerticalAlignment="Top" Height="24" Width="100" IsEnabled="False" Visibility="Visible" Click="DeleteOptionButton_Click" />
+        <Button x:Name="AddProductButton" Content="Add" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="310,388,0,0" Height="40" Width="180" Click="AddProductButton_Click" IsEnabled="False" Visibility="Hidden"/>
+        <Button x:Name="UpdateProductButton" Content="Update" Margin="0,388,304,0" Height="40" Width="180" IsEnabled="False" Visibility="Hidden"  Click="UpdateProductButton_Click" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+        <Button x:Name="UpdateOptionButton" Content="Update Product"  Height="40" Width="180" IsEnabled="False" Visibility="Hidden" Click="UpdateOptionButton_Click" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="310,388,0,0" />
+        <Button x:Name="DeleteOptionButton" Content="Delete Product"  Height="40" Width="180" IsEnabled="False" Visibility="Hidden" Click="DeleteOptionButton_Click" HorizontalAlignment="Left" Margin="310,445,0,0" VerticalAlignment="Top" />
 
     </Grid>
 </Window>

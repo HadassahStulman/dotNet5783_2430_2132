@@ -5,40 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="OrderItemWindow" Height="450" Width="500">
+        Title="OrderItemWindow" Height="400" Width="500" Style="{StaticResource backgroundColor}">
 
     <Window.Resources>
-        <Style x:Key="myButtonStyle" TargetType="Button">
-            <Setter Property="FontSize" Value="16" />
-            <Setter Property="FontWeight" Value="Bold" />
-            <Setter Property="Width" Value="130"/>
-            <Setter Property="Height" Value="30"/>
-            <Setter Property="VerticalAlignment" Value="Top"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}"/>
 
-        </Style>
-        
-        <Style x:Key="myTextBoxStyle" TargetType="TextBox">
+        <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}">
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="Height" Value="23"/>
-            <Setter Property="Margin" Value="3"/>
+            <Setter Property="Margin" Value="6"/>
             <Setter Property="IsReadOnly" Value="True"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Width" Value="200"/>
             <Setter Property="Grid.Column" Value="1"/>
         </Style>
-        
-        <Style x:Key="myLableStyle" TargetType="Label">
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="FontWeight" Value="Bold" />
+
+        <Style TargetType="Label" BasedOn="{StaticResource LableStyle}">
             <Setter Property="HorizontalAlignment" Value="Left" />
-            <Setter Property="Margin" Value="3"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Grid.Column" Value="0"/>
         </Style>
     </Window.Resources>
     <Grid>
-        <Grid x:Name="OrderIten_Grid"  HorizontalAlignment="Left" Margin="58,39,0,0" VerticalAlignment="Top">
+        <Grid x:Name="OrderIten_Grid"  HorizontalAlignment="Left" Margin="95,39,0,0" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto" />
@@ -53,26 +42,25 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <Label Content="ID:" Style="{StaticResource myLableStyle}"  Grid.Row="0"/>
-            <TextBox x:Name="ID_TextBox" Style="{StaticResource myTextBoxStyle}" Grid.Row="0" Text="{Binding ID, Mode=TwoWay}" />
+            <Label Content="ID:"  Grid.Row="0"/>
+            <TextBox x:Name="ID_TextBox" Grid.Row="0" Text="{Binding ID, Mode=TwoWay}" />
 
-            <Label Content="Name:" Style="{StaticResource myLableStyle}" Grid.Row="1"/>
-            <TextBox x:Name="Name_TextBox" Style="{StaticResource myTextBoxStyle}" Grid.Row="1" Text="{Binding Name, Mode=TwoWay}"/>
+            <Label Content="Name:"  Grid.Row="1"/>
+            <TextBox x:Name="Name_TextBox"  Grid.Row="1" Text="{Binding Name, Mode=TwoWay}"/>
 
-            <Label Content="Product's ID:" Style="{StaticResource myLableStyle}" Grid.Row="2"/>
-            <TextBox x:Name="ProductID_TextBox" Style="{StaticResource myTextBoxStyle}" Grid.Row="2" Text="{Binding ProductID, Mode=TwoWay}"/>
+            <Label Content="Product's ID:"  Grid.Row="2"/>
+            <TextBox x:Name="ProductID_TextBox"  Grid.Row="2" Text="{Binding ProductID, Mode=TwoWay}"/>
 
-            <Label Content="Price:" Style="{StaticResource myLableStyle}" Grid.Row="3"/>
-            <TextBox x:Name="Price_TextBox" Style="{StaticResource myTextBoxStyle}" Grid.Row="3" Text="{Binding Price, Mode=TwoWay}"/>
+            <Label Content="Price:" Grid.Row="3"/>
+            <TextBox x:Name="Price_TextBox"  Grid.Row="3" Text="{Binding Price, Mode=TwoWay}"/>
 
-            <Label Content="Amount:" Style="{StaticResource myLableStyle}" Grid.Row="4"/>
-            <TextBox x:Name="Amount_TextBox" Style="{StaticResource myTextBoxStyle}" Grid.Row="4" Text="{Binding Amount, Mode=TwoWay}" />
+            <Label Content="Amount:"  Grid.Row="4"/>
+            <TextBox x:Name="Amount_TextBox"  Grid.Row="4" Text="{Binding Amount, Mode=TwoWay}" />
 
-            <Label Content="Total Price:" Style="{StaticResource myLableStyle}" Grid.Row="5"/>
-            <TextBox x:Name="TotalPrice_TextBox" Style="{StaticResource myTextBoxStyle}" Grid.Row="5" Text="{Binding TotalPrice, Mode=TwoWay}"/>
+            <Label Content="Total Price:"  Grid.Row="5"/>
+            <TextBox x:Name="TotalPrice_TextBox"  Grid.Row="5" Text="{Binding TotalPrice, Mode=TwoWay}"/>
         </Grid>
-        <Button x:Name="UpdateAmount_Button" Content="Update Amount" Style="{StaticResource myButtonStyle}" Margin="58,318,0,0" IsEnabled="False" Visibility="Hidden" Click="UpdateAmount_Button_Click"/>
-        <Button x:Name="Back_Button" Content="Back" Style="{StaticResource myButtonStyle}"  Margin="234,318,0,0" Click="Back_Button_Click"  />
+        <Button x:Name="UpdateAmount_Button" Content="Update Amount" Margin="236,289,0,0" IsEnabled="False" Visibility="Hidden" Click="UpdateAmount_Button_Click" HorizontalAlignment="Left" Width="200" Height="40" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

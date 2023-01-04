@@ -5,7 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Products"
         mc:Ignorable="d"
-        Title="ProductForListWindow" Height="640" Width="800">
+        Title="ProductForListWindow" Height="640" Width="800" Style="{StaticResource backgroundColor}">
+    <Window.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}"/>
+    </Window.Resources>
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="40*"/>
@@ -19,17 +22,10 @@
             </Grid.ColumnDefinitions >
             <ComboBox x:Name="CategorySelector" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" SelectionChanged="CategorySelector_SelectionChanged" Grid.Row="0">
                 <ComboBox.Background>
-                    <LinearGradientBrush EndPoint="0,1" Opacity="0.7">
-                        <GradientStop Color="#FFF0F0F0"/>
-                        <GradientStop Color="#FF7FDEB9" Offset="1"/>
-                        <GradientStop Offset="0.67"/>
-                        <GradientStop Color="#E5F1F1F1" Offset="0.067"/>
-                        <GradientStop Color="#58F9F9F9" Offset="0.438"/>
-                        <GradientStop Offset="0.558"/>
-                    </LinearGradientBrush>
+                    <SolidColorBrush Color="#FFE8E6E6" Opacity="0.6"/>
                 </ComboBox.Background>
             </ComboBox>
- 
+
             <Label Content="Category:  " Grid.Column="0" FontWeight="Bold" Grid.Row="0" FontSize="17" HorizontalContentAlignment="Right">
                 <Label.Background>
                     <SolidColorBrush Opacity="0.7"/>
@@ -40,7 +36,7 @@
                   Grid.Row="1"
                   HorizontalAlignment="Stretch" 
                   VerticalAlignment="Stretch"
-                  FontSize="14"
+                  FontSize="15"
                   MouseDoubleClick="productDoubleClick" 
                   ItemsSource="{Binding}">
             <ListView.Background>
@@ -58,18 +54,13 @@
                 <GroupStyle>
                     <GroupStyle.HeaderTemplate>
                         <DataTemplate>
-                            <TextBlock FontWeight="Bold" FontSize="15" Text="{Binding Path=Name}"  Height="30" Width="800" Background="PaleTurquoise" />
+                            <TextBlock FontWeight="Bold" FontSize="15" Text="{Binding Path=Name}"  Height="30" Width="800" Background="#FFC1B2A4" />
                         </DataTemplate>
                     </GroupStyle.HeaderTemplate>
                 </GroupStyle>
             </ListView.GroupStyle>
         </ListView>
-        <Button x:Name="GoToAddProductButton" Content="Add new Product" Grid.Row="2" HorizontalAlignment="Right" Click="GoToAddProductButton_Click" Width="200" FontSize="16" FontWeight="Bold" Height="40" >
-            <Button.Background>
-                <SolidColorBrush Color="#FF7FDEB9" Opacity="0.8"/>
-            </Button.Background>
-        </Button>
+        <Button x:Name="GoToAddProductButton" Content="Add new Product" Grid.Row="2" HorizontalAlignment="Right" Click="GoToAddProductButton_Click" Width="200" FontSize="16" FontWeight="Bold" Height="40" />
         <Button x:Name="GroupByCat" Content="Group By Category" HorizontalAlignment="Left" Grid.Row="2" VerticalAlignment="Top" Grid.RowSpan="2" Height="40" Width="200" FontSize="14" FontWeight="Bold" Click="GroupByCatButton_Click"/>
-
     </Grid>
 </Window>

@@ -5,28 +5,38 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL.Cart"
         mc:Ignorable="d"
-        Title="CatalogWindow" Height="450" Width="800">
+        Title="CatalogWindow" Height="450" Width="800" Style="{StaticResource backgroundColor}">
+    <Window.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions >
             <RowDefinition Height="50*"/>
             <RowDefinition Height="500*"/>
-            <RowDefinition Height="60*"/>
+            <RowDefinition Height="70*"/>
         </Grid.RowDefinitions>
         <Grid x:Name="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <ComboBox Name="CategorySelector" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" SelectionChanged="CategorySelector_SelectionChanged" />
+            <ComboBox Name="CategorySelector" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Column="1" SelectionChanged="CategorySelector_SelectionChanged" >
+                <ComboBox.Background>
+                    <SolidColorBrush Color="#FFE8E6E6" Opacity="0.6"/>
+                </ComboBox.Background>
+            </ComboBox>
             <Label Content="Category:  " HorizontalAlignment="right"  VerticalAlignment="Stretch" FontSize="14" FontWeight="Bold"/>
 
         </Grid>
-        <ListView x:Name="ProductListView" Grid.Row="1" ItemsSource="{Binding}" MouseDoubleClick="ChooseItem_DoubleClick" >
+        <ListView x:Name="ProductListView" Grid.Row="1" ItemsSource="{Binding}" FontSize="15" MouseDoubleClick="ChooseItem_DoubleClick" >
+            <ListView.Background>
+                <SolidColorBrush Color="#FFE8E6E6" Opacity="0.6"/>
+            </ListView.Background>
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="ID" DisplayMemberBinding="{Binding ID}" Width="100"/>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="200"/>
-                    <GridViewColumn Header="Category" DisplayMemberBinding="{Binding Category}" Width="100"/>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="300"/>
+                    <GridViewColumn Header="Category" DisplayMemberBinding="{Binding Category}" Width="170"/>
                     <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="100"/>
                 </GridView>
             </ListView.View>

@@ -5,33 +5,37 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="OrderListWindow" Height="450" Width="800">
+        Title="OrderListWindow" Height="450" Width="800" Style="{StaticResource backgroundColor}">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*"/>
             <RowDefinition Height="4*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="8*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <ListView x:Name="OrderListView"  Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDoubleClick="OrderDoubleClick" ItemsSource="{Binding}">
+        <ListView x:Name="OrderListView"  Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MouseDoubleClick="OrderDoubleClick" ItemsSource="{Binding}" FontSize="15">
+            <ListView.Background>
+                <SolidColorBrush Color="#FFE8E6E6" Opacity="0.6"/>
+            </ListView.Background>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Path= ID }" Width="65" />
-                    <GridViewColumn Header="Customer's Name" DisplayMemberBinding="{Binding Path= CustomerName }" Width="130"/>
-                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Path= Status }" Width="115"/>
-                    <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Path= AmountOfItems }" Width="65"  />
-                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Path= TotalPrice }" Width="65" />
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Path= ID }" Width="80" />
+                    <GridViewColumn Header="Customer's Name" DisplayMemberBinding="{Binding Path= CustomerName }" Width="160"/>
+                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Path= Status }" Width="130"/>
+                    <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Path= AmountOfItems }" Width="80"  />
+                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Path= TotalPrice }" Width="80" />
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <Button x:Name="Back_Button" Content="Back"  Grid.Column="1" Grid.Row="2"  HorizontalAlignment="Left" VerticalAlignment="Top" FontWeight="Bold" FontSize="16" Width="65" Height="30" Click="Back_Button_Click" Margin="415,18,0,0"/>
+        <Button x:Name="Back_Button" Content="Back"  Grid.Column="1" Grid.Row="2"  Width="100" Height="40" Click="Back_Button_Click" Margin="516,0,0,0" Style="{StaticResource ButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
     </Grid>
 </Window>

@@ -70,7 +70,7 @@ public partial class TrackOrderDiplayWindow : Window
             if (!int.TryParse(ID_TextBox.Text, out int id)) // convet id fron string to int
                 id = 0;
             bl.Order.GetByID(id);
-            new OrderDetailsWindow(id, "customer").ShowDialog();
+            new Orders.OrderWindow(id, "customer").ShowDialog();
 
         }
         catch (Exception ex) // if id is illigal then throw

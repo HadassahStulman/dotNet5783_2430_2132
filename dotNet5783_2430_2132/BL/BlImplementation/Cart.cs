@@ -70,42 +70,24 @@ internal class Cart : ICart
         try
         {
             DO.Product? p = Dal.Product.GetIf(item => (item?.ID ?? 0) == pID); // finding product (that we're adding to cart) in products catalog
-            if (amount < 0 || amount > p?.InStock) // if amount is negative or if there is not enough of product in stock  then throw message
+            if (amount < 0) // if amount is negative or if there is not enough of product in stock  then throw message
                 throw new BO.IlegalDataException("Ilegal amount"); // failed updating product in cart beacuse of ilega data 
-
+            if (amount > p?.InStock)
+                throw new BO.OutOfStockException();
             if (crt.Items?.Count == 0) // if cart is empty then throw not existing ecxeption
-                throw new DO.NotExistingException();
+                throw new BO.IlegalDataException("Cart Is Empty");
 
             var item = crt?.Items!.Find(item => item?.ProductID == pID);
             if (item == null)
                 throw new DO.NotExistingException();
             crt!.TotalPrice += (amount - item.Amount) * item.Price;
+            item.Amount = amount;
             crt?.Items!.Remove(item);
             if (amount != 0)
             {
                 item.TotalPrice += (amount - item.Amount) * item.Price;
-                item.Amount = amount;
                 crt?.Items!.Add(item);
             }
-            //else // if amount is zero then delete item from cart
-            //    crt?.Items!.Remove(item);
-
-            //foreach (BO.OrderItem? oi in crt.Items!) // running on list of all items in cart
-            //    if (oi?.ProductID == pID) // if product was found then update data
-            //    {
-            //        flag = true;
-            //        crt.TotalPrice += (amount - oi.Amount) * oi.Price;
-            //        if (amount != 0)
-            //        {
-            //            oi.TotalPrice += (amount - oi.Amount) * oi.Price;
-            //            oi.Amount = amount;
-            //        }
-            //        else // if amount is zero then delete item from cart
-            //            crt.Items.Remove(oi);
-            //        break;
-            //    }
-            //if (!flag) // if order item was not found in shopping cart then throw not existing exception
-            //    throw new DalApi.NotExistingException();
             return crt!;
 
         }

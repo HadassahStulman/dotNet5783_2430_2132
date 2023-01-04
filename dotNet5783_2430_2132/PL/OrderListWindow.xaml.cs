@@ -35,7 +35,7 @@ public partial class OrderListWindow : Window
         try
         {
             BO.OrderForList o = (OrderListView.SelectedItem as BO.OrderForList) ?? throw new NullReferenceException();
-            new OrderDetailsWindow(o.ID, "manager").ShowDialog();
+            new Orders.OrderWindow(o.ID, "manager").ShowDialog();
 
             myOrderCollection = new(bl.Order.GetList());
             OrderListView.DataContext = myOrderCollection;

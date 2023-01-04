@@ -5,20 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainScreen" Height="450" Width="800">
+        Title="MainScreen" Height="450" Width="800" Style="{StaticResource backgroundImage}">
     <Window.Resources>
-        <Style x:Key="myButtonStyle" TargetType="Button">
-            <Setter Property="FontSize" Value="16" />
-            <Setter Property="FontWeight" Value="Bold" />
-            <Setter Property="Width" Value="145"/>
-            <Setter Property="Height" Value="30"/>
+        <Style x:Key="myButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+            <Setter Property="Width" Value="203"/>
+            <Setter Property="Height" Value="127"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
+
         </Style>
     </Window.Resources>
     <Grid>
-        <Button x:Name="ManagerDisplay_Button" Content="Manager Display"  Style="{StaticResource myButtonStyle}" HorizontalAlignment="Left" Margin="100,187,0,0" Click="ManagerDisplayButton_Click"/>
-        <Button x:Name="NewOrder_Button" Content="NewOrder" Style="{StaticResource myButtonStyle}" HorizontalAlignment="Center" Margin="0,187,0,0" Click="NewOrderButton_Click"/>
-        <Button x:Name="TrackOrder_Button" Content="TrackOrder_Button" Style="{StaticResource myButtonStyle}"  Click="TrackOrderButton_Click" Width="145" HorizontalAlignment="Right" RenderTransformOrigin="0.388,0.574" Margin="0,187,100,0"/>
-
+        <Button x:Name="ManagerDisplay_Button" Content="Manager Display"  Style="{StaticResource myButtonStyle}" HorizontalAlignment="Left" Margin="43,187,0,0" Click="ManagerDisplayButton_Click"/>
+        <Button x:Name="NewOrder_Button" Content="New Order" Style="{StaticResource myButtonStyle}" HorizontalAlignment="Center" Margin="0,187,0,0" Click="NewOrderButton_Click"/>
+        <Button x:Name="TrackOrder_Button" Content="Track Order" Style="{StaticResource myButtonStyle}"  Click="TrackOrderButton_Click" HorizontalAlignment="Right" RenderTransformOrigin="0.388,0.574" Margin="0,187,41,0" Background="#FFC1B2A4"/>
+        <Label Content="Welcome To Our Book Shop!" HorizontalAlignment="Center" Margin="0,35,0,0" VerticalAlignment="Top" FontSize="35" FontWeight="Heavy" Background="#FFB76D6D"/>
     </Grid>
 </Window>
