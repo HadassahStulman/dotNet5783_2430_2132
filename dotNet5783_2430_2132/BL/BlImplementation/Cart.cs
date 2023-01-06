@@ -1,5 +1,6 @@
 ﻿
 using BlApi;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace BlImplementation;
@@ -24,7 +25,7 @@ internal class Cart : ICart
         {
             DO.Product? p = Dal.Product.GetIf(item => (item?.ID) == pID); // finding product (that we're adding to cart) in products catalog 
 
-            crt.Items ??= new List<BO.OrderItem?>();
+            crt.Items ??= new ObservableCollection<BO.OrderItem?>();
 
             BO.OrderItem? orderItem = crt.Items.FirstOrDefault(item => (item?.ID ?? 0) == pID);
             if (orderItem != null)
@@ -77,7 +78,7 @@ internal class Cart : ICart
             if (crt.Items?.Count == 0) // if cart is empty then throw not existing ecxeption
                 throw new BO.IlegalDataException("Cart Is Empty");
 
-            var item = crt?.Items!.Find(item => item?.ProductID == pID);
+            var item = crt?.Items!.ToList().Find(item => item?.ProductID == pID);
             if (item == null)
                 throw new DO.NotExistingException();
             crt!.TotalPrice += (amount - item.Amount) * item.Price;

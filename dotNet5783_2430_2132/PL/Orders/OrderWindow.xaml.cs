@@ -27,8 +27,7 @@ public partial class OrderWindow : Window
     /// private feiled for accessing to bl methods
     /// </summary>
     private readonly BlApi.IBl bl = BlApi.Factory.Get();
-    BO.Order myOrder;
-    ObservableCollection<BO.OrderItem?>? myOrderItem = null;
+    private BO.Order myOrder;
     string oiSource;
 
 
@@ -47,9 +46,6 @@ public partial class OrderWindow : Window
             myOrder = bl.Order.GetByID(id);
             this.DataContext = myOrder;
             Status_ComboBox.ItemsSource = Enum.GetValues(typeof(BO.Enums.OrderStatus)); // initialize order status combobox
-
-            myOrderItem = new(myOrder.Items!.ToList()!);
-            OrderItems_ListBox.DataContext = myOrderItem;
 
             if (source == "manager")
             {
@@ -130,13 +126,21 @@ public partial class OrderWindow : Window
         try
         {
             BO.OrderItem oi = (OrderItems_ListBox.SelectedItem as BO.OrderItem) ?? throw new NullReferenceException();
-            new OrderItemWindow(oiSource, ref myOrder, ref oi).ShowDialog();
-
-            BO.Order? newOrder = bl.Order.GetByID(myOrder.ID);
-            this.DataContext = newOrder;
+            new OrderItemWindow(oiSource, myOrder, oi, updateAmount).ShowDialog();
         }
         catch (Exception ex) { MessageBox.Show(ex.ToString()); }
     }
 
     private void Back_Button_Click(object sender, RoutedEventArgs e) => Close();
+
+
+    /// <summary>
+    /// action that can change total price of order from other windows
+    /// </summary>
+    /// <param name="order"></param>
+    private void updateAmount(BO.Order order)
+    {
+        myOrder.TotalPrice = order.TotalPrice;
+        myOrder.Items= order.Items;
+    }
 }

@@ -36,15 +36,6 @@ internal class DalOrder : IOrder
         if (delOrder == null)
             throw new NotExistingException();
         orderList.Remove(delOrder);
-        //bool flag = false;
-        //for (int i = 0; i < orderList.Count; i++)
-        //    if (orderList[i] != null && orderList[i]?.ID == oID)
-        //    {
-        //        orderList.RemoveAt(i);
-        //        flag = true;
-        //    }
-        //if (!flag)
-        //    throw new NotExistingException();
     }
     /// <summary>
     /// Updating an order item in list. If order item (to update) does not exist then throw error.

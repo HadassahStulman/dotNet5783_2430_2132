@@ -16,7 +16,12 @@ namespace PL.Cart
         private static BlApi.IBl bl = BlApi.Factory.Get();
         private IEnumerable<ProductForList?> products = bl.Product.GetAll();
         private BO.Cart cart;
-        public CatalogWindow( ref BO.Cart cart)
+
+        /// <summary>
+        /// catalog constructor
+        /// </summary>
+        /// <param name="cart"></param>
+        public CatalogWindow(BO.Cart cart)
         {
             InitializeComponent();
             this.cart = cart;
@@ -24,6 +29,11 @@ namespace PL.Cart
             CategorySelector.ItemsSource = CategorySelector.ItemsSource = Enum.GetValues(typeof(PL.Products.Enums.Category));
         }
 
+        /// <summary>
+        /// select a category of products to view in list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ProductListView.ItemsSource = from product in products
@@ -32,12 +42,18 @@ namespace PL.Cart
                                           select product;
         }
 
+
+        /// <summary>
+        /// event handler for choosing a product to add to cart
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ChooseItem_DoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             try
             {
                 BO.ProductForList? product = ProductListView.SelectedItem as ProductForList ?? throw new ArgumentNullException();
-                new ProductItemWindow(ref cart, product.ID, "ADD").ShowDialog();
+                new ProductItemWindow(cart, product.ID, "ADD").ShowDialog(); // open product window on adding mode
             }
             catch
             {
@@ -45,9 +61,15 @@ namespace PL.Cart
             }
         }
 
+
+        /// <summary>
+        /// open cart display window 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void GoToCartButton_Click(object sender, RoutedEventArgs e)
         {
-            new CartWindow(ref cart).Show();
+            new CartWindow( cart).Show();
             Close();
         }
     }

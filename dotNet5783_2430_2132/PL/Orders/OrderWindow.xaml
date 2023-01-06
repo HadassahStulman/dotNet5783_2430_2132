@@ -149,7 +149,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <ListBox x:Name="OrderItems_ListBox" ItemsSource="{Binding}" ItemTemplate="{StaticResource OrderItemTemplate}" Margin="6,-228,-739,36"  Grid.ColumnSpan="2" MouseDoubleClick="OrderItemDoubleClick" Background="#FFE8E6E6" />
+            <ListBox x:Name="OrderItems_ListBox" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource OrderItemTemplate}" Margin="6,-228,-739,36"  Grid.ColumnSpan="2" MouseDoubleClick="OrderItemDoubleClick" Background="#FFE8E6E6" />
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="4*" />

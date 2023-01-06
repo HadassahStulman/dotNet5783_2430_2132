@@ -1,5 +1,6 @@
 ﻿
 using BlApi;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Xml.Schema;
 
@@ -15,9 +16,6 @@ internal class Order : IOrder
 
     public IEnumerable<BO.OrderForList> GetList(Func<BO.OrderForList?, bool>? condition)
     {
-
-        /* IEnumerable<DO.Order?> oLst = Dal.Order.GetList(); */// list of orders from data surce
-                                                                //List<BO.OrderForList> ofl = new List<BO.OrderForList>();
         try
         {
             var ofllst =
@@ -49,8 +47,7 @@ internal class Order : IOrder
         {
             if (oID < 100000) // if order ID is ilegal then throw iligal data exception
                 throw new BO.IlegalDataException("Ilegal order ID");
-            /*List<BO.OrderItem> BOoiLst = new List<BO.OrderItem>();*/ // creating new list for order items from BO
-            //IEnumerable<DO.OrderItem?> DALoiLst = Dal.OrderItem.GetList(item => item?.OrderId == oID); // list of order items from data surce
+
             IEnumerable<IGrouping<int, DO.OrderItem?>> dalGroupedList = Dal.OrderItem.GetGrouped();
             IGrouping<int, DO.OrderItem?>? orderItemsInOrder = dalGroupedList.FirstOrDefault(item => item.Key == oID);
             var BOoiLst =
@@ -79,7 +76,7 @@ internal class Order : IOrder
                 PaymentDate = order?.OrderDate,
                 ShipDate = order?.ShipDate,
                 DeliveryDate = order?.DeliveryDate,
-                Items = BOoiLst.ToList(),
+                Items = new ObservableCollection<BO.OrderItem>(BOoiLst),
                 TotalPrice = oTotalPrice
             }; // returning order of BO type
         }
@@ -89,9 +86,6 @@ internal class Order : IOrder
 
     public BO.Order UpdateShipping(int oID)
     {
-
-       // BO.OrderTracking o = new();
-       // o.TrackingStages.First().Item1;
         try
         {
             if (oID < 10000) // if order ID is a negative number then throw iligal data exception
@@ -177,7 +171,7 @@ internal class Order : IOrder
     }
 
 
-    public BO.Order? ManagerUpdateOrder(int oID, int pID,int UpdatedAmount)
+    public BO.Order? ManagerUpdateOrder(int oID, int pID, int UpdatedAmount)
     {
         try
         {
@@ -189,22 +183,23 @@ internal class Order : IOrder
                 throw new BO.IlegalDataException("Cart Is Empty");
 
 
-            BO.OrderItem? orderItemToUpdate = orderToUpdate?.Items?.Find(oi => oi.ProductID == pID);
+            BO.OrderItem? orderItemToUpdate = orderToUpdate?.Items?.ToList().Find(oi => oi.ProductID == pID);
             if (orderItemToUpdate != null)
             {
                 DO.Product? p = Dal.Product.GetIf(item => (item?.ID ?? 0) == pID);
                 int pAmount = p?.InStock ?? 0 + orderItemToUpdate.Amount; // max amount in stock
-                if (UpdatedAmount < 0 ) // if input is ilegal
+                if (UpdatedAmount < 0) // if input is ilegal
                     throw new BO.IlegalDataException("Invalid amount");
                 if (UpdatedAmount > pAmount)
                     throw new BO.OutOfStockException();
                 orderToUpdate?.Items?.Remove(orderItemToUpdate); // remove item from order
-                orderToUpdate!.TotalPrice += (UpdatedAmount- orderItemToUpdate.Amount) * orderItemToUpdate.Price;
+                orderToUpdate!.TotalPrice += (UpdatedAmount - orderItemToUpdate.Amount) * orderItemToUpdate.Price;
                 if (UpdatedAmount == 0) // if amount to update is zero  
                     Dal.OrderItem.Delete(orderItemToUpdate.ID); // deleting item from order list (in data surce) 
                 else
                 {
-                    Dal.OrderItem.Update(new DO.OrderItem // updating list of Order item (in data surce)
+                    // updating list of Order item (in data surce)
+                    Dal.OrderItem.Update(new DO.OrderItem 
                     {
                         ID = orderItemToUpdate.ID,
                         ProductId = orderItemToUpdate.ProductID,
@@ -212,7 +207,8 @@ internal class Order : IOrder
                         Price = orderItemToUpdate.Price,
                         Amount = UpdatedAmount
                     });
-                    orderToUpdate?.Items?.Add(new BO.OrderItem // updating order item list of order
+                    // updating order item list of order
+                    orderToUpdate?.Items?.Add(new BO.OrderItem 
                     {
                         ID = orderItemToUpdate.ID,
                         ProductID = orderItemToUpdate.ProductID,
@@ -222,7 +218,8 @@ internal class Order : IOrder
                         TotalPrice = UpdatedAmount * orderItemToUpdate.Price
                     });
                 }
-                Dal.Product.Update(new DO.Product()  // updating product amount in product list 
+                // updating product amount in product list 
+                Dal.Product.Update(new DO.Product()  
                 {
                     ID = p?.ID ?? 0,
                     Name = p?.Name,

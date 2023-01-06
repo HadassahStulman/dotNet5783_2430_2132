@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using BO;
 using BlApi;
 using System.Linq.Expressions;
+using System.Collections.ObjectModel;
 
 namespace BL;
 
@@ -98,7 +99,7 @@ public class Program
             CustomerAddress = address,
             CustomerEmail = Email,
             TotalPrice = 0,
-            Items = new List<BO.OrderItem?>()
+            Items = new ObservableCollection<BO.OrderItem?>()
         };
         while (flag)
         {

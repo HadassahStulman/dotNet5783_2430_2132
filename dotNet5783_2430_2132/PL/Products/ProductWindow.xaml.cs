@@ -142,6 +142,7 @@ public partial class ProductWindow : Window
         {
             checkInput();
             bl.Product.UpdateProduct(myProduct!);
+            // update catalog observable collectiom
             action(new BO.ProductForList()
             {
                 ID = myProduct!.ID,
@@ -158,6 +159,12 @@ public partial class ProductWindow : Window
         }
     }
 
+
+    /// <summary>
+    /// allow updating products fields
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void UpdateOptionButton_Click(object sender, RoutedEventArgs e)
     {
         UpdateOptionButton.Visibility = Visibility.Hidden;

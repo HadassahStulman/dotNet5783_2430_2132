@@ -94,6 +94,12 @@ public partial class ProductForListWindow : Window
         }
     }
 
+
+    /// <summary>
+    /// devide catalog to groups by category
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void GroupByCatButton_Click(object sender, RoutedEventArgs e)
     {
         if (view == null)
