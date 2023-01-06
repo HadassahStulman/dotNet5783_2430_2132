@@ -38,7 +38,6 @@ internal class Product : IProduct
         XElement productToDelete = productXml.Elements().FirstOrDefault(item => Convert.ToInt32(item.Element("ID")!.Value) == id) ?? throw new DO.NotExistingException();
         productToDelete.Remove();
         productXml.Save(FPath);
-
     }
 
     /// <summary>
@@ -56,7 +55,7 @@ internal class Product : IProduct
     /// </summary>
     /// <param name="condition"></param>
     /// <returns></returns>
-    public IEnumerable<DO.Product> GetList(Func<DO.Product?, bool>? condition = null)
+    public IEnumerable<DO.Product?> GetList(Func<DO.Product?, bool>? condition = null)
     {
         LoadData();
         var productList = from product in productXml.Elements()
@@ -70,7 +69,7 @@ internal class Product : IProduct
                           }
                           where condition == null ? true : condition(newProduct)
                           select newProduct;
-        return productList;
+        return (IEnumerable<DO.Product?>)productList;
 
     }
 
