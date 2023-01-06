@@ -30,10 +30,7 @@ public partial class OrderWindow : Window
     BO.Order myOrder;
     ObservableCollection<BO.OrderItem?>? myOrderItem = null;
     string oiSource;
-
-
-
-
+ 
     /// <summary>
     /// constructer
     /// </summary>
