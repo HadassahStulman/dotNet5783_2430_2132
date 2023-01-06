@@ -18,10 +18,7 @@ public partial class OrderWindow : Window
     private readonly BlApi.IBl bl = BlApi.Factory.Get();
     private BO.Order myOrder;
     string oiSource;
-
-
-
-
+ 
     /// <summary>
     /// constructer
     /// </summary>
