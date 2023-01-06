@@ -126,21 +126,11 @@ public partial class OrderWindow : Window
         try
         {
             BO.OrderItem oi = (OrderItems_ListBox.SelectedItem as BO.OrderItem) ?? throw new NullReferenceException();
-            new OrderItemWindow(oiSource, myOrder, oi, updateAmount).ShowDialog();
+            new OrderItemWindow(oiSource, myOrder, oi).ShowDialog();
         }
         catch (Exception ex) { MessageBox.Show(ex.ToString()); }
     }
 
     private void Back_Button_Click(object sender, RoutedEventArgs e) => Close();
 
-
-    /// <summary>
-    /// action that can change total price of order from other windows
-    /// </summary>
-    /// <param name="order"></param>
-    private void updateAmount(BO.Order order)
-    {
-        myOrder.TotalPrice = order.TotalPrice;
-        myOrder.Items= order.Items;
-    }
 }

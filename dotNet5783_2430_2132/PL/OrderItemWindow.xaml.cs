@@ -13,7 +13,6 @@ public partial class OrderItemWindow : Window
     private readonly BlApi.IBl bl = BlApi.Factory.Get();
     private BO.OrderItem myOrderItem;
     BO.Order myOrder;
-    private Action<BO.Order>? action;
 
     /// <summary>
     /// constructer
@@ -21,14 +20,13 @@ public partial class OrderItemWindow : Window
     /// <param name="source"></param>
     /// <param name="id"></param>
     /// <param name="oi"></param>
-    public OrderItemWindow(string source, BO.Order orderToUpdate, BO.OrderItem oi, Action<BO.Order>? action = null)
+    public OrderItemWindow(string source, BO.Order orderToUpdate, BO.OrderItem oi)
     {
         InitializeComponent();
 
         myOrderItem = oi;
         this.DataContext = myOrderItem;
         this.myOrder = orderToUpdate;
-        this.action = action;
 
         if (source == "manager" && orderToUpdate.Status.ToString() == "OrderConfirmed")
         {
@@ -49,7 +47,9 @@ public partial class OrderItemWindow : Window
     {
         try
         {
-            action!(bl.Order.ManagerUpdateOrder(myOrder.ID, myOrderItem.ProductID, myOrderItem.Amount)!);
+            BO.Order newOrder=bl.Order.ManagerUpdateOrder(myOrder.ID, myOrderItem.ProductID, myOrderItem.Amount)!;
+            myOrder.TotalPrice = newOrder.TotalPrice;
+            myOrder.Items= newOrder.Items;
             myOrderItem.TotalPrice = myOrderItem.Amount * myOrderItem.Price;
             MessageBox.Show("The order has been successfully updated!");
             Close();
