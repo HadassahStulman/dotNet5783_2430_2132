@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 
@@ -89,7 +90,17 @@ public class Order : INotifyPropertyChanged
     /// <summary>
     /// list of items in order
     /// </summary>
-    public List<BO.OrderItem>? Items { get; set; }
+    private ObservableCollection<BO.OrderItem>? items;
+    public ObservableCollection<BO.OrderItem>? Items
+    {
+        get { return items; }
+        set
+        {
+            items = value;
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs("Items"));
+        }
+    }
 
 
     /// <summary>

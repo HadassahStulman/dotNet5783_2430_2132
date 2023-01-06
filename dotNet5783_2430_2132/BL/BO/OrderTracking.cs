@@ -30,4 +30,3 @@ Tracking stages:
 ";
 }
 
-//        <ListBox x:Name="OrderStages_ListBox" ItemsSource = "{Binding}"   Grid.Column="1" Grid.Row="1"/>

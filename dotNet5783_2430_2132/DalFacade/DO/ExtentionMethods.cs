@@ -33,25 +33,37 @@ public static class ExtentionMethods
     /// <param name="t"></param>
     /// <param name="k"></param>
     /// <returns>K</returns>
-    public static K ConvertToBO<T, K>(this T t, K k)
+    public static K ConvertToBO<T, K>(this T source, K destination) where T : struct where K : struct
     {
-        object boxedk = k!;
-        foreach (PropertyInfo Titem in t?.GetType().GetProperties()!)
+        object boxedk = destination!;
+        foreach (PropertyInfo Titem in source.GetType().GetProperties()!)
         {
-            //var Kitem = k.GetType().GetProperties().FirstOrDefault(Kitem => Kitem.Name == Titem.Name);
-            var Kitem = k?.GetType().GetProperty(Titem.Name)!;
+            var Kitem = destination.GetType().GetProperty(Titem.Name)!; // destination property
             if (Kitem != null)
             {
-                object obj = Titem.GetValue(t, null)!;
-                Kitem.SetValue(boxedk, Convert.ChangeType(obj!, Kitem.PropertyType), null);
-                //object objconverted= (typeK.GetProperty(Titem.Name)!)obj;
-                //Kitem.SetValue(boxedk,obj , null);
+                object Tvalue = Titem.GetValue(source, null)!; // value of source property
+                if (Titem.GetType().IsEnum)
+                {
+                    Type DesEnumType = Kitem.GetType();
+                    /*object converted = */
+                    //Tvalue.ConvertEnum <DesEnumType> ();
+                }
+                Kitem.SetValue(boxedk, Convert.ChangeType(Tvalue!, Kitem.PropertyType), null); // set value in destination property
             }
 
         }
         return (K)boxedk;
     }
+
+    public static TEnum ConvertEnum<TEnum>(this Enum source)
+    {
+        return (TEnum)Enum.Parse(typeof(TEnum), source.ToString(), true);
+    }
 }
+
+    //// Usage
+    //NewEnumType newEnum = oldEnumVar.ConvertEnum<NewEnumType>()
+
 /*
 111111
 TextBooks

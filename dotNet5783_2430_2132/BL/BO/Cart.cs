@@ -1,5 +1,6 @@
 ﻿
 
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace BO;
@@ -58,8 +59,8 @@ public class Cart : INotifyPropertyChanged
     /// <summary>
     /// list of all items in cart
     /// </summary>
-    private List<BO.OrderItem?>? items;
-    public List<BO.OrderItem?>? Items
+    private ObservableCollection<BO.OrderItem?>? items;
+    public ObservableCollection<BO.OrderItem?>? Items
     {
         get { return items; }
         set
@@ -93,6 +94,6 @@ public class Cart : INotifyPropertyChanged
 
     public Cart()
     {
-        Items = new List<BO.OrderItem?>();
+        Items = new ObservableCollection<BO.OrderItem?>();
     }
 }

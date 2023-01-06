@@ -20,17 +20,17 @@ public partial class OrderItemWindow : Window
     /// <param name="source"></param>
     /// <param name="id"></param>
     /// <param name="oi"></param>
-    public OrderItemWindow(string source, ref BO.Order orderToUpdate, ref BO.OrderItem oi)
+    public OrderItemWindow(string source, BO.Order orderToUpdate, BO.OrderItem oi)
     {
         InitializeComponent();
 
         myOrderItem = oi;
         this.DataContext = myOrderItem;
-        myOrder = orderToUpdate;
+        this.myOrder = orderToUpdate;
 
-        if (source == "manager" && orderToUpdate.Status.ToString() == "OrderConfirmed") 
+        if (source == "manager" && orderToUpdate.Status.ToString() == "OrderConfirmed")
         {
-            
+
             UpdateAmount_Button.Visibility = Visibility.Visible;
             UpdateAmount_Button.IsEnabled = true;
             Amount_TextBox.IsReadOnly = false;
@@ -45,19 +45,21 @@ public partial class OrderItemWindow : Window
     /// <param name="e"></param>
     private void UpdateAmount_Button_Click(object sender, RoutedEventArgs e)
     {
-        try 
+        try
         {
-
-            myOrder = bl.Order.ManagerUpdateOrder(myOrder.ID, myOrderItem.ProductID, myOrderItem.Amount)!;
+            BO.Order newOrder=bl.Order.ManagerUpdateOrder(myOrder.ID, myOrderItem.ProductID, myOrderItem.Amount)!;
+            myOrder.TotalPrice = newOrder.TotalPrice;
+            myOrder.Items= newOrder.Items;
             myOrderItem.TotalPrice = myOrderItem.Amount * myOrderItem.Price;
             MessageBox.Show("The order has been successfully updated!");
             Close();
         }
-        catch(Exception ex) {
-            MessageBox.Show( ex.ToString()); 
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.ToString());
         }
 
     }
 
-    private void Back_Button_Click(object sender, RoutedEventArgs e)=> Close();
+    private void Back_Button_Click(object sender, RoutedEventArgs e) => Close();
 }

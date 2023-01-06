@@ -14,7 +14,12 @@ public partial class CartWindow : Window
 {
     private BlApi.IBl bl = BlApi.Factory.Get();
     private BO.Cart cart;
-    public CartWindow(ref BO.Cart cart)
+
+    /// <summary>
+    /// window constructor
+    /// </summary>
+    /// <param name="cart"></param>
+    public CartWindow(BO.Cart cart)
     {
         try
         {
@@ -28,12 +33,18 @@ public partial class CartWindow : Window
         }
     }
 
+
+    /// <summary>
+    /// double click on pruduct in catalog event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void ItemListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         try
         {
             int id = (ItemListView.SelectedItem as BO.OrderItem)?.ProductID ?? throw new ArgumentNullException();
-            new ProductItemWindow(ref cart, id, "UPDATE").ShowDialog();
+            new ProductItemWindow(cart, id, "UPDATE").ShowDialog(); // open product view window
         }
         catch (Exception)
         {
@@ -41,18 +52,28 @@ public partial class CartWindow : Window
         }
     }
 
+    /// <summary>
+    /// back to catalog
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void ContinueShopping_Click(object sender, RoutedEventArgs e)
     {
-        new CatalogWindow(ref cart).Show();
+        new CatalogWindow(cart).Show();
         Close();
     }
 
+    /// <summary>
+    /// finish shopong and place order
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void ConfirmOrder_Click(object sender, RoutedEventArgs e)
     {
         try
         {
-            int orderID = bl.Cart.OrderCart(cart);
-            MessageBox.Show($"Order ID is {orderID}", "successfully Oredered");
+            int orderID = bl.Cart.OrderCart(cart); // confirmorder
+            MessageBox.Show($"Order ID is {orderID}", "successfully Oredered");  // return order ID
             Close();
         }
         catch (Exception ex) { MessageBox.Show(ex.ToString(), "Exception Thrown"); }
