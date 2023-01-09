@@ -1,5 +1,6 @@
 ﻿
 using System.Xml.Linq;
+using Dal;
 
 public class program
 {
@@ -83,89 +84,89 @@ public class program
 
         #region initialize Product list
         DO.Product p = new DO.Product();
-            for (int i = 0; i < 10; i++) // initalize product list
+        for (int i = 0; i < 10; i++) // initalize product list
+        {
+            int id = rnd.Next(100000, 999999); // random id number of 6 digits
+            while (!isIDUniqe(id)) // generates new id until id is uniqe
+                id = rnd.Next(10000, 99999);
+            p.ID = id;
+            int cat = rnd.Next(0, 5); // random category
+                                      // choose a name from a random category
+            switch (cat)
             {
-                int id = rnd.Next(100000, 999999); // random id number of 6 digits
-                while (!isIDUniqe(id)) // generates new id until id is uniqe
-                    id = rnd.Next(10000, 99999);
-                p.ID = id;
-                int cat = rnd.Next(0, 5); // random category
-                                          // choose a name from a random category
-                switch (cat)
-                {
-                    case 0:
-                        p.Name = textBookName[i];
-                        break;
-                    case 1:
-                        p.Name = CookBookName[i];
-                        break;
-                    case 2:
-                        p.Name = ToddlerBookName[i];
-                        break;
-                    case 3:
-                        p.Name = ReligiousBookName[i];
-                        break;
-                    case 4:
-                        p.Name = ReadingBookName[i];
-                        break;
-                    default:
-                        break;
-                }
-                p.Category = (DO.Enums.Category)cat;
-                p.Price = (double)rnd.Next(45, 200);  // random price
-                if (i < 9)
-                    p.InStock = rnd.Next(1, 50); // in stock
-                else
-                    p.InStock = 0; // one product won't be in stock
-                addProduct(p); // add new item to list
+                case 0:
+                    p.Name = textBookName[i];
+                    break;
+                case 1:
+                    p.Name = CookBookName[i];
+                    break;
+                case 2:
+                    p.Name = ToddlerBookName[i];
+                    break;
+                case 3:
+                    p.Name = ReligiousBookName[i];
+                    break;
+                case 4:
+                    p.Name = ReadingBookName[i];
+                    break;
+                default:
+                    break;
             }
-            #endregion
+            p.Category = (DO.Enums.Category)cat;
+            p.Price = (double)rnd.Next(45, 200);  // random price
+            if (i < 9)
+                p.InStock = rnd.Next(1, 50); // in stock
+            else
+                p.InStock = 0; // one product won't be in stock
+            addProduct(p); // add new item to list
+        }
+        #endregion
 
-            #region initialize order List
-            DO.Order o = new DO.Order();
-            for (int i = 0; i < 20; i++) // initialize order list
+        #region initialize order List
+        DO.Order o = new DO.Order();
+        for (int i = 0; i < 20; i++) // initialize order list
+        {
+            o.ID = oCode++; // id from config
+            o.CustomerName = customerName[i % 5];// customer name
+            o.CustomerEmail = customerName[i % 5] + "@gmail.com"; // customer Email
+            o.CustomerAddress = CustomerAddress[i % 5] + "_" + i;// costumer address
+            o.ShipDate = null; // minimal date for orders that weren't shiped yet
+            o.DeliveryDate = null; // minimal date for orders that weren't delivered yet
+            DateTime date = DateTime.Now.AddDays(rnd.Next(-30, -1));
+            if (i < 13)
             {
-                o.ID = oCode++; // id from config
-                o.CustomerName = customerName[i % 5];// customer name
-                o.CustomerEmail = customerName[i % 5] + "@gmail.com"; // customer Email
-                o.CustomerAddress = CustomerAddress[i % 5] + "_" + i;// costumer address
-                o.ShipDate = null; // minimal date for orders that weren't shiped yet
-                o.DeliveryDate = null; // minimal date for orders that weren't delivered yet
-                DateTime date = DateTime.Now.AddDays(rnd.Next(-30, -1));
-                if (i < 13)
-                {
-                    o.DeliveryDate = date;
-                    o.ShipDate = date.AddDays(rnd.Next(1, 14) * -1); // ship date maximum two weeks before delivary
-                    o.OrderDate = date.AddDays(rnd.Next(14, 21) * -1); // order date between a week and 3 weeks before delivary
-                }
-                else if (i < 17)
-                {
-                    o.ShipDate = date;
-                    o.OrderDate = date.AddDays(rnd.Next(1, 14) * -1);
-                }
-                else o.OrderDate = DateTime.Now.AddDays(rnd.Next(-7, -1));
-                addOrder(o);
+                o.DeliveryDate = date;
+                o.ShipDate = date.AddDays(rnd.Next(1, 14) * -1); // ship date maximum two weeks before delivary
+                o.OrderDate = date.AddDays(rnd.Next(14, 21) * -1); // order date between a week and 3 weeks before delivary
             }
-            #endregion
+            else if (i < 17)
+            {
+                o.ShipDate = date;
+                o.OrderDate = date.AddDays(rnd.Next(1, 14) * -1);
+            }
+            else o.OrderDate = DateTime.Now.AddDays(rnd.Next(-7, -1));
+            addOrder(o);
+        }
+        #endregion
 
-            #region initialize Order Item List
-            for (int i = 0; i < 20; i++)
+        #region initialize Order Item List
+        for (int i = 0; i < 20; i++)
+        {
+            int amount = rnd.Next(1, 5); // random amount of Product for each order
+            for (int j = 0; j < amount; j++)
             {
-                int amount = rnd.Next(1, 5); // random amount of Product for each order
-                for (int j = 0; j < amount; j++)
-                {
-                    int ranP = rnd.Next(0, 10);
-                    DO.OrderItem oi = new DO.OrderItem()
-                    {  // new order item
-                        ID = oiCode++,
-                        OrderId = orderList[i]?.ID ?? 0,
-                        ProductId = ProductList[ranP]?.ID ?? 0, // random product
-                        Price = ProductList[ranP]?.Price ?? 0, // random price according to product list
-                        Amount = rnd.Next(1, 6) // random amount of copies
-                    };
-                    addOrderItem(oi);
-                }
+                int ranP = rnd.Next(0, 10);
+                DO.OrderItem oi = new DO.OrderItem()
+                {  // new order item
+                    ID = oiCode++,
+                    OrderId = orderList[i]?.ID ?? 0,
+                    ProductId = ProductList[ranP]?.ID ?? 0, // random product
+                    Price = ProductList[ranP]?.Price ?? 0, // random price according to product list
+                    Amount = rnd.Next(1, 6) // random amount of copies
+                };
+                addOrderItem(oi);
             }
+        }
         #endregion
 
         #region upload config to xml
@@ -190,28 +191,34 @@ public class program
             new XElement("InStock", pro?.InStock)));
         initialize.Save(producPath);
 
-        initialize = new XElement("Order",
-               from ord in orderList
-               select new XElement("Order",
-               new XElement("ID", ord?.ID),
-               new XElement("CustomerName", ord?.CustomerName),
-               new XElement("CustomerEmail", ord?.CustomerEmail),
-               new XElement("CustomerAddress", ord?.CustomerAddress),
-               new XElement("OrderDate", ord?.OrderDate),
-               new XElement("ShipDate", ord?.ShipDate),
-               new XElement("DeliveryDate", ord?.DeliveryDate)));
-        initialize.Save(orderPath);
+        XMLTools.SaveListToXML(orderList, orderPath);
+        XMLTools.SaveListToXML(orderItemList, orderItemPath);
+        
+        
 
 
-        initialize = new XElement("OrderItem",
-         from ordI in orderItemList
-         select new XElement("Order",
-         new XElement("ID", ordI?.ID),
-         new XElement("ProductId", ordI?.ProductId),
-         new XElement("OrderId", ordI?.OrderId),
-         new XElement("Price", ordI?.Price),
-         new XElement("Amount", ordI?.Amount)));
-        initialize.Save(orderItemPath);
+        //initialize = new XElement("Order",
+        //       from ord in orderList
+        //       select new XElement("Order",
+        //       new XElement("ID", ord?.ID),
+        //       new XElement("CustomerName", ord?.CustomerName),
+        //       new XElement("CustomerEmail", ord?.CustomerEmail),
+        //       new XElement("CustomerAddress", ord?.CustomerAddress),
+        //       new XElement("OrderDate", ord?.OrderDate),
+        //       new XElement("ShipDate", ord?.ShipDate),
+        //       new XElement("DeliveryDate", ord?.DeliveryDate)));
+        //initialize.Save(orderPath);
+
+
+        //initialize = new XElement("OrderItem",
+        // from ordI in orderItemList
+        // select new XElement("Order",
+        // new XElement("ID", ordI?.ID),
+        // new XElement("ProductId", ordI?.ProductId),
+        // new XElement("OrderId", ordI?.OrderId),
+        // new XElement("Price", ordI?.Price),
+        // new XElement("Amount", ordI?.Amount)));
+        //initialize.Save(orderItemPath);
         #endregion
     }
 }

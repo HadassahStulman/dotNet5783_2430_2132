@@ -18,9 +18,9 @@ internal class Order : IOrder
     public int Add(DO.Order orderToAdd)
     {
         List<DO.Order> orderList = XMLTools.LoadListFromXML<DO.Order>(FPath) ?? new List<DO.Order>();
-        if (orderList.Contains(orderToAdd))
-            throw new DO.AlreadyExistingException();
         orderToAdd.ID = XMLTools.getIdNewO();
+        if (((DO.Order?)(orderList.Find(order => order.ID == orderToAdd.ID)))!=null)
+            throw new DO.AlreadyExistingException();
         orderList.Add(orderToAdd);
         XMLTools.SaveListToXML(orderList, FPath);
         return orderToAdd.ID;
@@ -36,7 +36,7 @@ internal class Order : IOrder
     {
         List<DO.Order> orderList = XMLTools.LoadListFromXML<DO.Order>(FPath) ?? new List<DO.Order>();
         DO.Order? orderToDelete = orderList.FirstOrDefault(Order => Order.ID == id);
-        if (orderToDelete == null)  throw new DO.NotExistingException();
+        if (orderToDelete == null) throw new DO.NotExistingException();
         orderList.Remove((DO.Order)orderToDelete);
         XMLTools.SaveListToXML(orderList, FPath);
     }
@@ -55,16 +55,17 @@ internal class Order : IOrder
     {
         List<DO.Order>? orderList = XMLTools.LoadListFromXML<DO.Order>(FPath) ?? new List<DO.Order>();
         DO.Order? order = orderList.FirstOrDefault(order => func(order));
-        if(order==null) throw new DO.NotExistingException();
+        if (order == null) throw new DO.NotExistingException();
         return order;
     }
 
-    public IEnumerable<DO.Order?> GetList(Func<DO.Order?, bool>? conditon = null)
+    public IEnumerable<DO.Order?> GetList(Func<DO.Order?, bool>? condition = null)
     {
         List<DO.Order> orderListXML = XMLTools.LoadListFromXML<DO.Order>(FPath) ?? new List<DO.Order>();
-        var Olst = from order in orderListXML
-                   where conditon == null ? true : conditon(order)
-                   select order;
+        var Olst = orderListXML.Where(order => condition == null ? true : condition(order));
+        //var Olst = from order in orderListXML
+        //           where conditon == null ? true : conditon(order)
+        //           select order;
         return Olst.Cast<DO.Order?>();
     }
 }
