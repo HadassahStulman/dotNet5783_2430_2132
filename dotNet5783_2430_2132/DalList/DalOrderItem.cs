@@ -66,6 +66,11 @@ internal class DalOrderItem : IOrderItem
     /// <returns>OrderItem?</returns>
     public OrderItem? GetIf(Func<OrderItem?, bool> condition) => orderItemList.FirstOrDefault(condition);
 
+
+    /// <summary>
+    /// returning a grouped list of order items according to orders id
+    /// </summary>
+    /// <returns>IEnumerable</returns>
     public IEnumerable<IGrouping<int, OrderItem?>> GetGrouped()
     {
         var GroupedLst = from orderItem in orderItemList

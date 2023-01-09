@@ -44,3 +44,18 @@ public class DalConfigException : Exception
     public DalConfigException(string msg, Exception ex) : base(msg, ex) { }
 }
 
+[Serializable]
+public class XMLFileLoadException : Exception
+{
+    /// <summary>
+    /// constructor for exception, with uninqe message and inner exception
+    /// </summary>
+    /// <param name="inner"></param>
+    public XMLFileLoadException(string msg, Exception inner) : base(msg,inner) { }
+    /// <summary>
+    /// convert description of exception to string
+    /// </summary>
+    /// <returns>string</returns>
+    public override string ToString() => $"{Message} - {this.InnerException}";
+}
+
