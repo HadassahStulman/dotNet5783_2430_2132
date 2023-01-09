@@ -127,15 +127,6 @@
     <DeliveryDate xsi:nil="true" />
   </Order>
   <Order>
-    <ID>100014</ID>
-    <CustomerName>Ayala_Chaim</CustomerName>
-    <CustomerEmail>Ayala_Chaim@gmail.com</CustomerEmail>
-    <CustomerAddress>Nachal Katlav_14</CustomerAddress>
-    <OrderDate>2023-01-02T20:47:02.4049553+02:00</OrderDate>
-    <ShipDate>2023-01-06T20:47:02.4049553+02:00</ShipDate>
-    <DeliveryDate xsi:nil="true" />
-  </Order>
-  <Order>
     <ID>100015</ID>
     <CustomerName>Esther_Nusbacher</CustomerName>
     <CustomerEmail>Esther_Nusbacher@gmail.com</CustomerEmail>
@@ -177,6 +168,24 @@
     <CustomerEmail>Ayala_Chaim@gmail.com</CustomerEmail>
     <CustomerAddress>Nachal Katlav_19</CustomerAddress>
     <OrderDate>2023-01-06T20:47:02.4049584+02:00</OrderDate>
+    <ShipDate>2023-01-10T01:49:13.5417336+02:00</ShipDate>
+    <DeliveryDate>2023-01-10T01:49:25.8604592+02:00</DeliveryDate>
+  </Order>
+  <Order>
+    <ID>100014</ID>
+    <CustomerName>Ayala_Chaim</CustomerName>
+    <CustomerEmail>Ayala_Chaim@gmail.com</CustomerEmail>
+    <CustomerAddress>Nachal Katlav_14</CustomerAddress>
+    <OrderDate>2023-01-02T20:47:02.4049553+02:00</OrderDate>
+    <ShipDate>2023-01-06T20:47:02.4049553+02:00</ShipDate>
+    <DeliveryDate>2023-01-10T01:51:02.4956443+02:00</DeliveryDate>
+  </Order>
+  <Order>
+    <ID>100020</ID>
+    <CustomerName>Naama Hayun</CustomerName>
+    <CustomerEmail>NamHa@gmail.com</CustomerEmail>
+    <CustomerAddress>Rabi Akiva 2 Bne Brak</CustomerAddress>
+    <OrderDate>2023-01-10T01:53:19.7849065+02:00</OrderDate>
     <ShipDate xsi:nil="true" />
     <DeliveryDate xsi:nil="true" />
   </Order>

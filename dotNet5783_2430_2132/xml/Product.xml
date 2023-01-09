@@ -1,27 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Product>
   <Product>
-    <ID>732857</ID>
-    <Name>My first cookBook</Name>
-    <Price>186</Price>
-    <Category>CookBooks</Category>
-    <InStock>31</InStock>
-  </Product>
-  <Product>
-    <ID>437949</ID>
-    <Name>The Gruffalo</Name>
-    <Price>72</Price>
-    <Category>ToddlerBooks</Category>
-    <InStock>49</InStock>
-  </Product>
-  <Product>
-    <ID>525996</ID>
-    <Name>children Cook</Name>
-    <Price>51</Price>
-    <Category>CookBooks</Category>
-    <InStock>45</InStock>
-  </Product>
-  <Product>
     <ID>460526</ID>
     <Name>I love Science</Name>
     <Price>47</Price>
@@ -34,13 +13,6 @@
     <Price>181</Price>
     <Category>TextBooks</Category>
     <InStock>2</InStock>
-  </Product>
-  <Product>
-    <ID>312016</ID>
-    <Name>Best Meat</Name>
-    <Price>55</Price>
-    <Category>CookBooks</Category>
-    <InStock>42</InStock>
   </Product>
   <Product>
     <ID>847889</ID>
@@ -69,5 +41,47 @@
     <Price>160</Price>
     <Category>ReligiousBooks</Category>
     <InStock>41</InStock>
+  </product>
+  <product>
+    <ID>312016</ID>
+    <Name>Best Meat</Name>
+    <Price>55</Price>
+    <Category>CookBooks</Category>
+    <InStock>42</InStock>
+  </product>
+  <product>
+    <ID>3434234</ID>
+    <Name>The Beauty And The Beast</Name>
+    <Price>100</Price>
+    <Category>ToddlerBooks</Category>
+    <InStock>8</InStock>
+  </product>
+  <product>
+    <ID>123456</ID>
+    <Name>Fresh Salads</Name>
+    <Price>35</Price>
+    <Category>CookBooks</Category>
+    <InStock>30</InStock>
+  </product>
+  <product>
+    <ID>732857</ID>
+    <Name>My first cookBook</Name>
+    <Price>186</Price>
+    <Category>CookBooks</Category>
+    <InStock>31</InStock>
+  </product>
+  <product>
+    <ID>437949</ID>
+    <Name>The Gruffalo</Name>
+    <Price>72</Price>
+    <Category>ToddlerBooks</Category>
+    <InStock>49</InStock>
+  </product>
+  <product>
+    <ID>525996</ID>
+    <Name>children Cook</Name>
+    <Price>51</Price>
+    <Category>CookBooks</Category>
+    <InStock>45</InStock>
   </product>
 </Product>

@@ -92,19 +92,6 @@ public class XMLTools
     /// <exception cref="DO.XMLFileLoadException"></exception>
     public static List<T> LoadListFromXML<T>(string filePath) where T : struct
     {
-        //{
-        //    try
-        //    {
-        //        string fullFilePath = dir + filePath;
-        //        if (!File.Exists(fullFilePath))
-        //            return new();
-        //        XmlSerializer x = new XmlSerializer(typeof(List<T>));
-        //        using FileStream file = new FileStream(fullFilePath, FileMode.Open);
-        //         List<T> list = (List<T>)x.Deserialize(file) ?? new();
-        //        return list;
-        //    }
-        //    catch (Exception ex) { throw new DO.XMLFileLoadException($"fail to load xml file: {filePath}", ex); }
-        //}
         try
         {
             if (!File.Exists(dir + filePath)) return new List<T>();
