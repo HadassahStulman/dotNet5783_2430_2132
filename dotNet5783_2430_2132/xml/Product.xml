@@ -1,1 +1,80 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+<Product>
+  <Product>
+    <ID>419796</ID>
+    <Name>My first cookBook</Name>
+    <Price>95</Price>
+    <Category>CookBooks</Category>
+    <InStock>2</InStock>
+  </Product>
+  <Product>
+    <ID>207879</ID>
+    <Name>The Lord Of The Rings 2</Name>
+    <Price>113</Price>
+    <Category>ReadingBooks</Category>
+    <InStock>36</InStock>
+  </Product>
+  <Product>
+    <ID>406989</ID>
+    <Name>Basic Fisicis</Name>
+    <Price>67</Price>
+    <Category>TextBooks</Category>
+    <InStock>5</InStock>
+  </Product>
+  <Product>
+    <ID>923537</ID>
+    <Name>children Cook</Name>
+    <Price>115</Price>
+    <Category>CookBooks</Category>
+    <InStock>11</InStock>
+  </Product>
+  <Product>
+    <ID>535553</ID>
+    <Name>I love Science</Name>
+    <Price>52</Price>
+    <Category>TextBooks</Category>
+    <InStock>48</InStock>
+  </Product>
+  <Product>
+    <ID>123681</ID>
+    <Name>Pirkey Avot</Name>
+    <Price>95</Price>
+    <Category>ReligiousBooks</Category>
+    <InStock>46</InStock>
+  </Product>
+  <Product>
+    <ID>208831</ID>
+    <Name>Magic School Bus</Name>
+    <Price>142</Price>
+    <Category>ToddlerBooks</Category>
+    <InStock>44</InStock>
+  </Product>
+  <Product>
+    <ID>922669</ID>
+    <Name>The Choclate Book</Name>
+    <Price>67</Price>
+    <Category>CookBooks</Category>
+    <InStock>29</InStock>
+  </Product>
+  <Product>
+    <ID>404951</ID>
+    <Name>Netzor Leshoncha</Name>
+    <Price>158</Price>
+    <Category>ReligiousBooks</Category>
+    <InStock>0</InStock>
+  </Product>
+  <product>
+    <ID>1111111</ID>
+    <Name>Linear Mathematics 1</Name>
+    <Price>150</Price>
+    <Category>TextBooks</Category>
+    <InStock>20</InStock>
+  </product>
+  <product>
+    <ID>199641</ID>
+    <Name>White Fang</Name>
+    <Price>70</Price>
+    <Category>ReadingBooks</Category>
+    <InStock>28</InStock>
+  </product>
+</Product>

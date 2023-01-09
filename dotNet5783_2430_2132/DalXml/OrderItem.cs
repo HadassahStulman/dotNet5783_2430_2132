@@ -1,9 +1,10 @@
 ﻿using DalApi;
 namespace Dal;
+using static Dal.DataSource.Config;
 
 internal class OrderItem : IOrderItem
 {
-    private string FPath = @"OrderItem.xml";
+    private string FPath = @"xml\OrderItem.xml";
 
     /// <summary>
     /// adding a order item to file
@@ -19,6 +20,7 @@ internal class OrderItem : IOrderItem
             DO.OrderItem? oi = oiList!.FirstOrDefault(item => item.ID == oiToAdd.ID);
             if (oi != null)
                 throw new DO.AlreadyExistingException();
+            oiToAdd.ID = XMLTools.getIdNewOI();
             oiList!.Add(oiToAdd);
             XMLTools.SaveListToXML(oiList, FPath);
             return oiToAdd.ID;

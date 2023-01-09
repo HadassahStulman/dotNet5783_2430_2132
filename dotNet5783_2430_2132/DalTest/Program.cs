@@ -80,7 +80,8 @@ namespace Dal
         {
             Product p = new Product();
             Console.WriteLine("enter the book's uniqe ID number");
-            int.TryParse(Console.ReadLine(), out int num); // convert id from string to int
+            if (!int.TryParse(Console.ReadLine(), out int num) || num < 100000) // convert id from string to int
+                throw new Exception("Ilegal ID");
             p.ID = num;
             Console.WriteLine("enter the book's category");
             string cat = Console.ReadLine()!;
@@ -110,7 +111,7 @@ namespace Dal
         {
             Console.WriteLine("enter the book's uniqe ID number");
             int.TryParse(Console.ReadLine(), out int id); // convert input to int
-            Console.WriteLine(DalList.Product.GetIf(item=>item?.ID==id)); // finds the right book, and print the description
+            Console.WriteLine(DalList.Product.GetIf(item => item?.ID == id)); // finds the right book, and print the description
         }
 
         /// <summary>
@@ -448,7 +449,7 @@ namespace Dal
             Console.WriteLine("enter order item ID");
             if (!int.TryParse(Console.ReadLine(), out int id)) // converts the input to integer
                 throw new FormatException();
-            Console.WriteLine(DalList.OrderItem.GetIf(item=>item?.ID==id)); ;// printing description.
+            Console.WriteLine(DalList.OrderItem.GetIf(item => item?.ID == id)); ;// printing description.
         }
 
         /// <summary>

@@ -6,9 +6,13 @@ namespace Dal;
 
 internal class Product : IProduct
 {
-    private XElement productXml;
+    private XElement productXml = new XElement("product");
     private string FPath = @"Product.xml";
 
+    public Product()
+    {
+        // productXml = new XElement("Products");
+    }
     /// <summary>
     /// adding product to file
     /// </summary>
@@ -16,15 +20,16 @@ internal class Product : IProduct
     /// <returns></returns>
     public int Add(DO.Product productToAdd)
     {
-        productXml = new XElement("product",
+        XMLTools.LoadData(out productXml, XMLTools.dir + FPath);
+        XElement elementToAdd = new XElement("product",
             new XElement("ID", productToAdd.ID),
             new XElement("Name", productToAdd.Name),
             new XElement("Price", productToAdd.Price),
             new XElement("Category", productToAdd.Category),
             new XElement("InStock", productToAdd.InStock));
-        productXml.Save(FPath);
+        productXml.Add(elementToAdd);
+        productXml.Save(XMLTools.dir + FPath);
         return productToAdd.ID;
-
     }
 
     /// <summary>
@@ -34,10 +39,10 @@ internal class Product : IProduct
     /// <exception cref="DO.NotExistingException"></exception>
     public void Delete(int id)
     {
-        LoadData();
+        XMLTools.LoadData(out productXml, FPath);
         XElement productToDelete = productXml.Elements().FirstOrDefault(item => Convert.ToInt32(item.Element("ID")!.Value) == id) ?? throw new DO.NotExistingException();
         productToDelete.Remove();
-        productXml.Save(FPath);
+        productXml.Save(XMLTools.dir + FPath);
     }
 
     /// <summary>
@@ -57,7 +62,8 @@ internal class Product : IProduct
     /// <returns></returns>
     public IEnumerable<DO.Product?> GetList(Func<DO.Product?, bool>? condition = null)
     {
-        LoadData();
+        productXml = new XElement("products");
+        XMLTools.LoadData(out productXml, FPath);
         var productList = from product in productXml.Elements()
                           let newProduct = new DO.Product
                           {
@@ -69,8 +75,7 @@ internal class Product : IProduct
                           }
                           where condition == null ? true : condition(newProduct)
                           select newProduct;
-        return (IEnumerable<DO.Product?>)productList;
-
+        return productList.Cast<DO.Product?>();
     }
 
     /// <summary>
@@ -82,18 +87,6 @@ internal class Product : IProduct
     public DO.Product? GetIf(Func<DO.Product?, bool> func)
     {
         return (GetList(func) ?? throw new DO.NotExistingException()).First();
-    }
-
-    private void LoadData()
-    {
-        try
-        {
-            productXml = XElement.Load(FPath);
-        }
-        catch
-        {
-            Console.WriteLine("File upload problem");
-        }
     }
 
 }

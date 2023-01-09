@@ -62,9 +62,7 @@ public partial class ProductForListWindow : Window
     private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         string choice = CategorySelector.SelectedItem.ToString() ?? throw new NullReferenceException();
-        myProductCollection = new(/*from product in*/ bl.Product.GetAll(product => choice == Enums.Category.All.ToString() ? true : product?.Category.ToString() == choice));
-        //where choice == Enums.Category.All.ToString() ? true : product?.Category.ToString() == choice
-        //select product);
+        myProductCollection = new(bl.Product.GetAll(product => choice == Enums.Category.All.ToString() ? true : product?.Category.ToString() == choice));
         this.DataContext = myProductCollection;
         this.view = null;
     }

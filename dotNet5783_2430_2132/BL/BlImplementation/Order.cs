@@ -36,7 +36,7 @@ internal class Order : IOrder
                 } // adding order to list of- OrderForList
                 where condition is null ? true : condition(ofl)
                 select ofl;
-            return ofllst;/*.AsEnumerable().Where(order => condition is null ? true : condition(order));*/
+            return ofllst;
         }
         catch (Exception ex) { throw new BO.FailedGettingObjectException(ex); }; // if order has 0 items then don't add it to OrderForList
     }

@@ -1,59 +1,8 @@
 ﻿
 using System.Xml.Linq;
 
-
-namespace Dal;
-
-internal static class DataSource
+public class program
 {
-    /// <summary>
-    /// class manages unique ID numbers
-    /// </summary>
-    internal static class Config
-    {
-        private static XElement configXml;
-        private static string FPath = @"Config.xml";
-
-        /// <summary>
-        /// static constructor initialize ID in xml file
-        /// </summary>
-        static Config()
-        {
-            XMLTools.LoadData(out configXml, FPath);
-            if (configXml == null)
-            {
-                configXml = new XElement("Config",
-                    new XElement("IdOrder", 100000),
-                    new XElement("IdOrderItem", 100000));
-            }
-        }
-
-
-
-        /// <summary>
-        /// load data from xml file
-        /// </summary>
-
-    }
-
-
-    private static XElement? initialize;
-    private static readonly string producPath = @"Product.xml";
-    private static readonly string orderPath = @"Order.xml";
-    private static readonly string orderItemPath = @"OrderItem.xml";
-
-    internal static readonly Random rnd = new Random();
-
-    private static string[] CookBookName = { "My first cookBook", "Easy cooking", "Amazing Side Dishes", "children Cook", "simple Baking", "Delicious Diserts", "Best Meat", "Fish 5 ways", "The Choclate Book", "Bread For evey day", "Delicate Cakes" };
-    private static string[] ToddlerBookName = { "Dr. Sues", "Grumpy Monkey", "The Gruffalo", "Night Night Farm", "Hiccupotamus", "I Love You To The Moon And Back", "Magic School Bus", "The giving Tree", "Where's spot", "Dear Zoo", "If Animal's Kissed Good Night", "thing 1 Thing 2" };
-    private static string[] ReligiousBookName = { "Bible", "Talmud Set", "Mishnayot", "Sidur", "Sefer Ha'Chinuch", "Pirkey Avot", "Rambam", "Ramban", "Sforno", "Netzor Leshoncha", "Tania" };
-    private static string[] ReadingBookName = { "The Lord Of The Rings 1", "The Lord Of The Rings 2", "The Lord Of The Rings 3", "Divergent", "Harry Potter - Deathly hollows", "Code Breaker", "The Duches Hunt", "White Fang", "Anne", "The Widow", "Seeing Myself" };
-    private static string[] textBookName = { "Calculuse 1", "Programming For Fun", "Basic Fisicis", "Mathematics for first grade", "I love Science", "Advaced Biology", "Basic C++", "Game Theory", "High School Chimistrey", "ABC For Fun", "Fisiology" };
-
-    private static string[] customerName = { "Esther_Nusbacher", "Malka_Cohen", "yaffa_Levi", "Hadassah_Stulman", "Ayala_Chaim", "Sam_Cowell", "Shlomo_Raviv", "Yael_Levin", "Yoni_Smith", "Beth_Ben", "Daniel_Keys", "Ishay_Erez" };
-    private static string[] CustomerAddress = { "Nachal Refa'im", "Nachal Dolev", "Nachal Ein Gedi", "Nachal Shimshone", "Nachal Katlav", "Nachal Timna", "Nachal Habesor" };
-
-
     /// <summary>
     /// list of Product
     /// </summary>
@@ -67,12 +16,18 @@ internal static class DataSource
     /// </summary>
     internal static List<DO.OrderItem?> orderItemList = new List<DO.OrderItem?>();
 
-
-    static DataSource()
+    #region helper function
+    public static void LoadData(XElement xelement, string path)
     {
-        s_Initialize();
+        try
+        {
+            xelement = XElement.Load(@"..\xml\" + path);
+        }
+        catch (Exception ex)
+        {
+            throw new DO.XMLFileLoadException("File upload problem", ex);
+        }
     }
-
     /// <summary>
     /// adding product to list
     /// </summary>
@@ -101,19 +56,33 @@ internal static class DataSource
             return true;
         return false;
     }
+    #endregion
 
-
-    /// <summary>
-    /// initailize data lists with random elements
-    /// </summary>
-    private static void s_Initialize()
+    static void Main(string[] args)
     {
-        // check if fies has any data. if not initialize files
-        initialize = XElement.Load(producPath);
-        if (initialize != null)
-        {
-            #region initialize Product list
-            DO.Product p = new DO.Product();
+        #region static data
+        int oiCode = 100000;
+        int oCode = 100000;
+
+        XElement? initialize;
+        string producPath = @"..\..\..\..\xml\Product.xml";
+        string orderPath = @"..\..\..\..\xml\Order.xml";
+        string orderItemPath = @"..\..\..\..\xml\OrderItem.xml";
+
+        Random rnd = new Random();
+
+        string[] CookBookName = { "My first cookBook", "Easy cooking", "Amazing Side Dishes", "children Cook", "simple Baking", "Delicious Diserts", "Best Meat", "Fish 5 ways", "The Choclate Book", "Bread For evey day", "Delicate Cakes" };
+        string[] ToddlerBookName = { "Dr. Sues", "Grumpy Monkey", "The Gruffalo", "Night Night Farm", "Hiccupotamus", "I Love You To The Moon And Back", "Magic School Bus", "The giving Tree", "Where's spot", "Dear Zoo", "If Animal's Kissed Good Night", "thing 1 Thing 2" };
+        string[] ReligiousBookName = { "Bible", "Talmud Set", "Mishnayot", "Sidur", "Sefer Ha'Chinuch", "Pirkey Avot", "Rambam", "Ramban", "Sforno", "Netzor Leshoncha", "Tania" };
+        string[] ReadingBookName = { "The Lord Of The Rings 1", "The Lord Of The Rings 2", "The Lord Of The Rings 3", "Divergent", "Harry Potter - Deathly hollows", "Code Breaker", "The Duches Hunt", "White Fang", "Anne", "The Widow", "Seeing Myself" };
+        string[] textBookName = { "Calculuse 1", "Programming For Fun", "Basic Fisicis", "Mathematics for first grade", "I love Science", "Advaced Biology", "Basic C++", "Game Theory", "High School Chimistrey", "ABC For Fun", "Fisiology" };
+
+        string[] customerName = { "Esther_Nusbacher", "Malka_Cohen", "yaffa_Levi", "Hadassah_Stulman", "Ayala_Chaim", "Sam_Cowell", "Shlomo_Raviv", "Yael_Levin", "Yoni_Smith", "Beth_Ben", "Daniel_Keys", "Ishay_Erez" };
+        string[] CustomerAddress = { "Nachal Refa'im", "Nachal Dolev", "Nachal Ein Gedi", "Nachal Shimshone", "Nachal Katlav", "Nachal Timna", "Nachal Habesor" };
+        #endregion
+
+        #region initialize Product list
+        DO.Product p = new DO.Product();
             for (int i = 0; i < 10; i++) // initalize product list
             {
                 int id = rnd.Next(100000, 999999); // random id number of 6 digits
@@ -151,11 +120,12 @@ internal static class DataSource
                 addProduct(p); // add new item to list
             }
             #endregion
+
             #region initialize order List
             DO.Order o = new DO.Order();
             for (int i = 0; i < 20; i++) // initialize order list
             {
-                o.ID = XMLTools.getIdNewO(); // id from config
+                o.ID = oCode++; // id from config
                 o.CustomerName = customerName[i % 5];// customer name
                 o.CustomerEmail = customerName[i % 5] + "@gmail.com"; // customer Email
                 o.CustomerAddress = CustomerAddress[i % 5] + "_" + i;// costumer address
@@ -177,6 +147,7 @@ internal static class DataSource
                 addOrder(o);
             }
             #endregion
+
             #region initialize Order Item List
             for (int i = 0; i < 20; i++)
             {
@@ -186,7 +157,7 @@ internal static class DataSource
                     int ranP = rnd.Next(0, 10);
                     DO.OrderItem oi = new DO.OrderItem()
                     {  // new order item
-                        ID = XMLTools.getIdNewO(),
+                        ID = oiCode++,
                         OrderId = orderList[i]?.ID ?? 0,
                         ProductId = ProductList[ranP]?.ID ?? 0, // random product
                         Price = ProductList[ranP]?.Price ?? 0, // random price according to product list
@@ -195,19 +166,31 @@ internal static class DataSource
                     addOrderItem(oi);
                 }
             }
-            #endregion
-            #region upload lists to xml files 
-            initialize = new XElement("Product",
-                from pro in ProductList
-                select new XElement("Product",
-                new XElement("ID", pro?.ID),
-                new XElement("Name", pro?.Name),
-                new XElement("Price", pro?.Price),
-                new XElement("Category", pro?.Category),
-                new XElement("InStock", pro?.InStock)));
-            initialize.Save(producPath);
+        #endregion
 
-            initialize = new XElement("Order",
+        #region upload config to xml
+        XElement? configXml;
+        string FPath = @"..\..\..\..\xml\Config.xml";
+
+        configXml = new XElement("Config",
+            new XElement("IdOrder", oCode),
+            new XElement("IdOrderItem", oiCode));
+        configXml.Save(FPath);
+
+        #endregion
+
+        #region upload lists to xml files
+        initialize = new XElement("Product",
+            from pro in ProductList
+            select new XElement("Product",
+            new XElement("ID", pro?.ID),
+            new XElement("Name", pro?.Name),
+            new XElement("Price", pro?.Price),
+            new XElement("Category", pro?.Category),
+            new XElement("InStock", pro?.InStock)));
+        initialize.Save(producPath);
+
+        initialize = new XElement("Order",
                from ord in orderList
                select new XElement("Order",
                new XElement("ID", ord?.ID),
@@ -217,40 +200,28 @@ internal static class DataSource
                new XElement("OrderDate", ord?.OrderDate),
                new XElement("ShipDate", ord?.ShipDate),
                new XElement("DeliveryDate", ord?.DeliveryDate)));
-            initialize.Save(orderPath);
+        initialize.Save(orderPath);
 
 
-            initialize = new XElement("OrderItem",
-             from ordI in orderItemList
-             select new XElement("Order",
-             new XElement("ID", ordI?.ID),
-             new XElement("ProductId", ordI?.ProductId),
-             new XElement("OrderId", ordI?.OrderId),
-             new XElement("Price", ordI?.Price),
-             new XElement("Amount", ordI?.Amount)));
-            initialize.Save(orderItemPath);
-            #endregion
-        }
+        initialize = new XElement("OrderItem",
+         from ordI in orderItemList
+         select new XElement("Order",
+         new XElement("ID", ordI?.ID),
+         new XElement("ProductId", ordI?.ProductId),
+         new XElement("OrderId", ordI?.OrderId),
+         new XElement("Price", ordI?.Price),
+         new XElement("Amount", ordI?.Amount)));
+        initialize.Save(orderItemPath);
+        #endregion
     }
-
 }
 
-//public void init()
-//{
-//    XElement configXml;
-//    string FPath = @"Config.xml";
-
-//    XMLTools.LoadData(configXml, FPath);
-//    if (configXml == null)
-//    {
-//        configXml = new XElement("Config",
-//            new XElement("IdOrder", 100000),
-//            new XElement("IdOrderItem", 100000));
-//    }
 
 
 
 
 
 
-//}
+
+
+
