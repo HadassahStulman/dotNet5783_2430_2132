@@ -2,6 +2,6 @@
 
 namespace Dal;
 
-internal class OrderItem:IOrderItem
+internal class OrderItem : IOrderItem
 {
 }
