@@ -1,6 +1,7 @@
 ﻿
 using System.Xml.Linq;
 
+
 public class program
 {
     /// <summary>
@@ -189,6 +190,7 @@ public class program
             new XElement("Category", pro?.Category),
             new XElement("InStock", pro?.InStock)));
         initialize.Save(producPath);
+       
 
         initialize = new XElement("Order",
                from ord in orderList

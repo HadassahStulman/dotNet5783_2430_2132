@@ -1,80 +1,73 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Product>
   <Product>
-    <ID>419796</ID>
-    <Name>My first cookBook</Name>
-    <Price>95</Price>
+    <ID>928837</ID>
+    <Name>Easy cooking</Name>
+    <Price>187</Price>
     <Category>CookBooks</Category>
-    <InStock>2</InStock>
+    <InStock>47</InStock>
   </Product>
   <Product>
-    <ID>207879</ID>
-    <Name>The Lord Of The Rings 2</Name>
-    <Price>113</Price>
-    <Category>ReadingBooks</Category>
-    <InStock>36</InStock>
+    <ID>661228</ID>
+    <Name>Amazing Side Dishes</Name>
+    <Price>118</Price>
+    <Category>CookBooks</Category>
+    <InStock>19</InStock>
   </Product>
   <Product>
-    <ID>406989</ID>
-    <Name>Basic Fisicis</Name>
-    <Price>67</Price>
-    <Category>TextBooks</Category>
-    <InStock>5</InStock>
+    <ID>585006</ID>
+    <Name>Night Night Farm</Name>
+    <Price>53</Price>
+    <Category>ToddlerBooks</Category>
+    <InStock>21</InStock>
   </Product>
   <Product>
-    <ID>923537</ID>
-    <Name>children Cook</Name>
+    <ID>574711</ID>
+    <Name>Hiccupotamus</Name>
+    <Price>57</Price>
+    <Category>ToddlerBooks</Category>
+    <InStock>38</InStock>
+  </Product>
+  <Product>
+    <ID>844874</ID>
+    <Name>Pirkey Avot</Name>
+    <Price>141</Price>
+    <Category>ReligiousBooks</Category>
+    <InStock>34</InStock>
+  </Product>
+  <Product>
+    <ID>973766</ID>
+    <Name>Best Meat</Name>
     <Price>115</Price>
     <Category>CookBooks</Category>
-    <InStock>11</InStock>
+    <InStock>16</InStock>
   </Product>
   <Product>
-    <ID>535553</ID>
-    <Name>I love Science</Name>
-    <Price>52</Price>
-    <Category>TextBooks</Category>
-    <InStock>48</InStock>
-  </Product>
-  <Product>
-    <ID>123681</ID>
-    <Name>Pirkey Avot</Name>
-    <Price>95</Price>
-    <Category>ReligiousBooks</Category>
-    <InStock>46</InStock>
-  </Product>
-  <Product>
-    <ID>208831</ID>
-    <Name>Magic School Bus</Name>
-    <Price>142</Price>
+    <ID>629093</ID>
+    <Name>The giving Tree</Name>
+    <Price>179</Price>
     <Category>ToddlerBooks</Category>
-    <InStock>44</InStock>
+    <InStock>30</InStock>
   </Product>
   <Product>
-    <ID>922669</ID>
-    <Name>The Choclate Book</Name>
-    <Price>67</Price>
-    <Category>CookBooks</Category>
-    <InStock>29</InStock>
+    <ID>988162</ID>
+    <Name>Anne</Name>
+    <Price>73</Price>
+    <Category>ReadingBooks</Category>
+    <InStock>3</InStock>
   </Product>
   <Product>
-    <ID>404951</ID>
-    <Name>Netzor Leshoncha</Name>
-    <Price>158</Price>
-    <Category>ReligiousBooks</Category>
+    <ID>692445</ID>
+    <Name>ABC For Fun</Name>
+    <Price>144</Price>
+    <Category>TextBooks</Category>
     <InStock>0</InStock>
   </Product>
   <product>
-    <ID>1111111</ID>
-    <Name>Linear Mathematics 1</Name>
-    <Price>150</Price>
-    <Category>TextBooks</Category>
-    <InStock>20</InStock>
-  </product>
-  <product>
-    <ID>199641</ID>
-    <Name>White Fang</Name>
-    <Price>70</Price>
+    <ID>235860</ID>
+    <Name>The Lord Of The Rings 1</Name>
+    <Price>100</Price>
     <Category>ReadingBooks</Category>
-    <InStock>28</InStock>
+    <InStock>30</InStock>
   </product>
 </Product>

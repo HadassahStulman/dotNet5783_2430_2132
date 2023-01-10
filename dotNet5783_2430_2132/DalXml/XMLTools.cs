@@ -1,7 +1,6 @@
 ﻿using System.Xml.Linq;
 using System.Xml.Serialization;
 using static Dal.DataSource.Config;
-
 namespace Dal;
 
 internal class XMLTools
