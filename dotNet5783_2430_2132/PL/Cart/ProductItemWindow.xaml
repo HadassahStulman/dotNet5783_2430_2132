@@ -10,13 +10,24 @@
         <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}"/>
         <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}"/>
         <Style TargetType="Label" BasedOn="{StaticResource LableStyle}"/>
+        <Style x:Key="TriggerType" TargetType="Label" BasedOn="{StaticResource LableStyle}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding ElementName=inStockCB, Path=IsChecked}" Value="True">
+                    <Setter Property="Visibility" Value="Visible"/>
+                    <Setter Property="Content" Value="Product is in stock! buy while avalable :)"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="Top" Height="70"/>
+            <RowDefinition x:Name="Top" Height="90"/>
             <RowDefinition x:Name="Middle" Height="*"/>
-            <RowDefinition x:Name="Bottom" Height="150"/>
+            <RowDefinition x:Name="Bottom" Height="160"/>
         </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Label HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource TriggerType}"/>
+        </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="80"/>
@@ -38,17 +49,17 @@
                 <TextBox TextWrapping="Wrap" Height="35" Text="{Binding Category}" IsReadOnly="True"/>
                 <TextBox TextWrapping="Wrap" Height="35" Text="{Binding Price}" IsReadOnly="True"/>
                 <TextBox TextWrapping="Wrap" Height="35" Text="{Binding Amount}" IsReadOnly="True"/>
-                <CheckBox Height="40" HorizontalAlignment="Left" IsChecked="{Binding InStock}" IsEnabled="False"/>
+                <CheckBox x:Name="inStockCB" Height="40" HorizontalAlignment="Left" IsChecked="{Binding InStock}" IsEnabled="False"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="2">
-            <StackPanel Orientation="Horizontal" Height="40" Width="150" VerticalAlignment="top">
+            <StackPanel Orientation="Horizontal" Height="40" Width="150" VerticalAlignment="Top" Margin="150,10,0,0" HorizontalAlignment="Left">
                 <Button x:Name="plusButton" Content="+" Width="50" Height="40" VerticalContentAlignment="Top" Click="plusButton_Click" Background="#FFB76D6D"/>
                 <TextBox Text="{Binding Amount}" Width="50" Height="40" TextAlignment="Center" FontSize="16" FontWeight="Bold" IsReadOnly="True" BorderBrush="#FFB76D6D" BorderThickness="5" Background="#FFE8E6E6"/>
                 <Button x:Name="minusButton" Content="-" Width="50" Height="40" Click="minusButton_Click" VerticalContentAlignment="Top" Background="#FFB76D6D"/>
             </StackPanel>
-            <Button x:Name="AddItemButton" Content="Add To Cart" Height="40" Margin="271,89,0,0" Click="AddItemButton_Click" Visibility="Hidden" IsEnabled="False" HorizontalAlignment="Left" Width="150" VerticalAlignment="Top"/>
-            <Button x:Name="UpdateItemButton" Content="Update Item" Height="40" Margin="271,89,0,0" Visibility="Hidden" Click="UpdateItemButton_Click" IsEnabled="False" VerticalAlignment="Top" HorizontalAlignment="Left" Width="Auto"/>
+            <Button x:Name="AddItemButton" Content="Add To Cart" Margin="255,89,0,0" Click="AddItemButton_Click" Visibility="Hidden" IsEnabled="False" HorizontalAlignment="Left" Width="150" Height="40" VerticalAlignment="Top"/>
+            <Button x:Name="UpdateItemButton" Content="Update Item" Height="40" Margin="255,89,0,0" Visibility="Hidden" Click="UpdateItemButton_Click" IsEnabled="False" VerticalAlignment="Top" HorizontalAlignment="Left" Width="Auto"/>
         </Grid>
     </Grid>
 </Window>

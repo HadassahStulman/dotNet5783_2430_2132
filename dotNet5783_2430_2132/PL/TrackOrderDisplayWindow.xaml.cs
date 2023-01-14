@@ -46,17 +46,17 @@ public partial class TrackOrderDiplayWindow : Window
         }
  
     }
-    /// <summary>
-    /// the event changes the buttons do be enabled 
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void ID_TextBox_TextChanged(object sender, TextChangedEventArgs e)
-    {
-        TrackOrder_Butten.IsEnabled = true;
-        ViewOrder_Button.IsEnabled = true;
+    ///// <summary>
+    ///// the event changes the buttons do be enabled 
+    ///// </summary>
+    ///// <param name="sender"></param>
+    ///// <param name="e"></param>
+    //private void ID_TextBox_TextChanged(object sender, TextChangedEventArgs e)
+    //{
+    //    TrackOrder_Butten.IsEnabled = true;
+    //    ViewOrder_Button.IsEnabled = true;
 
-    }
+    //}
 
     /// <summary>
     /// opening a window with details of a order

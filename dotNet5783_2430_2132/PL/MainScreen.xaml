@@ -11,13 +11,28 @@
             <Setter Property="Width" Value="203"/>
             <Setter Property="Height" Value="127"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
-
+        </Style>
+        <Style TargetType="Label" >
+            <Setter Property="Width" Value="400"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Background" Value="#FFB76D6D"/>
+            <Setter Property="FontSize" Value="25"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="FontWeight" Value="Heavy"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="true">
+                    <Setter Property="Width" Value="600"/>
+                    <Setter Property="Height" Value="70"/>
+                    <Setter Property="FontSize" Value="40"/>
+                </Trigger>
+            </Style.Triggers>
         </Style>
     </Window.Resources>
     <Grid>
         <Button x:Name="ManagerDisplay_Button" Content="Manager Display"  Style="{StaticResource myButtonStyle}" HorizontalAlignment="Left" Margin="43,187,0,0" Click="ManagerDisplayButton_Click"/>
         <Button x:Name="NewOrder_Button" Content="New Order" Style="{StaticResource myButtonStyle}" HorizontalAlignment="Center" Margin="0,187,0,0" Click="NewOrderButton_Click"/>
         <Button x:Name="TrackOrder_Button" Content="Track Order" Style="{StaticResource myButtonStyle}"  Click="TrackOrderButton_Click" HorizontalAlignment="Right" RenderTransformOrigin="0.388,0.574" Margin="0,187,41,0" Background="#FFC1B2A4"/>
-        <Label Content="Welcome To Our Book Shop!" HorizontalAlignment="Center" Margin="0,35,0,0" VerticalAlignment="Top" FontSize="35" FontWeight="Heavy" Background="#FFB76D6D"/>
+        <Label Content="Welcome To Our Book Shop!" HorizontalAlignment="Center" Margin="0,35,0,0" VerticalAlignment="Top"/>
+        
     </Grid>
 </Window>
