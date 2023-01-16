@@ -23,7 +23,7 @@ public partial class ManagerDisplayWindow : Window
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
-    private void ProductForListDisplay_Click(object sender, RoutedEventArgs e) => new ProductForListWindow().Show();
+    private void ProductForListDisplay_Click(object sender, RoutedEventArgs e) => new ProductForListWindow().ShowDialog();
 
     /// <summary>
     /// opening a window for order display

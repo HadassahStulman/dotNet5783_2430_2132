@@ -48,17 +48,18 @@ internal class Product : IProduct
 
     public void DeleteProduct(int pID)
     {
-        if (pID < 100000) // product ID does not have at least 6 dgits or ID is negative
-            throw new BO.FailedToDeleteObjectException(new BO.IlegalDataException("Ilegal ID"));
-        IEnumerable<DO.Order?> Orderlst = Dal.Order.GetList();
-        foreach (DO.Order? order in Orderlst)
-        {
-            IEnumerable<DO.OrderItem?> lstOi = Dal.OrderItem.GetList(item => item?.OrderId == order?.ID);
-            if (lstOi.Where(Oitem => Oitem?.ProductId == pID).FirstOrDefault() != null)
-                throw new BO.FailedToDeleteObjectException(new BO.ProductIsOrderedException());
-        }
         try
         {
+            if (pID < 100000) // product ID does not have at least 6 dgits or ID is negative
+                throw new BO.IlegalDataException("Ilegal ID");
+            IEnumerable<DO.Order?> Orderlst = Dal.Order.GetList();
+            foreach (DO.Order? order in Orderlst) // check if product is ordered
+            {
+                var lstOi = Dal.OrderItem.GetGrouped();
+                var lstOiinOrder = lstOi.Where(group => group.Key == order?.ID).FirstOrDefault();
+                if (lstOiinOrder!.Where(Oitem => Oitem?.ProductId == pID).FirstOrDefault() != null && order?.ShipDate == null) // if product is ordered and order was not shiped yet
+                    throw new BO.ProductIsOrderedException();
+            }
             Dal.Product.Delete(pID);
         }
         catch (Exception Ex) // if dal layer threw an exception (the product doesn't exist)

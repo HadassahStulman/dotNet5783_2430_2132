@@ -56,6 +56,6 @@ public class XMLFileLoadException : Exception
     /// convert description of exception to string
     /// </summary>
     /// <returns>string</returns>
-    public override string ToString() => $"{Message} - {this.InnerException}";
+    public override string ToString() => $"{Message}";
 }
 

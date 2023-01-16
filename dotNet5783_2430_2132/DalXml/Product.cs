@@ -71,7 +71,7 @@ internal class Product : IProduct
                           }
                           where condition == null ? true : condition(newProduct)
                           select newProduct;
-        return productList.Cast<DO.Product?>();
+        return productList.Cast<DO.Product?>(); // cast to list of nullable objects
     }
 
     /// <summary>

@@ -25,10 +25,14 @@ public partial class ProductForListWindow : Window
     /// </summary>
     public ProductForListWindow()
     {
-        InitializeComponent();
-        myProductCollection = new ObservableCollection<BO.ProductForList?>(bl.Product.GetAll());
-        this.DataContext = myProductCollection;
-        CategorySelector.ItemsSource = Enum.GetValues(typeof(Enums.Category));
+        try
+        {
+            InitializeComponent();
+            myProductCollection = new ObservableCollection<BO.ProductForList?>(bl.Product.GetAll());
+            this.DataContext = myProductCollection;
+            CategorySelector.ItemsSource = Enum.GetValues(typeof(Enums.Category));
+        }
+        catch(Exception ex) { MessageBox.Show(ex.Message, "Exception Thrown"); }
     }
 
     /// <summary>
@@ -61,10 +65,14 @@ public partial class ProductForListWindow : Window
     /// <exception cref="NullReferenceException"></exception>
     private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        string choice = CategorySelector.SelectedItem.ToString() ?? throw new NullReferenceException();
-        myProductCollection = new(bl.Product.GetAll(product => choice == Enums.Category.All.ToString() ? true : product?.Category.ToString() == choice));
-        this.DataContext = myProductCollection;
-        this.view = null;
+        try
+        {
+            string choice = CategorySelector.SelectedItem.ToString() ?? throw new NullReferenceException();
+            myProductCollection = new(bl.Product.GetAll(product => choice == Enums.Category.All.ToString() ? true : product?.Category.ToString() == choice));
+            this.DataContext = myProductCollection;
+            this.view = null;
+        }
+        catch(Exception ex) { MessageBox.Show(ex.ToString(), "Exception Thrown"); }
     }
 
     /// <summary>

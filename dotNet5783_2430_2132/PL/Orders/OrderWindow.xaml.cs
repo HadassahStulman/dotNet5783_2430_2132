@@ -46,12 +46,10 @@ public partial class OrderWindow : Window
                     Deliver_Button.Visibility = Visibility.Visible;
                     Deliver_Button.IsEnabled = true;
                 }
-
             }
             else oiSource = "customer";
         }
-        catch (Exception ex) { MessageBox.Show(ex.Message); }
-
+        catch (Exception ex) { MessageBox.Show(ex.Message, "Exception Thrown"); }
     }
 
 
@@ -76,7 +74,7 @@ public partial class OrderWindow : Window
             MessageBox.Show("The order has been successfully shipped!");
 
         }
-        catch (Exception ex) { MessageBox.Show(ex.ToString()); }
+        catch (Exception ex) { MessageBox.Show(ex.ToString(), "Exception Thrown"); }
     }
 
     /// <summary>
@@ -98,7 +96,7 @@ public partial class OrderWindow : Window
             MessageBox.Show("The order has been successfully delivered!");
 
         }
-        catch (Exception ex) { MessageBox.Show(ex.ToString()); }
+        catch (Exception ex) { MessageBox.Show(ex.ToString(), "Exception Thrown"); }
     }
 
 
@@ -114,7 +112,7 @@ public partial class OrderWindow : Window
             BO.OrderItem oi = (OrderItems_ListBox.SelectedItem as BO.OrderItem) ?? throw new NullReferenceException();
             new OrderItemWindow(oiSource, myOrder, oi).ShowDialog();
         }
-        catch (Exception ex) { MessageBox.Show(ex.ToString()); }
+        catch (Exception ex) { MessageBox.Show(ex.ToString(), "Exception Thrown"); }
     }
 
     private void Back_Button_Click(object sender, RoutedEventArgs e) => Close();

@@ -54,7 +54,7 @@ namespace PL.Cart
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Exception Thrown", ex.ToString());
+                MessageBox.Show(ex.ToString(), "Exception Thrown");
             }
         }
 
@@ -94,7 +94,7 @@ namespace PL.Cart
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "Exception Trown");
+                MessageBox.Show(ex.ToString(), "Exception Thrown");
                 Close();
             }
         }
