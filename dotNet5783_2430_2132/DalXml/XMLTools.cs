@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 using static Dal.DataSource.Config;
 namespace Dal;
 
-internal class XMLTools
+public class XMLTools
 {
     public static string dir = @"..\xml\";
 
@@ -27,18 +27,23 @@ internal class XMLTools
 
     #region config ID managment
     static string configPath = "Config.xml";
-    private static XElement element = new XElement("Config");
+    private static XElement configElement = new XElement("Config");
     /// <summary>
     /// return ID for new order
     /// </summary>
     /// <returns>int</returns>
     public static int getIdNewO()
     {
-        XMLTools.LoadData(out element, configPath);
-        XElement OrderId = element.Element("Config")!.Element("IdOrder")!;
-        OrderId.Value = (Convert.ToInt32(OrderId.Value) + 1).ToString();
-        element.Save(configPath);
-        return (Convert.ToInt32(OrderId.Value));
+        try
+        {
+            XMLTools.LoadData(out configElement, configPath);
+            XElement OrderId = configElement.Elements().First(item => item.Name == "IdOrder")!;
+            int id = Convert.ToInt32(OrderId.Value) + 1;
+            configElement.Element("IdOrder")!.SetValue(id);
+            configElement.Save(dir + configPath);
+            return (Convert.ToInt32(OrderId.Value));
+        }
+        catch (Exception ex) { throw ex; }
     }
     /// <summary>
     /// return ID for new order item
@@ -46,11 +51,12 @@ internal class XMLTools
     /// <returns>int</returns>
     public static int getIdNewOI()
     {
-        XMLTools.LoadData(out element, configPath);
-        XElement OrderItemId = element.Element("Config")!.Element("IdOrderItem")!;
-        OrderItemId.Value = (Convert.ToInt32(OrderItemId.Value) + 1).ToString();
-        element.Save(configPath);
-        return (Convert.ToInt32(OrderItemId.Value));
+        XMLTools.LoadData(out configElement, configPath);
+        XElement OrderId = configElement.Elements().First(item => item.Name == "IdOrderItem")!;
+        int id = Convert.ToInt32(OrderId.Value) + 1;
+        configElement.Element("IdOrderItem")!.SetValue(id);
+        configElement.Save(dir + configPath);
+        return (Convert.ToInt32(OrderId.Value));
     }
     #endregion 
 
@@ -87,15 +93,17 @@ internal class XMLTools
     {
         try
         {
-            string fullFilePath = dir + filePath;
-            if (!File.Exists(fullFilePath))
-                return new();
-            XmlSerializer x = new XmlSerializer(typeof(List<T>));
-            using FileStream file = new FileStream(fullFilePath, FileMode.Open);
-             List<T> list = (List<T>)x.Deserialize(file) ?? new();
-            return list;
+            if (!File.Exists(dir + filePath)) return new List<T>();
+            {
+                List<T> list;
+                XmlSerializer x = new XmlSerializer(typeof(List<T>));
+                FileStream file = new FileStream(dir + filePath, FileMode.Open);
+                list = (List<T>)x.Deserialize(file);
+                file.Close();
+                return list;
+            }
         }
-        catch (Exception ex) { throw new DO.XMLFileLoadException($"fail to load xml file: {filePath}", ex); }
+        catch (Exception ex) { throw ex; }
     }
     #endregion
 }

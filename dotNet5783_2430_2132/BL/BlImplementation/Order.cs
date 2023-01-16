@@ -48,7 +48,8 @@ internal class Order : IOrder
             if (oID < 100000) // if order ID is ilegal then throw iligal data exception
                 throw new BO.IlegalDataException("Ilegal order ID");
 
-            IEnumerable<IGrouping<int, DO.OrderItem?>> dalGroupedList = Dal.OrderItem.GetGrouped();
+            /*IEnumerable<IGrouping<int, DO.OrderItem?>>*/
+            var dalGroupedList = Dal.OrderItem.GetGrouped();
             IGrouping<int, DO.OrderItem?>? orderItemsInOrder = dalGroupedList.FirstOrDefault(item => item.Key == oID);
             var BOoiLst =
                 from orderItem in orderItemsInOrder ?? throw new BO.FailedGettingObjectException(new BO.IlegalDataException("Order does not contain any items"))
@@ -199,7 +200,7 @@ internal class Order : IOrder
                 else
                 {
                     // updating list of Order item (in data surce)
-                    Dal.OrderItem.Update(new DO.OrderItem 
+                    Dal.OrderItem.Update(new DO.OrderItem
                     {
                         ID = orderItemToUpdate.ID,
                         ProductId = orderItemToUpdate.ProductID,
@@ -208,7 +209,7 @@ internal class Order : IOrder
                         Amount = UpdatedAmount
                     });
                     // updating order item list of order
-                    orderToUpdate?.Items?.Add(new BO.OrderItem 
+                    orderToUpdate?.Items?.Add(new BO.OrderItem
                     {
                         ID = orderItemToUpdate.ID,
                         ProductID = orderItemToUpdate.ProductID,
@@ -219,7 +220,7 @@ internal class Order : IOrder
                     });
                 }
                 // updating product amount in product list 
-                Dal.Product.Update(new DO.Product()  
+                Dal.Product.Update(new DO.Product()
                 {
                     ID = p?.ID ?? 0,
                     Name = p?.Name,

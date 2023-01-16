@@ -4,7 +4,7 @@ using static Dal.DataSource.Config;
 
 internal class OrderItem : IOrderItem
 {
-    private string FPath = @"xml\OrderItem.xml";
+    private string FPath = @"OrderItem.xml";
 
     /// <summary>
     /// adding a order item to file
@@ -16,11 +16,11 @@ internal class OrderItem : IOrderItem
     {
         try
         {
-            List<DO.OrderItem>? oiList = XMLTools.LoadListFromXML<DO.OrderItem>(FPath);
-            DO.OrderItem? oi = oiList!.FirstOrDefault(item => item.ID == oiToAdd.ID);
-            if (oi != null)
-                throw new DO.AlreadyExistingException();
             oiToAdd.ID = XMLTools.getIdNewOI();
+            List<DO.OrderItem>? oiList = XMLTools.LoadListFromXML<DO.OrderItem>(FPath);
+            //DO.OrderItem? oi = oiList!.FirstOrDefault(item => item.ID == oiToAdd.ID);
+            //if (oi?.ID != 0)
+            //    throw new DO.AlreadyExistingException();
             oiList!.Add(oiToAdd);
             XMLTools.SaveListToXML(oiList, FPath);
             return oiToAdd.ID;
@@ -55,13 +55,17 @@ internal class OrderItem : IOrderItem
     /// <exception cref="DO.NotExistingException"></exception>
     public void Update(DO.OrderItem oiToUpdate)
     {
-        List<DO.OrderItem>? oiList = XMLTools.LoadListFromXML<DO.OrderItem>(FPath);
-        DO.OrderItem? oi = oiList!.FirstOrDefault(item => item.ID == oiToUpdate.ID);
-        if (oi == null)
-            throw new DO.NotExistingException();
-        oiList!.Remove((DO.OrderItem)oi);
-        oiList!.Add(oiToUpdate);
-        XMLTools.SaveListToXML<DO.OrderItem>(oiList!, FPath);
+        try
+        {
+            List<DO.OrderItem>? oiList = XMLTools.LoadListFromXML<DO.OrderItem>(FPath);
+            DO.OrderItem? oi = oiList!.FirstOrDefault(item => item.ID == oiToUpdate.ID);
+            if (oi == null)
+                throw new DO.NotExistingException();
+            oiList!.Remove((DO.OrderItem)oi);
+            oiList!.Add(oiToUpdate);
+            XMLTools.SaveListToXML<DO.OrderItem>(oiList!, FPath);
+        }
+        catch(Exception ex) { throw ex; }
     }
 
     /// <summary>
@@ -81,13 +85,11 @@ internal class OrderItem : IOrderItem
     /// <returns>IEnumerable</returns>
     public IEnumerable<DO.OrderItem?> GetList(Func<DO.OrderItem?, bool>? condition = null)
     {
-
         List<DO.OrderItem>? oiList = XMLTools.LoadListFromXML<DO.OrderItem>(FPath);
         var newOiList = from oi in oiList
                         where condition == null ? true : condition(oi)
                         select oi;
-        return (IEnumerable<DO.OrderItem?>)newOiList;
-
+        return newOiList.Cast<DO.OrderItem?>();
     }
 
     /// <summary>
@@ -96,13 +98,11 @@ internal class OrderItem : IOrderItem
     /// <returns>IEnumerable</returns>
     public IEnumerable<IGrouping<int, DO.OrderItem?>> GetGrouped()
     {
-        List<DO.OrderItem>? orderItemList = XMLTools.LoadListFromXML<DO.OrderItem>(FPath);
-        var GroupedLst = from orderItem in orderItemList
-                         group orderItem by (int)orderItem.OrderId! into orderGroup
+        IEnumerable<DO.OrderItem?> orderItemList = XMLTools.LoadListFromXML<DO.OrderItem>(FPath).AsEnumerable().Cast<DO.OrderItem?>();
+        var GroupedLst = from oi in orderItemList
+                         group oi by (int)oi?.OrderId! into orderGroup
                          select orderGroup;
-        orderItemList = GroupedLst.SelectMany(g => g).ToList(); // converting a grouped list to a regular list
-        XMLTools.SaveListToXML<DO.OrderItem>(orderItemList, FPath);
-        return (IEnumerable<IGrouping<int, DO.OrderItem?>>)GroupedLst;
+        return GroupedLst/*.Cast<IGrouping<int, DO.OrderItem?>?>()*/;
     }
 
 }

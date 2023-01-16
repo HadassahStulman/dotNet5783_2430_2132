@@ -9,10 +9,6 @@ internal class Product : IProduct
     private XElement productXml = new XElement("product");
     private string FPath = @"Product.xml";
 
-    public Product()
-    {
-        // productXml = new XElement("Products");
-    }
     /// <summary>
     /// adding product to file
     /// </summary>

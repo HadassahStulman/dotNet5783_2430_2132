@@ -1,73 +1,87 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Product>
   <Product>
-    <ID>928837</ID>
-    <Name>Easy cooking</Name>
-    <Price>187</Price>
-    <Category>CookBooks</Category>
-    <InStock>47</InStock>
-  </Product>
-  <Product>
-    <ID>661228</ID>
-    <Name>Amazing Side Dishes</Name>
-    <Price>118</Price>
-    <Category>CookBooks</Category>
+    <ID>460526</ID>
+    <Name>I love Science</Name>
+    <Price>47</Price>
+    <Category>TextBooks</Category>
     <InStock>19</InStock>
   </Product>
   <Product>
-    <ID>585006</ID>
-    <Name>Night Night Farm</Name>
-    <Price>53</Price>
-    <Category>ToddlerBooks</Category>
-    <InStock>21</InStock>
+    <ID>726252</ID>
+    <Name>Advaced Biology</Name>
+    <Price>181</Price>
+    <Category>TextBooks</Category>
+    <InStock>2</InStock>
   </Product>
   <Product>
-    <ID>574711</ID>
-    <Name>Hiccupotamus</Name>
-    <Price>57</Price>
-    <Category>ToddlerBooks</Category>
+    <ID>847889</ID>
+    <Name>White Fang</Name>
+    <Price>191</Price>
+    <Category>ReadingBooks</Category>
     <InStock>38</InStock>
   </Product>
   <Product>
-    <ID>844874</ID>
-    <Name>Pirkey Avot</Name>
-    <Price>141</Price>
+    <ID>856480</ID>
+    <Name>Sforno</Name>
+    <Price>107</Price>
     <Category>ReligiousBooks</Category>
-    <InStock>34</InStock>
-  </Product>
-  <Product>
-    <ID>973766</ID>
-    <Name>Best Meat</Name>
-    <Price>115</Price>
-    <Category>CookBooks</Category>
     <InStock>16</InStock>
   </Product>
   <Product>
-    <ID>629093</ID>
-    <Name>The giving Tree</Name>
-    <Price>179</Price>
+    <ID>657462</ID>
+    <Name>Dear Zoo</Name>
+    <Price>121</Price>
     <Category>ToddlerBooks</Category>
-    <InStock>30</InStock>
-  </Product>
-  <Product>
-    <ID>988162</ID>
-    <Name>Anne</Name>
-    <Price>73</Price>
-    <Category>ReadingBooks</Category>
-    <InStock>3</InStock>
-  </Product>
-  <Product>
-    <ID>692445</ID>
-    <Name>ABC For Fun</Name>
-    <Price>144</Price>
-    <Category>TextBooks</Category>
     <InStock>0</InStock>
   </Product>
   <product>
-    <ID>235860</ID>
-    <Name>The Lord Of The Rings 1</Name>
+    <ID>607665</ID>
+    <Name>Talmud Set</Name>
+    <Price>160</Price>
+    <Category>ReligiousBooks</Category>
+    <InStock>41</InStock>
+  </product>
+  <product>
+    <ID>312016</ID>
+    <Name>Best Meat</Name>
+    <Price>55</Price>
+    <Category>CookBooks</Category>
+    <InStock>42</InStock>
+  </product>
+  <product>
+    <ID>3434234</ID>
+    <Name>The Beauty And The Beast</Name>
     <Price>100</Price>
-    <Category>ReadingBooks</Category>
+    <Category>ToddlerBooks</Category>
+    <InStock>8</InStock>
+  </product>
+  <product>
+    <ID>123456</ID>
+    <Name>Fresh Salads</Name>
+    <Price>35</Price>
+    <Category>CookBooks</Category>
     <InStock>30</InStock>
+  </product>
+  <product>
+    <ID>732857</ID>
+    <Name>My first cookBook</Name>
+    <Price>186</Price>
+    <Category>CookBooks</Category>
+    <InStock>31</InStock>
+  </product>
+  <product>
+    <ID>437949</ID>
+    <Name>The Gruffalo</Name>
+    <Price>72</Price>
+    <Category>ToddlerBooks</Category>
+    <InStock>49</InStock>
+  </product>
+  <product>
+    <ID>525996</ID>
+    <Name>children Cook</Name>
+    <Price>51</Price>
+    <Category>CookBooks</Category>
+    <InStock>45</InStock>
   </product>
 </Product>

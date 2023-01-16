@@ -50,16 +50,5 @@ public partial class OrderListWindow : Window
     private void Back_Button_Click(object sender, RoutedEventArgs e) => Close();
 }
 
-/*
-         <DataGrid x:Name="OrderListView" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}"  RowDetailsVisibilityMode="VisibleWhenSelected" RenderTransformOrigin="0.499,0.502" MouseDoubleClick="OrderDoubleClick" Margin="168,100,168,100" >
-            <DataGrid.Columns>
-                <DataGridTextColumn x:Name="IDColumn" Binding="{Binding ID}" Header="ID" Width="50" IsReadOnly="True"/>
-                <DataGridTextColumn x:Name="CustomerNameClumn" Binding="{Binding CustomerName}" Header="Customer's Name" Width="115" IsReadOnly="True"/>
-                <DataGridTextColumn x:Name="StatusClumn" Binding="{Binding Status}" Header="Status" Width="95" IsReadOnly="True"/>
-                <DataGridTextColumn x:Name="AmountOfItemsClumn" Binding="{Binding AmountOfItems}" Header="Amount Of Items"  Width="SizeToHeader" IsReadOnly="True"/>
-                <DataGridTextColumn x:Name="TotalPriceClumn" Binding="{Binding TotalPrice}" Header="Total Price" Width="SizeToHeader" IsReadOnly="True"/>
-            </DataGrid.Columns>
-        </DataGrid>
- */
 
 
