@@ -21,13 +21,6 @@
     <Category>ReligiousBooks</Category>
     <InStock>16</InStock>
   </Product>
-  <Product>
-    <ID>657462</ID>
-    <Name>Dear Zoo</Name>
-    <Price>121</Price>
-    <Category>ToddlerBooks</Category>
-    <InStock>0</InStock>
-  </Product>
   <product>
     <ID>3434234</ID>
     <Name>The Beauty And The Beast</Name>
@@ -223,5 +216,12 @@
     <Price>35</Price>
     <Category>CookBooks</Category>
     <InStock>30</InStock>
+  </product>
+  <product>
+    <ID>657462</ID>
+    <Name>Dear Zoo</Name>
+    <Price>121</Price>
+    <Category>ToddlerBooks</Category>
+    <InStock>9</InStock>
   </product>
 </Product>

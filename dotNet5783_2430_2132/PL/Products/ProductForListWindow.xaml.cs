@@ -115,6 +115,11 @@ public partial class ProductForListWindow : Window
             view?.GroupDescriptions.Add(groupDescription);
         }
     }
+
+    private void ProductListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+
+    }
 }
 
 

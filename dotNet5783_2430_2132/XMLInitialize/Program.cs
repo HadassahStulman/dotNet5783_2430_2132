@@ -2,6 +2,7 @@
 using System.Xml.Linq;
 using Dal;
 
+
 public class program
 {
     /// <summary>
@@ -190,6 +191,7 @@ public class program
             new XElement("Category", pro?.Category),
             new XElement("InStock", pro?.InStock)));
         initialize.Save(producPath);
+       
 
         XMLTools.SaveListToXML(orderList, orderPath);
         XMLTools.SaveListToXML(orderItemList, orderItemPath);

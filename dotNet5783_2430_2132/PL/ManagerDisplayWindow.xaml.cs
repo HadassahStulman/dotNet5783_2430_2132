@@ -33,5 +33,7 @@ public partial class ManagerDisplayWindow : Window
     private void OrderForListDisplay_Click(object sender, RoutedEventArgs e)=>new OrderListWindow().ShowDialog();
 
     private void Back_Button_Click(object sender, RoutedEventArgs e) => Close();
-    
+
+    private void Simulator_Button_Click(object sender, RoutedEventArgs e) => new OrderTrackingSimulatorWindow().Show();
+
 }
