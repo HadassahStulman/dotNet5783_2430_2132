@@ -22,7 +22,7 @@
 
         <Label x:Name="Status_Label" Content="Order Status:" Grid.Column="0" HorizontalAlignment="Left" Margin="113,0,0,35" VerticalAlignment="Bottom" FontSize="20" FontWeight="Bold" HorizontalContentAlignment="Center" Width="154" Height="37"/>
         <Label x:Name="Stages_Label" Content="Order Stages:" Grid.Column="0" Grid.Row="1" Margin="0,5,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="20" HorizontalContentAlignment="Center" Height="37" HorizontalAlignment="Right" Width="154"/>
-        <TextBox x:Name="OrderStatus_TextBox" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="35,123,0,0" TextWrapping="Wrap" Text="{Binding Path=Status }" IsReadOnly="True" Width="170" Style="{StaticResource TextBoxStyle}" Height="38" />
+        <TextBox x:Name="OrderStatus_TextBox" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="35,123,0,0" TextWrapping="Wrap" Text="{Binding Path=Status }" IsReadOnly="True" Width="170" Style="{StaticResource TextBoxStyle}" Height="38" FontSize="18" />
         <Grid Grid.ColumnSpan="2" Margin="0,0,355,0"/>
         <ListView x:Name="OrderStages_ListBox" ItemsSource = "{Binding}" FontSize="15"  Grid.Column="1" HorizontalAlignment="Left" Margin="29,0,0,0" Width="422" Height="155" VerticalAlignment="Center" Grid.Row="1" >
             <ListView.Background>
@@ -37,7 +37,6 @@
             </ListView.View>
         </ListView>
         <Label Grid.Row="0" Content="Track Order" HorizontalAlignment="Left"  VerticalAlignment="Top"  Width="252" Margin="7,29,0,0" HorizontalContentAlignment="Center" FontSize="20" FontWeight="Bold" Background="#FFB76D6D" Grid.Column="1" Height="37"/>
-
-
+        <Button x:Name="Back_button" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Height="40" Width="100" Click="Back_button_Click" Margin="341,31,0,0" IsEnabled="True" Grid.Column="1" Grid.Row="2" Style="{StaticResource ButtonStyle}"/>
     </Grid>
 </Window>

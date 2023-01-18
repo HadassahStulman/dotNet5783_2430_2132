@@ -1,18 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Product>
   <Product>
-    <ID>460526</ID>
-    <Name>I love Science</Name>
-    <Price>47</Price>
-    <Category>TextBooks</Category>
-    <InStock>19</InStock>
-  </Product>
-  <Product>
     <ID>726252</ID>
     <Name>Advaced Biology</Name>
     <Price>181</Price>
     <Category>TextBooks</Category>
-    <InStock>2</InStock>
+    <InStock>0</InStock>
   </Product>
   <Product>
     <ID>847889</ID>
@@ -28,20 +21,6 @@
     <Category>ReligiousBooks</Category>
     <InStock>16</InStock>
   </Product>
-  <Product>
-    <ID>657462</ID>
-    <Name>Dear Zoo</Name>
-    <Price>121</Price>
-    <Category>ToddlerBooks</Category>
-    <InStock>0</InStock>
-  </Product>
-  <product>
-    <ID>607665</ID>
-    <Name>Talmud Set</Name>
-    <Price>160</Price>
-    <Category>ReligiousBooks</Category>
-    <InStock>41</InStock>
-  </product>
   <product>
     <ID>312016</ID>
     <Name>Best Meat</Name>
@@ -64,24 +43,185 @@
     <InStock>30</InStock>
   </product>
   <product>
-    <ID>732857</ID>
-    <Name>My first cookBook</Name>
-    <Price>186</Price>
-    <Category>CookBooks</Category>
-    <InStock>31</InStock>
-  </product>
-  <product>
-    <ID>437949</ID>
-    <Name>The Gruffalo</Name>
-    <Price>72</Price>
-    <Category>ToddlerBooks</Category>
-    <InStock>49</InStock>
-  </product>
-  <product>
     <ID>525996</ID>
     <Name>children Cook</Name>
     <Price>51</Price>
     <Category>CookBooks</Category>
     <InStock>45</InStock>
+  </product>
+  <product>
+    <ID>460526</ID>
+    <Name>I love Science</Name>
+    <Price>47</Price>
+    <Category>TextBooks</Category>
+    <InStock>19</InStock>
+  </product>
+  <product>
+    <ID>607665</ID>
+    <Name>Talmud Set</Name>
+    <Price>160</Price>
+    <Category>ReligiousBooks</Category>
+    <InStock>41</InStock>
+  </product>
+  <product>
+    <ID>437949</ID>
+    <Name>The Gruffalo</Name>
+    <Price>100</Price>
+    <Category>ToddlerBooks</Category>
+    <InStock>49</InStock>
+  </product>
+  <product>
+    <ID>732857</ID>
+    <Name>My first cookBook</Name>
+    <Price>170</Price>
+    <Category>CookBooks</Category>
+    <InStock>31</InStock>
+  </product>
+  <product>
+    <ID>192345</ID>
+    <Name>The Hungry Student</Name>
+    <Price>55</Price>
+    <Category>CookBooks</Category>
+    <InStock>10</InStock>
+  </product>
+  <product>
+    <ID>6372637</ID>
+    <Name>Tasty</Name>
+    <Price>83</Price>
+    <Category>CookBooks</Category>
+    <InStock>0</InStock>
+  </product>
+  <product>
+    <ID>8837283</ID>
+    <Name>Gordon Ramsay's Course</Name>
+    <Price>104</Price>
+    <Category>CookBooks</Category>
+    <InStock>30</InStock>
+  </product>
+  <product>
+    <ID>832932</ID>
+    <Name>The Koala Who Could</Name>
+    <Price>38</Price>
+    <Category>ToddlerBooks</Category>
+    <InStock>100</InStock>
+  </product>
+  <product>
+    <ID>738293</ID>
+    <Name>Baby Loves Coding</Name>
+    <Price>62</Price>
+    <Category>ToddlerBooks</Category>
+    <InStock>30</InStock>
+  </product>
+  <product>
+    <ID>939211</ID>
+    <Name>The Snowy Day</Name>
+    <Price>66</Price>
+    <Category>ToddlerBooks</Category>
+    <InStock>12</InStock>
+  </product>
+  <product>
+    <ID>993829</ID>
+    <Name>Medical Physiology</Name>
+    <Price>129</Price>
+    <Category>TextBooks</Category>
+    <InStock>5</InStock>
+  </product>
+  <product>
+    <ID>8272832</ID>
+    <Name>Vocabulary WorkShop</Name>
+    <Price>79</Price>
+    <Category>TextBooks</Category>
+    <InStock>120</InStock>
+  </product>
+  <product>
+    <ID>999392</ID>
+    <Name>Medical - Surgical Nursing</Name>
+    <Price>203</Price>
+    <Category>TextBooks</Category>
+    <InStock>30</InStock>
+  </product>
+  <product>
+    <ID>779232</ID>
+    <Name>Essentials of Economics</Name>
+    <Price>50</Price>
+    <Category>TextBooks</Category>
+    <InStock>0</InStock>
+  </product>
+  <product>
+    <ID>3838383</ID>
+    <Name>Bible</Name>
+    <Price>150</Price>
+    <Category>ReligiousBooks</Category>
+    <InStock>88</InStock>
+  </product>
+  <product>
+    <ID>772737</ID>
+    <Name>RamBam (Maimonides)</Name>
+    <Price>350</Price>
+    <Category>ReligiousBooks</Category>
+    <InStock>33</InStock>
+  </product>
+  <product>
+    <ID>772722</ID>
+    <Name>Shas Bavli</Name>
+    <Price>500</Price>
+    <Category>ReligiousBooks</Category>
+    <InStock>6</InStock>
+  </product>
+  <product>
+    <ID>888272</ID>
+    <Name>Unspoken</Name>
+    <Price>88</Price>
+    <Category>ReadingBooks</Category>
+    <InStock>4</InStock>
+  </product>
+  <product>
+    <ID>882931</ID>
+    <Name>Little Women</Name>
+    <Price>100</Price>
+    <Category>ReadingBooks</Category>
+    <InStock>0</InStock>
+  </product>
+  <product>
+    <ID>399291</ID>
+    <Name>Great Expectations</Name>
+    <Price>35</Price>
+    <Category>ReadingBooks</Category>
+    <InStock>28</InStock>
+  </product>
+  <product>
+    <ID>772819</ID>
+    <Name>Harry Potter Series</Name>
+    <Price>260</Price>
+    <Category>ReadingBooks</Category>
+    <InStock>44</InStock>
+  </product>
+  <product>
+    <ID>827381</ID>
+    <Name>War and Peace</Name>
+    <Price>67</Price>
+    <Category>ReadingBooks</Category>
+    <InStock>5</InStock>
+  </product>
+  <product>
+    <ID>111921</ID>
+    <Name>Where's Spot?</Name>
+    <Price>100</Price>
+    <Category>ToddlerBooks</Category>
+    <InStock>55</InStock>
+  </product>
+  <product>
+    <ID>992932</ID>
+    <Name>C++</Name>
+    <Price>99</Price>
+    <Category>TextBooks</Category>
+    <InStock>100</InStock>
+  </product>
+  <product>
+    <ID>657462</ID>
+    <Name>Dear Zoo</Name>
+    <Price>121</Price>
+    <Category>ToddlerBooks</Category>
+    <InStock>9</InStock>
   </product>
 </Product>

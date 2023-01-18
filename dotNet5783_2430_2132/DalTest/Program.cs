@@ -1,6 +1,8 @@
 ﻿
 using DO;
 using DalApi;
+using System.Xml.Serialization;
+
 namespace Dal
 {
     public class Program
@@ -22,7 +24,8 @@ namespace Dal
        3 for Order Item
        0 to Exit");
                     int ch;
-                    int.TryParse(Console.ReadLine(), out ch); // converts the input to integer
+                    if (!int.TryParse(Console.ReadLine(), out ch)) // converts the input to integer
+                        ch = 0;
                     switch (ch)
                     {
                         case 0:
@@ -60,7 +63,8 @@ namespace Dal
        5 for deleting a book
        0 for returning back to the main menu ");
             int ch1;
-            int.TryParse(Console.ReadLine(), out ch1); // converts the input to integer
+            if (!int.TryParse(Console.ReadLine(), out ch1)) // converts the input to integer
+                ch1 = 6;
             switch (ch1)
             {
                 case 1: AddNewBook(); break;
@@ -96,10 +100,12 @@ namespace Dal
             Console.WriteLine("enter the book's name");
             p.Name = Console.ReadLine();
             Console.WriteLine("enter the book's price");
-            double.TryParse(Console.ReadLine(), out double price); // convert string to double
+            if(!double.TryParse(Console.ReadLine(), out double price)) // convert string to double
+                throw new Exception("Ilegal Price");
             p.Price = price;
             Console.WriteLine("enter amount of copies in stock");
-            int.TryParse(Console.ReadLine(), out num); // convert string to int
+            if(!int.TryParse(Console.ReadLine(), out num)) // convert string to int
+                throw new Exception("Ilegal Amount");
             p.InStock = num;
             DalList.Product.Add(p); // add p to data list
         }
@@ -110,7 +116,8 @@ namespace Dal
         private static void PrintDescription()
         {
             Console.WriteLine("enter the book's uniqe ID number");
-            int.TryParse(Console.ReadLine(), out int id); // convert input to int
+            if(!int.TryParse(Console.ReadLine(), out int id)) // convert input to int
+                throw new Exception("Ilegal ID");
             Console.WriteLine(DalList.Product.GetIf(item => item?.ID == id)); // finds the right book, and print the description
         }
 
@@ -135,7 +142,8 @@ namespace Dal
             Product p = new Product();
             Console.WriteLine("enter Id number of book you want to update");
             int num;
-            int.TryParse(Console.ReadLine(), out num);  // convert input to int
+            if(!int.TryParse(Console.ReadLine(), out num))  // convert input to int
+                throw new Exception("Ilegal ID");
             p.ID = num;
             Console.WriteLine("enter the book's category");
             string cat = Console.ReadLine()!;
@@ -151,10 +159,12 @@ namespace Dal
             p.Name = Console.ReadLine();
             Console.WriteLine("enter the book's price");
             double price;
-            double.TryParse(Console.ReadLine(), out price); // convert string to double
+            if(!double.TryParse(Console.ReadLine(), out price)) // convert string to double
+                throw new Exception("Ilegal Price");
             p.Price = price;
             Console.WriteLine("enter amount of copies in stock");
-            int.TryParse(Console.ReadLine(), out num); // convert string to int
+            if(!int.TryParse(Console.ReadLine(), out num)) // convert string to int
+                throw new Exception("Ilegal Amount");
             p.InStock = num;
             DalList.Product.Update(p); // updates p in data list;
         }
@@ -164,9 +174,10 @@ namespace Dal
         /// </summary>
         private static void DeleteBook()
         {
-            Console.WriteLine("enter Id number of book you want to delete");
+            Console.WriteLine("enter Id of book you want to delete");
             int num;
-            int.TryParse(Console.ReadLine(), out num);  // convert input to int
+            if(!int.TryParse(Console.ReadLine(), out num))  // convert input to int
+                throw new Exception("Ilegal ID");
             DalList.Product.Delete(num); // delete product from list
         }
 
@@ -185,7 +196,8 @@ namespace Dal
        5 for deleting a order
        0 for returning back to the main menu ");
                 int ch1;
-                int.TryParse(Console.ReadLine(), out ch1); // converts the input to integer
+                if (!int.TryParse(Console.ReadLine(), out ch1)) // converts the input to integer
+                    ch1 = 0;
                 switch (ch1)
                 {
                     case 0: flag = false; break;
@@ -227,7 +239,8 @@ namespace Dal
         {
             Order? _order = new Order?();
             Console.WriteLine("enter order ID");
-            int.TryParse(Console.ReadLine(), out int id); // converts the input to integer
+            if(!int.TryParse(Console.ReadLine(), out int id)) // converts the input to integer
+                throw new Exception("Ilegal ID");
             _order = DalList.Order.GetIf(item => item?.ID == id);// find order that matches this ID.
             Console.WriteLine(_order); ;// printing description.
         }
@@ -251,7 +264,8 @@ namespace Dal
         {
             Order _order = new();
             Console.WriteLine("enter order ID to update");
-            int.TryParse(Console.ReadLine(), out int id); // converts the input to integer
+            if(!int.TryParse(Console.ReadLine(), out int id)) // converts the input to integer
+                throw new Exception("Ilegal ID");
             _order = DalList.Order.GetIf(item => item?.ID == id) ?? throw new ArgumentNullException(); // getting from list order that needs to be updated
             Console.WriteLine("enter updated name");
             _order.CustomerName = Console.ReadLine();// receiving updated name of customer.
@@ -273,7 +287,8 @@ namespace Dal
         {
             Console.WriteLine("enter order ID to delete");
             int ID;
-            int.TryParse(Console.ReadLine(), out ID); // converts the input to integer
+            if(!int.TryParse(Console.ReadLine(), out ID)) // converts the input to integer
+                throw new Exception("Ilegal ID");
             DalList.Order.Delete(ID); // deleting order.
         }
 
@@ -292,7 +307,8 @@ namespace Dal
        2 for updating items
        3 for deleting items
        0 to finish updating order");
-                int.TryParse(Console.ReadLine(), out choice);
+                if (!int.TryParse(Console.ReadLine(), out choice))
+                    choice = 0;
                 switch (choice)
                 {
                     case 1: AddOI(id); break;
@@ -320,7 +336,8 @@ namespace Dal
        5 for getting all order items of a specific order
        0 for returning back to the main menu ");
                 int ch1;
-                int.TryParse(Console.ReadLine(), out ch1); // converts the input to integer
+                if(!int.TryParse(Console.ReadLine(), out ch1)) // converts the input to integer
+                    ch1= 0;
                 switch (ch1)
                 {
                     case 0: flag = false; break;
@@ -346,7 +363,8 @@ namespace Dal
             while (amOI > 4) // while amount of Product in order is more than 4
             {
                 Console.WriteLine("enter amount of Product to add to Order, up to 4 Product");
-                int.TryParse(Console.ReadLine(), out amOI);
+                if(!int.TryParse(Console.ReadLine(), out amOI))
+                    throw new Exception("Ilegal Amount");
             }
             int pid;
             int amount;

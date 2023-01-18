@@ -1,6 +1,6 @@
 ﻿using System.Xml.Linq;
 using System.Xml.Serialization;
-using static Dal.DataSource.Config;
+
 namespace Dal;
 
 public class XMLTools
@@ -51,12 +51,16 @@ public class XMLTools
     /// <returns>int</returns>
     public static int getIdNewOI()
     {
-        XMLTools.LoadData(out configElement, configPath);
-        XElement OrderId = configElement.Elements().First(item => item.Name == "IdOrderItem")!;
-        int id = Convert.ToInt32(OrderId.Value) + 1;
-        configElement.Element("IdOrderItem")!.SetValue(id);
-        configElement.Save(dir + configPath);
-        return (Convert.ToInt32(OrderId.Value));
+        try
+        {
+            XMLTools.LoadData(out configElement, configPath);
+            XElement OrderId = configElement.Elements().First(item => item.Name == "IdOrderItem")!;
+            int id = Convert.ToInt32(OrderId.Value) + 1;
+            configElement.Element("IdOrderItem")!.SetValue(id);
+            configElement.Save(dir + configPath);
+            return (Convert.ToInt32(OrderId.Value));
+        }
+        catch (Exception ex) { throw ex; }
     }
     #endregion 
 
@@ -79,7 +83,7 @@ public class XMLTools
             file.Close();
 
         }
-        catch (Exception ex) { throw new DO.XMLFileLoadException($"fail to create xml file: {filePath}", ex); }
+        catch (Exception ex) { throw new DO.XMLFileLoadException($"fail to save list in xml file: {filePath}", ex); }
     }
 
     /// <summary>
@@ -103,7 +107,7 @@ public class XMLTools
                 return list;
             }
         }
-        catch (Exception ex) { throw ex; }
+        catch (Exception ex) { throw new DO.XMLFileLoadException($"fail to load list from xml file: {filePath}", ex); }
     }
     #endregion
 }

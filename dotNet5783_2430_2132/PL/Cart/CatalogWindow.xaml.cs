@@ -14,8 +14,9 @@ namespace PL.Cart
     public partial class CatalogWindow : Window
     {
         private static BlApi.IBl bl = BlApi.Factory.Get();
-        private IEnumerable<ProductForList?> products = bl.Product.GetAll();
+        private IEnumerable<ProductForList?> products;
         private BO.Cart cart;
+    
 
         /// <summary>
         /// catalog constructor
@@ -23,10 +24,15 @@ namespace PL.Cart
         /// <param name="cart"></param>
         public CatalogWindow(BO.Cart cart)
         {
-            InitializeComponent();
-            this.cart = cart;
-            this.DataContext = products;
-            CategorySelector.ItemsSource = CategorySelector.ItemsSource = Enum.GetValues(typeof(PL.Products.Enums.Category));
+            try
+            {
+                InitializeComponent();
+                products = bl.Product.GetAll();
+                this.cart = cart;
+                this.DataContext = products;
+                CategorySelector.ItemsSource = CategorySelector.ItemsSource = Enum.GetValues(typeof(PL.Products.Enums.Category));
+            }
+            catch(Exception ex) { MessageBox.Show(ex.ToString(), "Exception Trown"); }
         }
 
         /// <summary>
@@ -36,10 +42,14 @@ namespace PL.Cart
         /// <param name="e"></param>
         private void CategorySelector_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ProductListView.ItemsSource = from product in products
-                                          let choice = CategorySelector.SelectedItem.ToString()
-                                          where choice == PL.Products.Enums.Category.All.ToString() ? true : product.Category.ToString() == choice
-                                          select product;
+            try
+            {
+                ProductListView.ItemsSource = from product in products
+                                              let choice = CategorySelector.SelectedItem.ToString()
+                                              where choice == PL.Products.Enums.Category.All.ToString() ? true : product.Category.ToString() == choice
+                                              select product;
+            }
+            catch (Exception ex) { MessageBox.Show( ex.ToString(), "Exception Trown"); }
         }
 
 
@@ -69,7 +79,7 @@ namespace PL.Cart
         /// <param name="e"></param>
         private void GoToCartButton_Click(object sender, RoutedEventArgs e)
         {
-            new CartWindow( cart).Show();
+            new CartWindow(cart).ShowDialog();
             Close();
         }
     }

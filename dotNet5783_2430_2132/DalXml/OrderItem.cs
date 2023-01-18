@@ -1,6 +1,5 @@
 ﻿using DalApi;
 namespace Dal;
-using static Dal.DataSource.Config;
 
 internal class OrderItem : IOrderItem
 {
@@ -16,11 +15,9 @@ internal class OrderItem : IOrderItem
     {
         try
         {
+            if (oiToAdd.ID!=0) throw new DO.AlreadyExistingException();
             oiToAdd.ID = XMLTools.getIdNewOI();
             List<DO.OrderItem>? oiList = XMLTools.LoadListFromXML<DO.OrderItem>(FPath);
-            //DO.OrderItem? oi = oiList!.FirstOrDefault(item => item.ID == oiToAdd.ID);
-            //if (oi?.ID != 0)
-            //    throw new DO.AlreadyExistingException();
             oiList!.Add(oiToAdd);
             XMLTools.SaveListToXML(oiList, FPath);
             return oiToAdd.ID;
@@ -102,7 +99,7 @@ internal class OrderItem : IOrderItem
         var GroupedLst = from oi in orderItemList
                          group oi by (int)oi?.OrderId! into orderGroup
                          select orderGroup;
-        return GroupedLst/*.Cast<IGrouping<int, DO.OrderItem?>?>()*/;
+        return GroupedLst;
     }
 
 }

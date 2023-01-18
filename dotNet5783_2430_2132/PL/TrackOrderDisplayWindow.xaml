@@ -11,6 +11,7 @@
         <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
             <Setter Property="Width" Value="230"/>
             <Setter Property="Height" Value="70"/>
+            <Setter Property="IsEnabled" Value="True"/>
             <Setter Property="VerticalAlignment" Value="Top"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
         </Style>
@@ -18,12 +19,12 @@
 
     <Grid>
         <StackPanel Orientation="Horizontal" Width="320" Height="40"  Background="#FFC1B2A4" Margin="246,177,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
-            <Label x:Name="ID_Lable" Content="Enter Order's ID:      " Style="{StaticResource LableStyle}" VerticalAlignment="Center"/>
-            <TextBox x:Name="ID_TextBox" Width="150" Height="30" HorizontalAlignment="Left" TextChanged="ID_TextBox_TextChanged"/>
+            <Label x:Name="ID_Lable" Content="Enter Order's ID:      " Style="{StaticResource LableStyle}" VerticalAlignment="Center" />
+            <TextBox x:Name="ID_TextBox" Width="150" Height="30" HorizontalAlignment="Left" Style="{StaticResource TextBoxStyle}"/>
         </StackPanel>
-        <Button x:Name="TrackOrder_Butten" Content="Track Order" Margin="149,252,0,0" IsEnabled="False" Click="TrackOrder_Butten_Click" />
-        <Button x:Name="ViewOrder_Button" Content="View Order"  Margin="451,252,0,0"  IsEnabled="False" Click="ViewOrder_Button_Click"/>
-        <Button x:Name="Back_button" Content="Back" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="50" Width="150" Click="Back_button_Click" Margin="0,0,48,10"/>
+        <Button x:Name="TrackOrder_Butten" Content="Track Order" Margin="149,252,0,0" Click="TrackOrder_Butten_Click" />
+        <Button x:Name="ViewOrder_Button" Content="View Order"  Margin="451,252,0,0" Click="ViewOrder_Button_Click"/>
+        <Button x:Name="Back_button" Content="Back" HorizontalAlignment="Right" VerticalAlignment="Bottom" Height="50" Width="150" Click="Back_button_Click" Margin="0,0,48,10" IsEnabled="True"/>
         <Label Content="Order View Options" HorizontalAlignment="Left" Margin="246,47,0,0" VerticalAlignment="Top"  Background="#FFB76D6D" Width="320" Height="40" FontSize="25" HorizontalContentAlignment="Center" FontWeight="Heavy"/>
     </Grid>
 </Window>

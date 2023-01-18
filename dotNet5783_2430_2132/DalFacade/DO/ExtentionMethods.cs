@@ -44,7 +44,9 @@ public static class ExtentionMethods
                 object Tvalue = Titem.GetValue(source, null)!; // value of source property
                 if (Titem.GetType().IsEnum)
                 {
-                    Type DesEnumType = Kitem.GetType();
+                    //Type DesEnumType = Kitem.GetType(); 
+                    //Type dstType = Kitem.GetType();
+                    //object newTvalue = ConvertEnum ( Kitem.GetType());
                     /*object converted = */
                     //Tvalue.ConvertEnum <DesEnumType> ();
                 }

@@ -35,7 +35,7 @@ namespace DalApi
         /// base function for geting all list of items
         /// </summary>
         /// <returns>IEnumerable<typeparamref name="T"/></returns>
-        public IEnumerable<T?> GetList(Func<T?, bool>? conditon =null);
+        public IEnumerable<T?> GetList(Func<T?, bool>? conditon = null);
 
 
         /// <summary>

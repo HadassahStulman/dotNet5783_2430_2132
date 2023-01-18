@@ -5,6 +5,7 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4EE947CB-4A72-48E2-94A2-367F7481B680}"
 	ProjectSection(SolutionItems) = preProject
+		Bonus.txt = Bonus.txt
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
@@ -31,7 +32,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "xml", "xml", "{7E1A69FC-131
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalXml", "DalXml\DalXml.csproj", "{CE990E17-555A-411A-9A28-F94530D72663}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLInitialize", "XMLInitialize\XMLInitialize.csproj", "{ADABC362-4E01-4F6B-B7A8-8BF6BB7E8CB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMLInitialize", "XMLInitialize\XMLInitialize.csproj", "{ADABC362-4E01-4F6B-B7A8-8BF6BB7E8CB6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

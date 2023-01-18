@@ -45,48 +45,47 @@ public partial class ProductWindow : Window
     /// <param name="id"></param>
     public ProductWindow(Action<BO.ProductForList, int> updateObservableCollection, BO.ProductForList product) : this()
     {
-        action = updateObservableCollection;
-        myProduct = bl.Product.GetByID(product.ID);
-        this.DataContext = myProduct;
-        UpdateOptionButton.Visibility = Visibility.Visible;
-        UpdateOptionButton.IsEnabled = true;
-        //DeleteOptionButton.Visibility = Visibility.Visible;
-        //DeleteOptionButton.IsEnabled = true;
+        try
+        {
+            action = updateObservableCollection;
+            myProduct = bl.Product.GetByID(product.ID);
+            this.DataContext = myProduct;
 
-        NameTextBox.IsReadOnly = true;
-        PriceTextBox.IsReadOnly = true;
-        InStockTextBox.IsReadOnly = true;
-        CategoryCombobox.IsEnabled = false;
+            #region button condition
+            UpdateOptionButton.Visibility = Visibility.Visible;
+            UpdateOptionButton.IsEnabled = true;
+            DeleteOptionButton.Visibility = Visibility.Visible;
+            DeleteOptionButton.IsEnabled = true;
+
+            NameTextBox.IsReadOnly = true;
+            PriceTextBox.IsReadOnly = true;
+            InStockTextBox.IsReadOnly = true;
+            CategoryCombobox.IsEnabled = false;
+            #endregion
+
+        }
+        catch (Exception ex) { MessageBox.Show(ex.ToString(), "Exception Thrown"); }
     }
 
     /// <summary>
-    /// constructor fo product window
+    /// allow updating products fields
     /// </summary>
-    /// <param name="source"></param>
-    /// <param name="id"></param>
-    //public ProductWindow(string source, Action<BO.ProductForList> function, int id = 0)
-    //{
-    //    if (source == "Add") // if window was opened for adding
-    //    {
-    //        AddProductButton.IsEnabled = true;
-    //        AddProductButton.Visibility = Visibility.Visible; // show add button
-    //        IDTextBox.IsReadOnly = false;
-    //    }
-    //    else  // if window was opeaned for viewing
-    //    {
-    //        myProduct = bl.Product.GetByID(id);
-    //        UpdateOptionButton.Visibility = Visibility.Visible;
-    //        UpdateOptionButton.IsEnabled = true;
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void UpdateOptionButton_Click(object sender, RoutedEventArgs e)
+    {
+        UpdateOptionButton.Visibility = Visibility.Hidden;
+        UpdateOptionButton.IsEnabled = false;
+        UpdateProductButton.IsEnabled = true;
+        UpdateProductButton.Visibility = Visibility.Visible;
+        DeleteOptionButton.Visibility = Visibility.Hidden;
+        DeleteOptionButton.IsEnabled = false;
 
-    //        NameTextBox.IsReadOnly = true;
-    //        PriceTextBox.IsReadOnly = true;
-    //        InStockTextBox.IsReadOnly = true;
-    //        CategoryCombobox.IsEnabled = false;
-    //    }
-
-
-    //}
-
+        NameTextBox.IsReadOnly = false;
+        PriceTextBox.IsReadOnly = false;
+        InStockTextBox.IsReadOnly = false;
+        CategoryCombobox.IsEnabled = true;
+    }
 
     private void checkInput()
     {
@@ -130,6 +129,22 @@ public partial class ProductWindow : Window
         }
     }
 
+    /// <summary>
+    /// event handler fo deleting clicking on delete button 
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void DeleteOptionButton_Click(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            bl.Product.DeleteProduct(myProduct!.ID);
+            MessageBox.Show("Successfully Deleted");
+            action(null, myProduct.ID);
+            Close();
+        }
+        catch(Exception ex) { MessageBox.Show(ex.ToString(), "Exception Thrown"); }
+    }
 
     /// <summary>
     /// event handler for clicking on update button
@@ -157,34 +172,5 @@ public partial class ProductWindow : Window
         {
             MessageBox.Show(ex.ToString(), "Exception Thrown");
         }
-    }
-
-
-    /// <summary>
-    /// allow updating products fields
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void UpdateOptionButton_Click(object sender, RoutedEventArgs e)
-    {
-        UpdateOptionButton.Visibility = Visibility.Hidden;
-        UpdateOptionButton.IsEnabled = false;
-        UpdateProductButton.IsEnabled = true;
-        UpdateProductButton.Visibility = Visibility.Visible;
-        DeleteOptionButton.Visibility = Visibility.Hidden;
-        DeleteOptionButton.IsEnabled = false;
-
-        NameTextBox.IsReadOnly = false;
-        PriceTextBox.IsReadOnly = false;
-        InStockTextBox.IsReadOnly = false;
-        CategoryCombobox.IsEnabled = true;
-    }
-
-    private void DeleteOptionButton_Click(object sender, RoutedEventArgs e)
-    {
-        bl.Product.DeleteProduct(myProduct!.ID);
-        MessageBox.Show("Successfully Deleted");
-        action(null, myProduct.ID);
-        Close();
     }
 }
