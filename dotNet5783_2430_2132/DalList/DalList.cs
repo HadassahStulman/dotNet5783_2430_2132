@@ -2,7 +2,7 @@
 using DalApi;
 
 namespace Dal;
-internal sealed class DalList:IDal
+internal sealed class DalList : IDal
 {
     /// <summary>
     /// create the properties that are declared in IDal and returns the object
@@ -11,9 +11,9 @@ internal sealed class DalList:IDal
     public IOrder Order { get; } = new DalOrder();
     public IOrderItem OrderItem { get; } = new DalOrderItem();
     public static IDal Instance { get; } = new DalList();
-    
+
     /// <summary>
     /// constructor
     /// </summary>
-    private DalList()  { }
+    private DalList() { }
 }

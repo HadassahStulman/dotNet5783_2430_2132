@@ -118,15 +118,6 @@
     <DeliveryDate>2023-01-07T20:47:02.4049542+02:00</DeliveryDate>
   </Order>
   <Order>
-    <ID>100013</ID>
-    <CustomerName>Hadassah_Stulman</CustomerName>
-    <CustomerEmail>Hadassah_Stulman@gmail.com</CustomerEmail>
-    <CustomerAddress>Nachal Shimshone_13</CustomerAddress>
-    <OrderDate>2022-12-01T20:47:02.4049548+02:00</OrderDate>
-    <ShipDate>2022-12-11T20:47:02.4049548+02:00</ShipDate>
-    <DeliveryDate xsi:nil="true" />
-  </Order>
-  <Order>
     <ID>100015</ID>
     <CustomerName>Esther_Nusbacher</CustomerName>
     <CustomerEmail>Esther_Nusbacher@gmail.com</CustomerEmail>
@@ -181,15 +172,6 @@
     <DeliveryDate>2023-01-10T01:51:02.4956443+02:00</DeliveryDate>
   </Order>
   <Order>
-    <ID>100020</ID>
-    <CustomerName>Naama Hayun</CustomerName>
-    <CustomerEmail>NamHa@gmail.com</CustomerEmail>
-    <CustomerAddress>Rabi Akiva 2 Bne Brak</CustomerAddress>
-    <OrderDate>2023-01-10T01:53:19.7849065+02:00</OrderDate>
-    <ShipDate xsi:nil="true" />
-    <DeliveryDate xsi:nil="true" />
-  </Order>
-  <Order>
     <ID>100021</ID>
     <CustomerName>shilat amar</CustomerName>
     <CustomerEmail>shilatamar220@gmail.com</CustomerEmail>
@@ -205,6 +187,33 @@
     <CustomerAddress>Av 23 1992 New Orleans</CustomerAddress>
     <OrderDate>2023-01-16T14:07:15.1138307+02:00</OrderDate>
     <ShipDate xsi:nil="true" />
+    <DeliveryDate xsi:nil="true" />
+  </Order>
+  <Order>
+    <ID>100013</ID>
+    <CustomerName>Hadassah_Stulman</CustomerName>
+    <CustomerEmail>Hadassah_Stulman@gmail.com</CustomerEmail>
+    <CustomerAddress>Nachal Shimshone_13</CustomerAddress>
+    <OrderDate>2022-12-01T20:47:02.4049548+02:00</OrderDate>
+    <ShipDate>2022-12-11T20:47:02.4049548+02:00</ShipDate>
+    <DeliveryDate>2023-01-16T14:48:39.4328904+02:00</DeliveryDate>
+  </Order>
+  <Order>
+    <ID>100020</ID>
+    <CustomerName>Naama Hayun</CustomerName>
+    <CustomerEmail>NamHa@gmail.com</CustomerEmail>
+    <CustomerAddress>Rabi Akiva 2 Bne Brak</CustomerAddress>
+    <OrderDate>2023-01-10T01:53:19.7849065+02:00</OrderDate>
+    <ShipDate>2023-01-16T14:50:53.1437847+02:00</ShipDate>
+    <DeliveryDate xsi:nil="true" />
+  </Order>
+  <Order>
+    <ID>100023</ID>
+    <CustomerName>Adina Milston</CustomerName>
+    <CustomerEmail>adinamilston@gmail.com</CustomerEmail>
+    <CustomerAddress>Alon Shvut</CustomerAddress>
+    <OrderDate>2023-01-16T14:53:00.6291705+02:00</OrderDate>
+    <ShipDate>2023-01-16T14:53:49.7392236+02:00</ShipDate>
     <DeliveryDate xsi:nil="true" />
   </Order>
 </ArrayOfOrder>

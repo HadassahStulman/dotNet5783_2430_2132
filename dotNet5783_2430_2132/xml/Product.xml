@@ -29,32 +29,11 @@
     <InStock>0</InStock>
   </Product>
   <product>
-    <ID>312016</ID>
-    <Name>Best Meat</Name>
-    <Price>55</Price>
-    <Category>CookBooks</Category>
-    <InStock>42</InStock>
-  </product>
-  <product>
     <ID>3434234</ID>
     <Name>The Beauty And The Beast</Name>
     <Price>100</Price>
     <Category>ToddlerBooks</Category>
     <InStock>8</InStock>
-  </product>
-  <product>
-    <ID>123456</ID>
-    <Name>Fresh Salads</Name>
-    <Price>35</Price>
-    <Category>CookBooks</Category>
-    <InStock>30</InStock>
-  </product>
-  <product>
-    <ID>525996</ID>
-    <Name>children Cook</Name>
-    <Price>51</Price>
-    <Category>CookBooks</Category>
-    <InStock>45</InStock>
   </product>
   <product>
     <ID>460526</ID>
@@ -204,11 +183,11 @@
     <InStock>44</InStock>
   </product>
   <product>
-    <ID>827381</ID>
-    <Name>War and Peace</Name>
-    <Price>67</Price>
-    <Category>ReadingBooks</Category>
-    <InStock>5</InStock>
+    <ID>992932</ID>
+    <Name>C++</Name>
+    <Price>99</Price>
+    <Category>TextBooks</Category>
+    <InStock>100</InStock>
   </product>
   <product>
     <ID>111921</ID>
@@ -218,10 +197,31 @@
     <InStock>55</InStock>
   </product>
   <product>
-    <ID>992932</ID>
-    <Name>C++</Name>
-    <Price>99</Price>
-    <Category>TextBooks</Category>
-    <InStock>100</InStock>
+    <ID>123456</ID>
+    <Name>The Philosiphers stone</Name>
+    <Price>70</Price>
+    <Category>ReadingBooks</Category>
+    <InStock>2</InStock>
+  </product>
+  <product>
+    <ID>827381</ID>
+    <Name>War and Peace</Name>
+    <Price>67</Price>
+    <Category>ReadingBooks</Category>
+    <InStock>5</InStock>
+  </product>
+  <product>
+    <ID>525996</ID>
+    <Name>children Cook</Name>
+    <Price>33</Price>
+    <Category>CookBooks</Category>
+    <InStock>45</InStock>
+  </product>
+  <product>
+    <ID>123456</ID>
+    <Name>Fresh Salads</Name>
+    <Price>35</Price>
+    <Category>CookBooks</Category>
+    <InStock>30</InStock>
   </product>
 </Product>
