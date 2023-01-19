@@ -1,6 +1,7 @@
 ﻿
 using BlApi;
-
+using BO;
+using DO;
 
 namespace BlImplementation;
 
@@ -28,16 +29,9 @@ internal class Product : IProduct
         #endregion
         try
         {
-            DO.Product Dproduct = new DO.Product()
-            {
-                ID = Bproduct.ID,
-                Name = Bproduct.Name,
-                Price = Bproduct.Price,
-                Category = (DO.Enums.Category)Bproduct.Category,
-                InStock = Bproduct.InStock
-            };
-            //DO.Product dp = new DO.Product();
-            //dp = DO.ExtentionMethods.ConvertToBO(Bproduct, dp);
+            DO.Product Dproduct = new DO.Product();
+            Dproduct = DO.ExtentionMethods.ConvertTo(Bproduct, Dproduct);
+            Dproduct.Category = (DO.Enums.Category)Bproduct.Category;
             Dal.Product.Add(Dproduct);
         }
         catch (Exception Ex)
@@ -83,8 +77,11 @@ internal class Product : IProduct
                 Price = product?.Price ?? 0,
                 Category = (BO.Enums.Category)product?.Category!
             }
-            where condition is null ? true : condition(Bproduct)
-            orderby Bproduct.Name
+            //let Bproduct = DO.ExtentionMethods.ConvertTo((DO.Product)product, new BO.ProductForList())
+            //let cat = (BO.Enums.Category)product?.Category!
+            //where condition is null ? true : condition(Bproduct)
+            //orderby Bproduct.Name
+            //select (Bproduct => { Bproduct.Category = (BO.Enums.Category)product?.Category!; return Bproduct; });
             select Bproduct;
         return lst;
     }
@@ -96,14 +93,8 @@ internal class Product : IProduct
         try
         {
             DO.Product? dproduct = Dal.Product.GetIf(item => item?.ID == pID);
-            BO.Product bproduct = new BO.Product()
-            {
-                ID = dproduct?.ID ?? 0,
-                Name = dproduct?.Name,
-                Price = dproduct?.Price ?? 0,
-                Category = (BO.Enums.Category)dproduct?.Category!,
-                InStock = dproduct?.InStock ?? 0
-            };
+            BO.Product bproduct = DO.ExtentionMethods.ConvertTo(dproduct, new BO.Product())!;
+            bproduct!.Category = (BO.Enums.Category)dproduct?.Category!;
             return bproduct;
         }
         catch (Exception Ex)
@@ -122,15 +113,19 @@ internal class Product : IProduct
             bool inStock = false;
             if (dproduct?.InStock != 0)
                 inStock = true;
-            BO.ProductItem bproduct = new BO.ProductItem()
-            {
-                ID = dproduct?.ID ?? 0,
-                Name = dproduct?.Name,
-                Price = dproduct?.Price ?? 0,
-                Category = (BO.Enums.Category)dproduct?.Category!,
-                InStock = inStock,
-                Amount = crt.Items!.ToList().Find(item => item?.ProductID == pID)?.Amount ?? 0
-            };
+            //BO.ProductItem bproduct = new BO.ProductItem()
+            //{
+            //    ID = dproduct?.ID ?? 0,
+            //    Name = dproduct?.Name,
+            //    Price = dproduct?.Price ?? 0,
+            //    Category = (BO.Enums.Category)dproduct?.Category!,
+            //    InStock = inStock,
+            //    Amount = crt.Items!.ToList().Find(item => item?.ProductID == pID)?.Amount ?? 0
+            //};
+            BO.ProductItem bproduct = DO.ExtentionMethods.ConvertTo(dproduct, new BO.ProductItem())!;
+            bproduct.Category = (BO.Enums.Category)dproduct?.Category!;
+            bproduct.InStock = inStock;
+            bproduct.Amount = crt.Items!.ToList().Find(item => item?.ProductID == pID)?.Amount ?? 0;
             return bproduct;
         }
         catch (Exception Ex)
@@ -156,14 +151,16 @@ internal class Product : IProduct
         #endregion 
         try
         {
-            DO.Product Dproduct = new DO.Product()
-            {
-                ID = Bproduct.ID,
-                Name = Bproduct.Name,
-                Price = Bproduct.Price,
-                Category = (DO.Enums.Category)Bproduct.Category,
-                InStock = Bproduct.InStock
-            };
+            //DO.Product Dproduct = new DO.Product()
+            //{
+            //    ID = Bproduct.ID,
+            //    Name = Bproduct.Name,
+            //    Price = Bproduct.Price,
+            //    Category = (DO.Enums.Category)Bproduct.Category,
+            //    InStock = Bproduct.InStock
+            //};
+            DO.Product Dproduct = DO.ExtentionMethods.ConvertTo(Bproduct, new DO.Product());
+            Dproduct.Category = (DO.Enums.Category)Bproduct.Category;
             Dal.Product.Update(Dproduct);
         }
         catch (Exception Ex)

@@ -26,7 +26,7 @@
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
 
-            <DataGrid x:Name="OrderListGrid" Grid.Row="1" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}"  RowDetailsVisibilityMode="VisibleWhenSelected" CanUserAddRows="False" FontSize="13">
+            <DataGrid x:Name="OrderListGrid" Grid.Row="1" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}"  RowDetailsVisibilityMode="VisibleWhenSelected" CanUserAddRows="False" FontSize="15" FontWeight="SemiBold" HorizontalContentAlignment="Center">
                 <DataGrid.Background>
                     <SolidColorBrush Color="#FFE8E6E6" Opacity="0.6"/>
                 </DataGrid.Background>
@@ -39,7 +39,7 @@
                     <DataGridTemplateColumn Header="Status" Width="150" IsReadOnly="True" >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock  x:Name="StatusGrid" Text="{Binding Status}" Background="{Binding Status, Converter={StaticResource StatusToColor}}"/>
+                                <TextBlock  x:Name="StatusGrid" Text="{Binding Status}" Background="{Binding Status, Converter={StaticResource StatusToColor}}" TextAlignment="Center"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

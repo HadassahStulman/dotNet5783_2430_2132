@@ -33,71 +33,21 @@ public static class ExtentionMethods
     /// <param name="t"></param>
     /// <param name="k"></param>
     /// <returns>K</returns>
-    public static K ConvertToBO<T, K>(this T source, K destination) where T : struct where K : struct
+    public static K? ConvertTo<T, K>(this T? source, K? destination)
     {
         object boxedk = destination!;
-        foreach (PropertyInfo Titem in source.GetType().GetProperties()!)
+        foreach (PropertyInfo Titem in source?.GetType().GetProperties()!)
         {
-            var Kitem = destination.GetType().GetProperty(Titem.Name)!; // destination property
+            var Kitem = destination?.GetType().GetProperty(Titem.Name)!; // destination property
             if (Kitem != null)
             {
-                Type sourseType = Nullable.GetUnderlyingType(Titem.PropertyType)!;
-                Type destinationType = Nullable.GetUnderlyingType(Kitem.PropertyType)!;
+                object Tvalue = Titem.GetValue(source)!; // value of source property
 
-                object Tvalue = Titem.GetValue(source, null)!; // value of source property
-                if (sourseType==destinationType)
-                    Kitem.SetValue(boxedk, Convert.ChangeType(Tvalue!, destinationType), null); // set value in destination property
-                if (Titem.GetType().IsEnum)
-                    Kitem.SetValue(boxedk, Convert.ChangeType(Enum.ToObject(destinationType, Tvalue), destinationType), null); // set value in destination property
+                if (Kitem.PropertyType == Titem.PropertyType)
+                    Kitem.SetValue(boxedk, Convert.ChangeType(Tvalue!, Kitem.PropertyType), null); // set value in destination property
             }
-
         }
         return (K)boxedk;
-
-        //        static class Copy
-        //{
-        //    public static Target CopyPropTo<Source, Target>(this Source source, Target target)
-        //    {
-        //        Dictionary<string, PropertyInfo> propertyInfoTarget = target.GetType().GetProperties()
-        //            .ToDictionary(key => key.Name, value => value);
-
-        //        IEnumerable<PropertyInfo> propertyInfoSource = source.GetType().GetProperties();
-
-        //        foreach (var item in propertyInfoSource)
-        //        {
-        //            if (propertyInfoTarget.ContainsKey(item.Name) && (item.PropertyType == typeof(string) || !item.PropertyType.IsClass))
-        //            {
-        //                Type typeSource = Nullable.GetUnderlyingType(item.PropertyType);
-        //                Type typeTarget = Nullable.GetUnderlyingType(propertyInfoTarget[item.Name].PropertyType);
-
-        //                object value = item.GetValue(source);
-
-        //                if (typeSource is not null && typeTarget is not null)
-        //                    value = Enum.ToObject(typeTarget, value);
-
-        //                else if (propertyInfoTarget[item.Name].PropertyType is item.PropertyType)
-        //                    propertyInfoTarget[item.Name].SetValue(target, value);
-        //            }
-        //        }
-
-        //        return target;
-        //    }
-
-
-    }
-        public static TEnum ConvertEnum<TEnum>(this Enum source)
-    {
-        return (TEnum)Enum.Parse(typeof(TEnum), source.ToString(), true);
     }
 }
 
-//// Usage
-//NewEnumType newEnum = oldEnumVar.ConvertEnum<NewEnumType>()
-
-/*
-111111
-TextBooks
-hahha
-100
-12
-*/

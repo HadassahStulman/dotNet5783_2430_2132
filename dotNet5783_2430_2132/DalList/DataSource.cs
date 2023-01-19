@@ -126,13 +126,13 @@ internal static class DataSource
             o.ShipDate = null; // minimal date for orders that weren't shiped yet
             o.DeliveryDate = null; // minimal date for orders that weren't delivered yet
             DateTime date = DateTime.Now.AddDays(rnd.Next(-30, -1));
-            if (i < 13)
+            if (i < 10)
             {
                 o.DeliveryDate = date;
                 o.ShipDate = date.AddDays(rnd.Next(1, 14) * -1); // ship date maximum two weeks before delivary
                 o.OrderDate = date.AddDays(rnd.Next(14, 21) * -1); // order date between a week and 3 weeks before delivary
             }
-            else if (i < 17)
+            else if (i < 15)
             {
                 o.ShipDate = date;
                 o.OrderDate = date.AddDays(rnd.Next(1, 14) * -1);

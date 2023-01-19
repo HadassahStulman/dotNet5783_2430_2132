@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainScreen" Height="450" Width="800" Style="{StaticResource backgroundImage}">
+        Icon="photos/favicon.ico"
+        Title="MainScreen" Height="450" Width="800" Style="{StaticResource backgroundImage}" >
     <Window.Resources>
         <Style x:Key="myButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
             <Setter Property="Width" Value="203"/>
@@ -33,6 +34,6 @@
         <Button x:Name="NewOrder_Button" Content="New Order" Style="{StaticResource myButtonStyle}" HorizontalAlignment="Center" Margin="0,187,0,0" Click="NewOrderButton_Click"/>
         <Button x:Name="TrackOrder_Button" Content="Track Order" Style="{StaticResource myButtonStyle}"  Click="TrackOrderButton_Click" HorizontalAlignment="Right" RenderTransformOrigin="0.388,0.574" Margin="0,187,41,0" Background="#FFC1B2A4"/>
         <Label Content="Welcome To Our Book Shop!" HorizontalAlignment="Center" Margin="0,35,0,0" VerticalAlignment="Top"/>
-        
+
     </Grid>
 </Window>
