@@ -32,7 +32,7 @@ public partial class ProductForListWindow : Window
             this.DataContext = myProductCollection;
             CategorySelector.ItemsSource = Enum.GetValues(typeof(Enums.Category));
         }
-        catch(Exception ex) { MessageBox.Show(ex.Message, "Exception Thrown"); }
+        catch (Exception ex) { MessageBox.Show(ex.Message, "Exception Thrown"); }
     }
 
     /// <summary>
@@ -47,7 +47,6 @@ public partial class ProductForListWindow : Window
     /// <param name="productToUpdate"></param>
     private void updateProduct(BO.ProductForList productToUpdate, int prevID)
     {
-
         var prevProduct = myProductCollection.FirstOrDefault(product => product?.ID == prevID);
         int index = myProductCollection.IndexOf(prevProduct);
         if (productToUpdate == null)
@@ -72,7 +71,7 @@ public partial class ProductForListWindow : Window
             this.DataContext = myProductCollection;
             this.view = null;
         }
-        catch(Exception ex) { MessageBox.Show(ex.ToString(), "Exception Thrown"); }
+        catch (Exception ex) { MessageBox.Show(ex.ToString(), "Exception Thrown"); }
     }
 
     /// <summary>
@@ -114,11 +113,6 @@ public partial class ProductForListWindow : Window
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("Category");
             view?.GroupDescriptions.Add(groupDescription);
         }
-    }
-
-    private void ProductListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-    {
-
     }
 }
 

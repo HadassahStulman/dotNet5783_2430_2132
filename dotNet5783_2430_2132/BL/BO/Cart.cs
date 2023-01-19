@@ -7,7 +7,7 @@ namespace BO;
 public class Cart : INotifyPropertyChanged
 {
     /// <summary>
-    /// customer's name
+    /// customer's name DP
     /// </summary>
     private string? customerName;
     public string? CustomerName
@@ -24,7 +24,7 @@ public class Cart : INotifyPropertyChanged
     }
 
     /// <summary>
-    /// customer's Email address
+    /// customer's Email address DP
     /// </summary>
     private string? customerEmail;
     public string? CustomerEmail
@@ -41,7 +41,7 @@ public class Cart : INotifyPropertyChanged
     }
 
     /// <summary>
-    /// customer's address
+    /// customer's address DP
     /// </summary>
     private string? customerAddress;
     public string? CustomerAddress
@@ -57,7 +57,7 @@ public class Cart : INotifyPropertyChanged
         }
     }
     /// <summary>
-    /// list of all items in cart
+    /// list of all items in cart DP
     /// </summary>
     private ObservableCollection<BO.OrderItem?>? items;
     public ObservableCollection<BO.OrderItem?>? Items
@@ -73,7 +73,7 @@ public class Cart : INotifyPropertyChanged
         }
     }
     /// <summary>
-    /// total price of all items in cart
+    /// total price of all items in cart DP
     /// </summary>
     private double totalPrice;
     public double TotalPrice
@@ -88,10 +88,17 @@ public class Cart : INotifyPropertyChanged
             }
         }
     }
+    
 
+    /// <summary>
+    /// event for property changes
+    /// </summary>
     public event PropertyChangedEventHandler? PropertyChanged;
 
 
+    /// <summary>
+    /// ctor
+    /// </summary>
     public Cart()
     {
         Items = new ObservableCollection<BO.OrderItem?>();

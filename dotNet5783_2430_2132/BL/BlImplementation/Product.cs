@@ -65,25 +65,25 @@ internal class Product : IProduct
 
     public IEnumerable<BO.ProductForList?> GetAll(Func<BO.ProductForList?, bool>? condition)
     {
-
-        IEnumerable<DO.Product?> Plst = Dal.Product.GetList();
-        var lst =
-            from product in Dal.Product.GetList()
-            where product != null
-            let Bproduct = new BO.ProductForList()
-            {
-                ID = product?.ID ?? 0,
-                Name = product?.Name ?? "",
-                Price = product?.Price ?? 0,
-                Category = (BO.Enums.Category)product?.Category!
-            }
-            //let Bproduct = DO.ExtentionMethods.ConvertTo((DO.Product)product, new BO.ProductForList())
-            //let cat = (BO.Enums.Category)product?.Category!
-            //where condition is null ? true : condition(Bproduct)
-            //orderby Bproduct.Name
-            //select (Bproduct => { Bproduct.Category = (BO.Enums.Category)product?.Category!; return Bproduct; });
-            select Bproduct;
-        return lst;
+        try
+        {
+            IEnumerable<DO.Product?> Plst = Dal.Product.GetList();
+            var lst =
+                from product in Dal.Product.GetList()
+                where product != null
+                let Bproduct = new BO.ProductForList()
+                {
+                    ID = product?.ID ?? 0,
+                    Name = product?.Name ?? "",
+                    Price = product?.Price ?? 0,
+                    Category = (BO.Enums.Category)product?.Category!
+                }
+                where condition == null ? true : condition(Bproduct)
+                orderby Bproduct.Name
+                select Bproduct;
+            return lst;
+        }
+        catch (Exception Ex) { throw new BO.FailedGettingObjectException(Ex); }
     }
 
     public BO.Product GetByID(int pID)
@@ -113,15 +113,6 @@ internal class Product : IProduct
             bool inStock = false;
             if (dproduct?.InStock != 0)
                 inStock = true;
-            //BO.ProductItem bproduct = new BO.ProductItem()
-            //{
-            //    ID = dproduct?.ID ?? 0,
-            //    Name = dproduct?.Name,
-            //    Price = dproduct?.Price ?? 0,
-            //    Category = (BO.Enums.Category)dproduct?.Category!,
-            //    InStock = inStock,
-            //    Amount = crt.Items!.ToList().Find(item => item?.ProductID == pID)?.Amount ?? 0
-            //};
             BO.ProductItem bproduct = DO.ExtentionMethods.ConvertTo(dproduct, new BO.ProductItem())!;
             bproduct.Category = (BO.Enums.Category)dproduct?.Category!;
             bproduct.InStock = inStock;
@@ -151,14 +142,6 @@ internal class Product : IProduct
         #endregion 
         try
         {
-            //DO.Product Dproduct = new DO.Product()
-            //{
-            //    ID = Bproduct.ID,
-            //    Name = Bproduct.Name,
-            //    Price = Bproduct.Price,
-            //    Category = (DO.Enums.Category)Bproduct.Category,
-            //    InStock = Bproduct.InStock
-            //};
             DO.Product Dproduct = DO.ExtentionMethods.ConvertTo(Bproduct, new DO.Product());
             Dproduct.Category = (DO.Enums.Category)Bproduct.Category;
             Dal.Product.Update(Dproduct);

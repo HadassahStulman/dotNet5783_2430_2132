@@ -15,20 +15,24 @@ public class OrderItem: INotifyPropertyChanged
     /// item's ID
     /// </summary>
     public int ID { get; set; }
+
     /// <summary> 
     /// product's name 
     /// </summary>
     public string? Name { get; set; }
+
     /// <summary>
     /// product's ID 
     /// </summary>
     public int ProductID { get; set; }
+
     /// <summary>
     /// price of a single product
     /// </summary>
     public double Price { get; set; }
+
     /// <summary>
-    /// amount of copies of the product
+    /// amount of copies of the product DP
     /// </summary>
     private int amount;
     public int Amount
@@ -44,7 +48,7 @@ public class OrderItem: INotifyPropertyChanged
 
 
     /// <summary>
-    /// total price of item (price of all copies in total)
+    /// total price of item (price of all copies in total) DP
     /// </summary>
     //public double TotalPrice { get; set; }
     private double totalPrice;

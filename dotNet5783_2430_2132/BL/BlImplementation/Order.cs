@@ -13,8 +13,12 @@ internal class Order : IOrder
     /// </summary>
     private DalApi.IDal Dal = DalApi.Factory.Get()!;
 
-
-    public IEnumerable<BO.OrderForList> GetList(Func<BO.OrderForList?, bool>? condition)
+    /// <summary>
+    /// returns list of all orders for display
+    /// FOR MANAGER
+    /// </summary>
+    /// <returns>IEnumerable<BO.OrderForList></OrderForList></returns>
+    public IEnumerable<BO.OrderForList?> GetList(Func<BO.OrderForList?, bool>? condition)
     {
         try
         {
@@ -22,7 +26,7 @@ internal class Order : IOrder
                 from order in Dal.Order.GetList()
                 where order != null
                 let oStatus = OrderStatus(order) // status of current order
-                let oiLst = Dal.OrderItem.GetList(item => item?.OrderId == order?.ID)
+                let oiLst = Dal.OrderItem.GetGrouped().FirstOrDefault(oiGroup => oiGroup.Key == order?.ID)
                 let oAmount = oiLst.Count()
                 let oTotalPrice = oiLst.Sum(oi => (oi?.Price ?? 0) * (oi?.Amount ?? 0))
                 orderby order?.OrderDate
@@ -48,11 +52,10 @@ internal class Order : IOrder
             if (oID < 100000) // if order ID is ilegal then throw iligal data exception
                 throw new BO.IlegalDataException("Ilegal order ID");
 
-            /*IEnumerable<IGrouping<int, DO.OrderItem?>>*/
             var dalGroupedList = Dal.OrderItem.GetGrouped();
             IGrouping<int, DO.OrderItem?>? orderItemsInOrder = dalGroupedList.FirstOrDefault(item => item.Key == oID);
             var BOoiLst =
-                from orderItem in orderItemsInOrder ?? throw new BO.FailedGettingObjectException(new BO.IlegalDataException("Order does not contain any items"))
+                from orderItem in orderItemsInOrder ?? throw new BO.IlegalDataException("Order does not contain any items")
                 let p = Dal.Product.GetIf(item => item?.ID == orderItem?.ProductId)
                 select new BO.OrderItem
                 {
@@ -63,23 +66,15 @@ internal class Order : IOrder
                     Amount = orderItem?.Amount ?? 0,
                     TotalPrice = (orderItem?.Price ?? 0) * (orderItem?.Amount ?? 0)
                 };
+
             int oAmount = orderItemsInOrder.Sum(ordetItem => ordetItem?.Amount ?? 0);
             double oTotalPrice = orderItemsInOrder.Sum(ordetItem => (ordetItem?.Price ?? 0) * (ordetItem?.Amount ?? 0));
             DO.Order? order = Dal.Order.GetIf(item => (item?.ID ?? 0) == oID);
-            return new BO.Order
-            {
-                ID = oID,
-                CustomerName = order?.CustomerName,
-                CustomerEmail = order?.CustomerEmail,
-                CustomerAddress = order?.CustomerAddress,
-                OrderDate = order?.OrderDate,
-                Status = (BO.Enums.OrderStatus)Enum.Parse(typeof(BO.Enums.OrderStatus), OrderStatus(order)), //convert string to enum
-                PaymentDate = order?.OrderDate,
-                ShipDate = order?.ShipDate,
-                DeliveryDate = order?.DeliveryDate,
-                Items = new ObservableCollection<BO.OrderItem>(BOoiLst),
-                TotalPrice = oTotalPrice
-            }; // returning order of BO type
+            BO.Order orderToGet = DO.ExtentionMethods.ConvertTo(order, new BO.Order())!;
+            orderToGet.Status = (BO.Enums.OrderStatus)Enum.Parse(typeof(BO.Enums.OrderStatus), OrderStatus(order)); //convert string to enum   
+            orderToGet.Items = new ObservableCollection<BO.OrderItem>(BOoiLst);
+            orderToGet.TotalPrice = oTotalPrice;
+            return orderToGet;
         }
         catch (Exception ex) { throw new BO.FailedGettingObjectException(ex); } // if order or product dos not exist in data surce the throw not existing exception
     }
@@ -94,16 +89,10 @@ internal class Order : IOrder
             DO.Order? dOrder = Dal.Order.GetIf(item => item?.ID == oID);
             if (dOrder?.ShipDate != null) // checking if the order was already shipped. if so then throw status exception
                 throw new BO.ConflictingStatusException("The order has already been shipped");
-            Dal.Order.Update(new DO.Order()
-            {
-                ID = dOrder?.ID ?? 0,
-                CustomerName = dOrder?.CustomerName,
-                CustomerAddress = dOrder?.CustomerAddress,
-                CustomerEmail = dOrder?.CustomerEmail,
-                OrderDate = dOrder?.OrderDate,
-                ShipDate = DateTime.Now, // updating the order shipping date in data surce
-                DeliveryDate = null
-            });
+            DO.Order orderToUpdate = DO.ExtentionMethods.ConvertTo(dOrder, new DO.Order())!;
+            orderToUpdate.ShipDate = DateTime.Now;
+            orderToUpdate.DeliveryDate = null;
+            Dal.Order.Update(orderToUpdate);
             return GetByID(oID); // returns updated BO order
         }
         catch (Exception ex) { throw new BO.FailedUpdatingObjectException(ex); } // faild updating order because: order or product don't exist in data surce 
@@ -126,16 +115,9 @@ internal class Order : IOrder
             if (dOrder?.DeliveryDate != null) // if order was already deliverd then throw status exception
                 throw new BO.ConflictingStatusException("Order was already delivered");
 
-            Dal.Order.Update(new DO.Order() // updates delivery date in order list
-            {
-                ID = dOrder?.ID ?? 0,
-                CustomerName = dOrder?.CustomerName,
-                CustomerAddress = dOrder?.CustomerAddress,
-                CustomerEmail = dOrder?.CustomerEmail,
-                OrderDate = dOrder?.OrderDate,
-                ShipDate = dOrder?.ShipDate, // updating the order shipping date in data surce
-                DeliveryDate = DateTime.Now
-            });
+            DO.Order orderToUpdate = DO.ExtentionMethods.ConvertTo(dOrder, new DO.Order())!;
+            orderToUpdate.DeliveryDate = DateTime.Now;
+            Dal.Order.Update(orderToUpdate);
             return GetByID(oID); // returns updated BO order
         }
         catch (Exception ex) { throw new BO.FailedUpdatingObjectException(ex); } // faild updating order because: order or product don't exist in data surce
@@ -199,35 +181,22 @@ internal class Order : IOrder
                     Dal.OrderItem.Delete(orderItemToUpdate.ID); // deleting item from order list (in data surce) 
                 else
                 {
-                    // updating list of Order item (in data surce)
-                    Dal.OrderItem.Update(new DO.OrderItem
-                    {
-                        ID = orderItemToUpdate.ID,
-                        ProductId = orderItemToUpdate.ProductID,
-                        OrderId = oID,
-                        Price = orderItemToUpdate.Price,
-                        Amount = UpdatedAmount
-                    });
-                    // updating order item list of order
-                    orderToUpdate?.Items?.Add(new BO.OrderItem
-                    {
-                        ID = orderItemToUpdate.ID,
-                        ProductID = orderItemToUpdate.ProductID,
-                        Name = orderItemToUpdate.Name,
-                        Amount = UpdatedAmount,
-                        Price = orderItemToUpdate.Price,
-                        TotalPrice = UpdatedAmount * orderItemToUpdate.Price
-                    });
+                    // updating order item data source in DO
+                    DO.OrderItem DupdatedOI = DO.ExtentionMethods.ConvertTo(orderItemToUpdate, new DO.OrderItem());
+                    DupdatedOI.Amount = UpdatedAmount;
+                    Dal.OrderItem.Update(DupdatedOI);
+                    
+                    // updating order item list in order
+                    BO.OrderItem BupdatedOI = DO.ExtentionMethods.ConvertTo(orderItemToUpdate, new BO.OrderItem())!;
+                    BupdatedOI.Amount = UpdatedAmount;
+                    BupdatedOI.TotalPrice = UpdatedAmount * orderItemToUpdate.Price;
+                    orderToUpdate.Items?.Add(BupdatedOI);
                 }
-                // updating product amount in product list 
-                Dal.Product.Update(new DO.Product()
-                {
-                    ID = p?.ID ?? 0,
-                    Name = p?.Name,
-                    Category = p?.Category,
-                    Price = p?.Price ?? 0,
-                    InStock = p?.InStock ?? 0 + orderItemToUpdate.Amount - UpdatedAmount // updating stock of products
-                });
+
+                // updating product data source in DO
+                DO.Product DUpdatedProduct = DO.ExtentionMethods.ConvertTo(p, new DO.Product());
+                DUpdatedProduct.InStock = p?.InStock ?? 0 + orderItemToUpdate.Amount - UpdatedAmount; // updating stock of products
+                Dal.Product.Update(DUpdatedProduct);
             }
             return orderToUpdate;
         }

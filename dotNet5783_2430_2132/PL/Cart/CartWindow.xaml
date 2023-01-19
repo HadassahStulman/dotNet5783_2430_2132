@@ -25,7 +25,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="60"/>
         </Grid.ColumnDefinitions>
-        <ListView x:Name="ItemListView" Grid.Column="3" Grid.Row="1" ItemsSource="{Binding Items}" MouseDoubleClick="ItemListView_MouseDoubleClick">
+        <ListView x:Name="ItemListView" Grid.Column="3" Grid.Row="1" ItemsSource="{Binding Items}" MouseDoubleClick="ItemListView_MouseDoubleClick" FontSize="14">
             <ListView.Background>
                 <SolidColorBrush Color="#FFE8E6E6" Opacity="0.6"/>
             </ListView.Background>

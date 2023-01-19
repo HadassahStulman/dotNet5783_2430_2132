@@ -26,7 +26,7 @@ public static class ExtentionMethods
     }
 
     /// <summary>
-    /// 
+    /// copy identical properties from one object to another
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="K"></typeparam>
@@ -36,15 +36,20 @@ public static class ExtentionMethods
     public static K? ConvertTo<T, K>(this T? source, K? destination)
     {
         object boxedk = destination!;
-        foreach (PropertyInfo Titem in source?.GetType().GetProperties()!)
+        foreach (PropertyInfo Titem in source?.GetType().GetProperties()!) // for each property in source object
         {
             var Kitem = destination?.GetType().GetProperty(Titem.Name)!; // destination property
-            if (Kitem != null)
+            if (Kitem != null) // property exist in destination object
             {
                 object Tvalue = Titem.GetValue(source)!; // value of source property
+                Type KitemPropType = Kitem.PropertyType;
+                if (Nullable.GetUnderlyingType(Titem.PropertyType) != null) // if source property type is nullable 
+                    KitemPropType = Nullable.GetUnderlyingType(KitemPropType)!; //get underline type
 
-                if (Kitem.PropertyType == Titem.PropertyType)
-                    Kitem.SetValue(boxedk, Convert.ChangeType(Tvalue!, Kitem.PropertyType), null); // set value in destination property
+                if (Kitem.PropertyType == Titem.PropertyType) // property type is same in source and destinatiom
+                    if (Tvalue != null) // if value of property is not null
+                        Kitem.SetValue(boxedk, Convert.ChangeType(Tvalue!, KitemPropType), null); // set value in destination property
+                    else Kitem.SetValue(boxedk, null, null); // put null in destination property
             }
         }
         return (K)boxedk;

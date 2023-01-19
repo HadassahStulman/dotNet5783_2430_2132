@@ -4,7 +4,6 @@ using DO;
 using static Dal.DataSource;
 using static Dal.DataSource.Config;
 using DalApi;
-using System.Security.Cryptography;
 
 
 namespace Dal;
@@ -25,6 +24,7 @@ internal class DalOrderItem : IOrderItem
         orderItemList.Add(oi);
         return (int)oi.ID;
     }
+
     /// <summary>
     /// Deleteing order item from list. If order item (to delete) does not exists then throw error.
     /// </summary>
@@ -37,6 +37,7 @@ internal class DalOrderItem : IOrderItem
             throw new NotExistingException();
         orderItemList.Remove(delOI);
     }
+
     /// <summary>
     /// Updating an order item in list. If order item (to update) does not exist then throw error.
     /// </summary>

@@ -14,7 +14,6 @@ internal class DalProduct : IProduct
     /// <returns>int</returns>
     /// <param name="p"></param>
     /// <exception cref="Exception"></exception>
-
     public int Add(Product p)
     {
         if (ProductList.FirstOrDefault(item => item?.ID == p.ID) != null)
@@ -22,6 +21,7 @@ internal class DalProduct : IProduct
         ProductList.Add(p);
         return (int)p.ID;
     }
+
     /// <summary>
     /// Deleteing product from list. If product (to delete) does not exists then throw error.
     /// </summary>
@@ -34,6 +34,7 @@ internal class DalProduct : IProduct
             throw new NotExistingException();
         ProductList.Remove(delProduct);   
     }
+
     /// <summary>
     /// Updating an product in list. If product (to update) does not exist then throw error.
     /// </summary>

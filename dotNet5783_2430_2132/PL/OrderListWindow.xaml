@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="OrderListWindow" Height="450" Width="800" Style="{StaticResource backgroundColor}">
+        Icon="photos/favicon.ico"
+        Title="OrderListWindow" Height="600" Width="1000" Style="{StaticResource backgroundColor}">
     <Window.Resources>
         <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource HeaderStyle}"/>
     </Window.Resources>
@@ -28,16 +29,16 @@
             </ListView.Background>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Path= ID }" Width="100" />
-                    <GridViewColumn Header="Customer's Name" DisplayMemberBinding="{Binding Path= CustomerName }" Width="200"/>
+                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Path= ID }" Width="150" />
+                    <GridViewColumn Header="Customer's Name" DisplayMemberBinding="{Binding Path= CustomerName }" Width="300"/>
                     <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Path= Status }" Width="200"/>
-                    <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Path= AmountOfItems }" Width="100"  />
-                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Path= TotalPrice }" Width="100" />
+                    <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Path= AmountOfItems }" Width="150"  />
+                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Path= TotalPrice }" Width="150" />
                 </GridView>
             </ListView.View>
         </ListView>
 
-        <Button x:Name="Back_Button" Content="Back"  Grid.Column="1" Grid.Row="2"  Width="100" Height="40" Click="Back_Button_Click" Margin="656,0,0,0" Style="{StaticResource ButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <Button x:Name="Back_Button" Content="Back"  Grid.Column="1" Grid.Row="2"  Width="100" Height="40" Click="Back_Button_Click" Margin="857,0,0,0" Style="{StaticResource ButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
     </Grid>
 </Window>

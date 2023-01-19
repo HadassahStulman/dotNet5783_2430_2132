@@ -35,7 +35,7 @@ public class Order : INotifyPropertyChanged
 
 
     /// <summary>
-    /// status of order (if shiped, delivered...)
+    /// status of order (if shiped, delivered...) DP
     /// </summary>
     private Enums.OrderStatus status;
     public Enums.OrderStatus Status
@@ -51,13 +51,13 @@ public class Order : INotifyPropertyChanged
 
 
     /// <summary>
-    /// date of order confirmation / pament
+    /// date of order confirmation / pament 
     /// </summary>
     public DateTime? PaymentDate { get; set; }
 
 
     /// <summary>
-    /// shipping date
+    /// shipping date DP
     /// </summary>
     private DateTime? shipDate;
     public DateTime? ShipDate
@@ -73,7 +73,7 @@ public class Order : INotifyPropertyChanged
 
 
     /// <summary>
-    /// delivery date
+    /// delivery date DP
     /// </summary>
     private DateTime? deliveryDate;
     public DateTime? DeliveryDate
@@ -88,7 +88,7 @@ public class Order : INotifyPropertyChanged
     }
 
     /// <summary>
-    /// list of items in order
+    /// list of items in order DP and obsevable collection to notify changes in item list
     /// </summary>
     private ObservableCollection<BO.OrderItem>? items;
     public ObservableCollection<BO.OrderItem>? Items
@@ -104,7 +104,7 @@ public class Order : INotifyPropertyChanged
 
 
     /// <summary>
-    /// total price of all products in order
+    /// total price of all products in order DP
     /// </summary>
     private double totalPrice;
     public double TotalPrice

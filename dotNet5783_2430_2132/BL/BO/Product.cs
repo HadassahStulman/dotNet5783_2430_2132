@@ -12,18 +12,22 @@ public class Product
     /// product ID
     /// </summary>
     public int ID { get; set; } 
+
     /// <summary>
     /// product name
     /// </summary>
     public string? Name { get; set; } 
+
     /// <summary>
     ///  product price
     /// </summary>
     public double Price { get; set; } 
+
     /// <summary>
     /// product category
     /// </summary>
     public Enums.Category? Category { get; set; }
+
     /// <summary>
     /// amount of products in stock
     /// </summary>

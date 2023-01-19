@@ -16,16 +16,20 @@ internal class Product : IProduct
     /// <returns></returns>
     public int Add(DO.Product productToAdd)
     {
-        XMLTools.LoadData(out productXml, XMLTools.dir + FPath);
-        XElement elementToAdd = new XElement("product",
-            new XElement("ID", productToAdd.ID),
-            new XElement("Name", productToAdd.Name),
-            new XElement("Price", productToAdd.Price),
-            new XElement("Category", productToAdd.Category),
-            new XElement("InStock", productToAdd.InStock));
-        productXml.Add(elementToAdd);
-        productXml.Save(XMLTools.dir + FPath);
-        return productToAdd.ID;
+        try
+        {
+            XMLTools.LoadData(out productXml, XMLTools.dir + FPath);
+            XElement elementToAdd = new XElement("product",
+                new XElement("ID", productToAdd.ID),
+                new XElement("Name", productToAdd.Name),
+                new XElement("Price", productToAdd.Price),
+                new XElement("Category", productToAdd.Category),
+                new XElement("InStock", productToAdd.InStock));
+            productXml.Add(elementToAdd);
+            productXml.Save(XMLTools.dir + FPath);
+            return productToAdd.ID;
+        }
+        catch(Exception ex) { throw ex; }
     }
 
     /// <summary>
@@ -35,10 +39,14 @@ internal class Product : IProduct
     /// <exception cref="DO.NotExistingException"></exception>
     public void Delete(int id)
     {
-        XMLTools.LoadData(out productXml, FPath);
-        XElement productToDelete = productXml.Elements().FirstOrDefault(item => Convert.ToInt32(item.Element("ID")!.Value) == id) ?? throw new DO.NotExistingException();
-        productToDelete.Remove();
-        productXml.Save(XMLTools.dir + FPath);
+        try
+        {
+            XMLTools.LoadData(out productXml, FPath);
+            XElement productToDelete = productXml.Elements().FirstOrDefault(item => Convert.ToInt32(item.Element("ID")!.Value) == id) ?? throw new DO.NotExistingException();
+            productToDelete.Remove();
+            productXml.Save(XMLTools.dir + FPath);
+        }
+        catch (Exception ex) { throw ex; }
     }
 
     /// <summary>
@@ -47,8 +55,12 @@ internal class Product : IProduct
     /// <param name="productToUpdate"></param>
     public void Update(DO.Product productToUpdate)
     {
-        Delete(productToUpdate.ID);
-        Add(productToUpdate);
+        try
+        {
+            Delete(productToUpdate.ID);
+            Add(productToUpdate);
+        }
+        catch (Exception ex) { throw ex; }
     }
 
     /// <summary>
@@ -58,20 +70,24 @@ internal class Product : IProduct
     /// <returns></returns>
     public IEnumerable<DO.Product?> GetList(Func<DO.Product?, bool>? condition = null)
     {
-        productXml = new XElement("products");
-        XMLTools.LoadData(out productXml, FPath);
-        var productList = from product in productXml.Elements()
-                          let newProduct = new DO.Product
-                          {
-                              ID = Convert.ToInt32(product.Element("ID")!.Value),
-                              Name = product.Element("Name")!.Value,
-                              Price = Convert.ToDouble(product.Element("Price")!.Value),
-                              Category = (DO.Enums.Category)Enum.Parse(typeof(DO.Enums.Category), product.Element("Category")!.Value),
-                              InStock = Convert.ToInt32(product.Element("InStock")!.Value)
-                          }
-                          where condition == null ? true : condition(newProduct)
-                          select newProduct;
-        return productList.Cast<DO.Product?>(); // cast to list of nullable objects
+        try
+        {
+            productXml = new XElement("products");
+            XMLTools.LoadData(out productXml, FPath);
+            var productList = from product in productXml.Elements()
+                              let newProduct = new DO.Product
+                              {
+                                  ID = Convert.ToInt32(product.Element("ID")!.Value),
+                                  Name = product.Element("Name")!.Value,
+                                  Price = Convert.ToDouble(product.Element("Price")!.Value),
+                                  Category = (DO.Enums.Category)Enum.Parse(typeof(DO.Enums.Category), product.Element("Category")!.Value),
+                                  InStock = Convert.ToInt32(product.Element("InStock")!.Value)
+                              }
+                              where condition == null ? true : condition(newProduct)
+                              select newProduct;
+            return productList.Cast<DO.Product?>(); // cast to list of nullable objects
+        }
+        catch (Exception ex) { throw ex; }
     }
 
     /// <summary>

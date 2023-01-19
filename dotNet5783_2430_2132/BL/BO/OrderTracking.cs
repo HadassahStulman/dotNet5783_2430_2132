@@ -9,10 +9,12 @@ public class OrderTracking
     /// order ID
     /// </summary>
     public int ID { get; set; }
+
     /// <summary>
     /// order status
     /// </summary>
     public Enums.OrderStatus? Status { get; set; }
+
     /// <summary>
     /// list of all tracking stages including description and date
     /// </summary>

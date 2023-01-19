@@ -25,6 +25,7 @@ internal class DalOrder : IOrder
         orderList.Add(o);
         return o.ID;
     }
+
     /// <summary>
     /// Deleteing order from list. If order (to delete) does not exists then throw error.
     /// </summary>
@@ -37,6 +38,7 @@ internal class DalOrder : IOrder
             throw new NotExistingException();
         orderList.Remove(delOrder);
     }
+
     /// <summary>
     /// Updating an order item in list. If order item (to update) does not exist then throw error.
     /// </summary>

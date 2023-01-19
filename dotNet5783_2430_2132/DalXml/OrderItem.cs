@@ -82,11 +82,15 @@ internal class OrderItem : IOrderItem
     /// <returns>IEnumerable</returns>
     public IEnumerable<DO.OrderItem?> GetList(Func<DO.OrderItem?, bool>? condition = null)
     {
-        List<DO.OrderItem>? oiList = XMLTools.LoadListFromXML<DO.OrderItem>(FPath);
-        var newOiList = from oi in oiList
-                        where condition == null ? true : condition(oi)
-                        select oi;
-        return newOiList.Cast<DO.OrderItem?>();
+        try
+        {
+            List<DO.OrderItem>? oiList = XMLTools.LoadListFromXML<DO.OrderItem>(FPath);
+            var newOiList = from oi in oiList
+                            where condition == null ? true : condition(oi)
+                            select oi;
+            return newOiList.Cast<DO.OrderItem?>();
+        }
+        catch (Exception ex) { throw ex; }
     }
 
     /// <summary>
@@ -95,11 +99,15 @@ internal class OrderItem : IOrderItem
     /// <returns>IEnumerable</returns>
     public IEnumerable<IGrouping<int, DO.OrderItem?>> GetGrouped()
     {
-        IEnumerable<DO.OrderItem?> orderItemList = XMLTools.LoadListFromXML<DO.OrderItem>(FPath).AsEnumerable().Cast<DO.OrderItem?>();
-        var GroupedLst = from oi in orderItemList
-                         group oi by (int)oi?.OrderId! into orderGroup
-                         select orderGroup;
-        return GroupedLst;
+        try
+        {
+            IEnumerable<DO.OrderItem?> orderItemList = (XMLTools.LoadListFromXML<DO.OrderItem>(FPath) ?? new List<DO.OrderItem>()).AsEnumerable().Cast<DO.OrderItem?>();
+            var GroupedLst = from oi in orderItemList
+                             group oi by (int)oi?.OrderId! into orderGroup
+                             select orderGroup;
+            return GroupedLst;
+        }
+        catch (Exception ex) { throw ex; }
     }
 
 }

@@ -33,25 +33,5 @@ public class StatusToColorConverter : IValueConverter
 
 }
 
-/// <summary>
-/// convert status of order to progress bar percentage 
-/// </summary>
-public class StatusToProgressBarConverter : IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        int propgressPercent = 0;
-        BO.Enums.OrderStatus status = (BO.Enums.OrderStatus)Enum.Parse(typeof(BO.Enums.OrderStatus), value.ToString()!);
-        if (status == BO.Enums.OrderStatus.OrderShipped)
-            propgressPercent = 100;
-        else if (status == BO.Enums.OrderStatus.OrderDelivered)
-            propgressPercent = 200;
-        return propgressPercent;
-    }
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        throw new NotImplementedException();
-    }
-}
 
 

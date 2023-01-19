@@ -18,12 +18,12 @@ internal static class DataSource
         /// return ID for new order
         /// </summary>
         /// <returns>int</returns>
-        public static int getIdNewO() { idNewOrder+=1; return idNewOrder; }
+        public static int getIdNewO() { idNewOrder += 1; return idNewOrder; }
         /// <summary>
         /// return ID for new order item
         /// </summary>
         /// <returns>int</returns>
-        public static int getIdNewOI() { idNewOrderItem+=1; return idNewOrderItem; }
+        public static int getIdNewOI() { idNewOrderItem += 1; return idNewOrderItem; }
     }
 
     internal static readonly Random rnd = new Random();
@@ -62,11 +62,13 @@ internal static class DataSource
     /// </summary>
     /// <param name="p">void</param>
     private static void addProduct(Product p) { ProductList.Add(p); }
+
     /// <summary>
     /// adding order to list
     /// </summary>
     /// <param name="o">void</param>
     private static void addOrder(Order o) { orderList.Add(o); }
+
     /// <summary>
     /// adding order item to list
     /// </summary>
@@ -79,6 +81,7 @@ internal static class DataSource
     /// </summary>
     private static void s_Initialize()
     {
+        #region product initializer
         Product p = new Product();
         for (int i = 0; i < 10; i++) // initalize product list
         {
@@ -116,6 +119,8 @@ internal static class DataSource
                 p.InStock = 0; // one product won't be in stock
             addProduct(p); // add new item to list
         }
+        #endregion
+        #region order initializer
         Order o = new Order();
         for (int i = 0; i < 20; i++) // initialize order list
         {
@@ -140,23 +145,27 @@ internal static class DataSource
             else o.OrderDate = DateTime.Now.AddDays(rnd.Next(-7, -1));
             addOrder(o);
         }
+        #endregion
+        #region order Item initializer
         for (int i = 0; i < 20; i++)
         {
             int amount = rnd.Next(1, 5); // random amount of Product for each order
+            int ran = rnd.Next(0, 10);
             for (int j = 0; j < amount; j++)
             {
-                int ranP = rnd.Next(0, 10);
+                int ranP = (ran + j) % 10;
                 OrderItem oi = new OrderItem()
                 {  // new order item
                     ID = DataSource.Config.getIdNewO(),
-                    OrderId = orderList[i]?.ID??0,
-                    ProductId = ProductList[ranP]?.ID??0, // random product
-                    Price = ProductList[ranP]?.Price??0, // random price according to product list
+                    OrderId = orderList[i]?.ID ?? 0,
+                    ProductId = ProductList[ranP]?.ID ?? 0, // random product
+                    Price = ProductList[ranP]?.Price ?? 0, // random price according to product list
                     Amount = rnd.Next(1, 6) // random amount of copies
                 };
                 addOrderItem(oi);
             }
         }
+        #endregion
     }
 
 }

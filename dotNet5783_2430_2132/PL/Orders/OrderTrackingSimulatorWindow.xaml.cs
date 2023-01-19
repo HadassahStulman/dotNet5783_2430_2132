@@ -15,7 +15,7 @@ namespace PL.Orders;
 public partial class OrderTrackingSimulatorWindow : Window
 {
     private static BlApi.IBl bl = BlApi.Factory.Get();
-    private ObservableCollection</*PL.Orders.*/BO.OrderForList> OrderList;
+    private ObservableCollection<BO.OrderForList> OrderList;
     BackgroundWorker BWOrder;
     public OrderTrackingSimulatorWindow()
     {
@@ -139,21 +139,35 @@ public partial class OrderTrackingSimulatorWindow : Window
         {
             MessageBox.Show("all updates have been successfully completed!");
         }
-
     }
 
+    /// <summary>
+    /// start simulator
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void startButton_Click(object sender, RoutedEventArgs e)
     {
         if (BWOrder.IsBusy != true)
             BWOrder.RunWorkerAsync();
     }
 
+    /// <summary>
+    /// cancle simulator
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void stopButton_Click(object sender, RoutedEventArgs e)
     {
         if (BWOrder.WorkerSupportsCancellation == true)
             BWOrder.CancelAsync();
     }
 
+    /// <summary>
+    /// go back to previous window
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void BackButton_Click(object sender, RoutedEventArgs e)
     {
         stopButton_Click(sender, e);

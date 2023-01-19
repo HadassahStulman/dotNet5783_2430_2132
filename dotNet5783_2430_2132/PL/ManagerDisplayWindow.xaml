@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
+        Icon="photos/favicon.ico"
         Title="ManagerDisplayWindow" Height="562" Width="1000" Style="{StaticResource backgroundImage}" >
     <Window.Resources>
         <Style x:Key="myButtonStyle" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">

@@ -93,7 +93,7 @@ public class XMLTools
     /// <param name="filePath"></param>
     /// <returns>List<T>?</returns>
     /// <exception cref="DO.XMLFileLoadException"></exception>
-    public static List<T> LoadListFromXML<T>(string filePath) where T : struct
+    public static List<T>? LoadListFromXML<T>(string filePath) where T : struct
     {
         try
         {
@@ -102,7 +102,7 @@ public class XMLTools
                 List<T> list;
                 XmlSerializer x = new XmlSerializer(typeof(List<T>));
                 FileStream file = new FileStream(dir + filePath, FileMode.Open);
-                list = (List<T>)x.Deserialize(file);
+                list = (List<T>)x.Deserialize(file)!;
                 file.Close();
                 return list;
             }
