@@ -6,7 +6,9 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="OrderListWindow" Height="450" Width="800" Style="{StaticResource backgroundColor}">
-
+    <Window.Resources>
+        <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource HeaderStyle}"/>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="15*"/>

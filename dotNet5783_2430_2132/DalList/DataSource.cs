@@ -120,9 +120,9 @@ internal static class DataSource
         for (int i = 0; i < 20; i++) // initialize order list
         {
             o.ID = DataSource.Config.getIdNewO(); // id from config
-            o.CustomerName = customerName[i % 5];// customer name
-            o.CustomerEmail = customerName[i % 5] + "@gmail.com"; // customer Email
-            o.CustomerAddress = CustomerAddress[i % 5] + "_" + i;// costumer address
+            o.CustomerName = customerName[i % 11];// customer name
+            o.CustomerEmail = o.CustomerName + "@gmail.com"; // customer Email
+            o.CustomerAddress = CustomerAddress[i % 6] + "_" + i;// costumer address
             o.ShipDate = null; // minimal date for orders that weren't shiped yet
             o.DeliveryDate = null; // minimal date for orders that weren't delivered yet
             DateTime date = DateTime.Now.AddDays(rnd.Next(-30, -1));

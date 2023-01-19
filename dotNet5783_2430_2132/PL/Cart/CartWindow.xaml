@@ -10,7 +10,7 @@
         <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}"/>
         <Style TargetType="Label" BasedOn="{StaticResource LableStyle}"/>
         <Style TargetType="TextBox" BasedOn="{StaticResource TextBoxStyle}"/>
-
+        <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource HeaderStyle}"/>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -31,7 +31,7 @@
             </ListView.Background>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="210"/>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="205"/>
                     <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount}" Width="80"/>
                     <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="80"/>
                 </GridView>

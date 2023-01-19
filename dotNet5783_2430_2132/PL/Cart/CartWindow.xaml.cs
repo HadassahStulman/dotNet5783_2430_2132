@@ -72,7 +72,7 @@ public partial class CartWindow : Window
     {
         try
         {
-            int orderID = bl.Cart.OrderCart(cart); // confirmorder
+            int orderID = bl.Cart.OrderCart(cart); // confirm order
             MessageBox.Show($"Order ID is {orderID}", "successfully Oredered");  // return order ID
             Close();
         }

@@ -8,9 +8,11 @@
         <Style x:Key="backgroundImage" TargetType="Window">
             <Setter Property="Background" Value="{StaticResource WindowBackgroundImage}"/>
         </Style>
+        
         <Style x:Key="backgroundColor" TargetType="Window">
             <Setter Property="Background" Value="#FFC1B2A4"/>
         </Style>
+        
         <Style x:Key="ButtonStyle" TargetType="Button">
             <Setter Property="BorderBrush" Value="#FFB76D6D"/>
             <Setter Property="BorderThickness" Value="5"/>
@@ -18,13 +20,23 @@
             <Setter Property="FontSize" Value="20" />
             <Setter Property="FontWeight" Value="Heavy"/>
         </Style>
+        
         <Style x:Key="LableStyle" TargetType="Label">
             <Setter Property="FontSize" Value="16" />
             <Setter Property="FontWeight" Value="Bold" />
         </Style>
+        
         <Style x:Key="TextBoxStyle" TargetType="TextBox">
             <Setter Property="FontSize" Value="14.5" />
             <Setter Property="Background" Value="#FFE8E6E6"/> 
+        </Style>
+        
+        <Style x:Key="HeaderStyle" TargetType="GridViewColumnHeader">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="#FFB38282"/>
+            <Setter Property="MinHeight" Value="70"/>
         </Style>
 
 

@@ -5,11 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="OrderTrackingSimulatorWindow" Height="562.5" Width="1000" Style="{StaticResource backgroundColor}">
+        Title="OrderTrackingSimulatorWindow" Height="675" Width="1200" Style="{StaticResource backgroundColor}">
     <Window.Resources>
         <local:StatusToColorConverter x:Key="StatusToColor"/>
+        <local:StatusToProgressBarConverter x:Key="StatusToprogressBar"/>
         <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}" />
-
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Background" Value="#FFB38282"/>
+            <Setter Property="MinHeight" Value="30"/>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid>
@@ -19,14 +26,17 @@
                 <RowDefinition Height="3*"/>
             </Grid.RowDefinitions>
 
-            <DataGrid x:Name="OrderListGrid" Grid.Row="1" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}"  RowDetailsVisibilityMode="VisibleWhenSelected" Background="#FFE8E6E6" Opacity="0.6">
+            <DataGrid x:Name="OrderListGrid" Grid.Row="1" AutoGenerateColumns="False" EnableRowVirtualization="True" ItemsSource="{Binding}"  RowDetailsVisibilityMode="VisibleWhenSelected" CanUserAddRows="False" FontSize="13">
+                <DataGrid.Background>
+                    <SolidColorBrush Color="#FFE8E6E6" Opacity="0.6"/>
+                </DataGrid.Background>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding ID}" Header="ID" Width="50" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding CustomerName}" Header="Customer's Name" Width="150" IsReadOnly="True"/>
-                    <DataGridTextColumn  Binding="{Binding AmountOfItems}" Header="Amount Of Items"  Width="SizeToHeader" IsReadOnly="True"/>
-                    <DataGridTextColumn Binding="{Binding TotalPrice}" Header="Total Price" Width="SizeToHeader" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding ID}" Header="ID" Width="100" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding CustomerName}" Header="Customer's Name" Width="300" IsReadOnly="True"/>
+                    <DataGridTextColumn  Binding="{Binding AmountOfItems}" Header="Amount Of Items"  Width="200" IsReadOnly="True"/>
+                    <DataGridTextColumn Binding="{Binding TotalPrice}" Header="Total Price" Width="150" IsReadOnly="True" />
 
-                    <DataGridTemplateColumn Header="Status" Width="100" IsReadOnly="True" >
+                    <DataGridTemplateColumn Header="Status" Width="150" IsReadOnly="True" >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock  x:Name="StatusGrid" Text="{Binding Status}" Background="{Binding Status, Converter={StaticResource StatusToColor}}"/>
@@ -38,52 +48,25 @@
                     <DataGridTemplateColumn >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="View Order Tracking" BorderThickness="2.5" FontWeight="Normal" FontSize="12" Click="TrackOrderButton_click"/>
+                                <Button Content="View Order Tracking" BorderThickness="3" FontWeight="SemiBold" FontSize="13" Width="200" Click="TrackOrderButton_click"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
 
-                    <DataGridTemplateColumn >
+                    <!--<DataGridTemplateColumn >
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="ho" />
+                                <ProgressBar x:Name="OrderProgressBar" Maximum="200" Width="200" Value="{Binding Status}"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                    </DataGridTemplateColumn>-->
+
                 </DataGrid.Columns>
             </DataGrid>
-            <!--<ListView Name="orderList" Grid.Row="1" ItemsSource="{Binding}" Margin="2,0,0,116" Grid.RowSpan="2">
-                <ListView.Background>
-                    <SolidColorBrush Color="#FFE8E6E6" Opacity="0.6"/>
-                </ListView.Background>
-                <ListView.View>
-                    <GridView >
-                        <GridViewColumn Header="ID" Width="70" DisplayMemberBinding="{Binding ID}"/>
-                        <GridViewColumn Header="Customer Name" Width="200" DisplayMemberBinding="{Binding CustomerName}"/>
-                        <GridViewColumn Header="Amount Of Items" Width="110" DisplayMemberBinding="{Binding AmountOfItems}"/>
-                        <GridViewColumn Header="Total Price" Width="70" DisplayMemberBinding="{Binding TotalPrice}"/>
-                        <GridViewColumn Header="Status" Width="150" DisplayMemberBinding="{Binding Status}"  />
-                        <GridViewColumn Width="200">
-                            <GridViewColumn.CellTemplate >
-                                <DataTemplate>
-                                    <Button Content="View Order Tracking" BorderThickness="2" FontWeight="Normal" FontSize="12" Click="TrackOrderButton_click"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
 
-                        <GridViewColumn Width="200">
-                            <GridViewColumn.CellTemplate >
-                                <DataTemplate>
-                                    <TextBlock Text="ho" Background="{Binding ElementName = orderList , Path=Status ,Converter={StaticResource StatusToColor}}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
-            </ListView>-->
-            <Button Content="Start" HorizontalAlignment="Left" Margin="202,13,0,0" Grid.Row="2" VerticalAlignment="Top" Height="55" Width="200" Click="startButton_Click"/>
-            <Button Content="Stop" HorizontalAlignment="Left" Margin="560,13,0,0" Grid.Row="2" VerticalAlignment="Top" Height="55" Width="200" Click="stopButton_Click"/>
-            <Button Content="Back" HorizontalAlignment="Left" Margin="866,36,0,0" Grid.Row="2" VerticalAlignment="Top" Height="40" Width="100" />
+            <Button Content="Start" HorizontalAlignment="Left" Margin="153,0,0,0" Grid.Row="2" VerticalAlignment="Center" Height="70" Width="250" Click="startButton_Click" />
+            <Button Content="Stop" HorizontalAlignment="Left" Margin="510,0,0,0" Grid.Row="2" VerticalAlignment="Center" Height="70" Width="250" Click="stopButton_Click"/>
+            <Button Content="Back" HorizontalAlignment="Left" Margin="1049,58,0,0" Grid.Row="2" VerticalAlignment="Top" Height="40" Width="100" Click="BackButton_Click" RenderTransformOrigin="0.68,-0.617" />
 
 
 

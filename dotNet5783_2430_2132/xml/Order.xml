@@ -216,4 +216,31 @@
     <ShipDate>2023-01-16T14:53:49.7392236+02:00</ShipDate>
     <DeliveryDate xsi:nil="true" />
   </Order>
+  <Order>
+    <ID>100024</ID>
+    <CustomerName>Shira Bacar</CustomerName>
+    <CustomerEmail>sBac@gmail.com</CustomerEmail>
+    <CustomerAddress>Ben Guryon 12</CustomerAddress>
+    <OrderDate>2023-01-18T17:29:39.9603235+02:00</OrderDate>
+    <ShipDate xsi:nil="true" />
+    <DeliveryDate xsi:nil="true" />
+  </Order>
+  <Order>
+    <ID>100025</ID>
+    <CustomerName>Yossef Israeli</CustomerName>
+    <CustomerEmail>Yossli@gmail.com</CustomerEmail>
+    <CustomerAddress>Herztel 444</CustomerAddress>
+    <OrderDate>2023-01-18T17:30:48.7588715+02:00</OrderDate>
+    <ShipDate xsi:nil="true" />
+    <DeliveryDate xsi:nil="true" />
+  </Order>
+  <Order>
+    <ID>100026</ID>
+    <CustomerName>Sarit Haddad</CustomerName>
+    <CustomerEmail>saha@gmail.com</CustomerEmail>
+    <CustomerAddress>Jerusalem st. 23</CustomerAddress>
+    <OrderDate>2023-01-18T17:32:21.7952065+02:00</OrderDate>
+    <ShipDate xsi:nil="true" />
+    <DeliveryDate xsi:nil="true" />
+  </Order>
 </ArrayOfOrder>

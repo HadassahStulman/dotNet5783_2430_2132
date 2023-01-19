@@ -65,4 +65,10 @@ public interface IOrder
     /// <param name="o"></param>
     /// <returns>string</returns>
     public string OrderStatus(DO.Order? o);
+
+    /// <summary>
+    /// find the order that wasnt updated the longest
+    /// </summary>
+    /// <returns>BO.Order</returns>
+    public BO.Order NextOrderToManage();
 }

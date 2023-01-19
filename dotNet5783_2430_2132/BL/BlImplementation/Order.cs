@@ -1,8 +1,8 @@
 ﻿
 using BlApi;
 using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data;
-using System.Xml.Schema;
 
 namespace BlImplementation;
 
@@ -23,8 +23,8 @@ internal class Order : IOrder
                 where order != null
                 let oStatus = OrderStatus(order) // status of current order
                 let oiLst = Dal.OrderItem.GetList(item => item?.OrderId == order?.ID)
-                let oAmount = oiLst.Sum(oi => oi?.Amount ?? 0)
-                let oTotalPrice = oiLst.Sum(oi => oi?.Price ?? 0 * oi?.Amount ?? 0)
+                let oAmount = oiLst.Count()
+                let oTotalPrice = oiLst.Sum(oi => (oi?.Price ?? 0) * (oi?.Amount ?? 0))
                 orderby order?.OrderDate
                 let ofl = new BO.OrderForList
                 {
@@ -250,5 +250,22 @@ internal class Order : IOrder
         return oStatus;
     }
 
+    public BO.Order? NextOrderToManage()
+    {
+        try
+        {
+            // create list of orders ordered by the latest update date
+            var lst = from order in Dal.Order.GetList()
+                      orderby order?.ShipDate != null ? order?.ShipDate : order?.OrderDate
+                      where order?.DeliveryDate == null
+                      select order;
+            DO.Order? DOorderToManage = lst.FirstOrDefault(); // oldest
+            return GetByID(DOorderToManage?.ID ?? 0);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+    }
 }
 

@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.ComponentModel;
 using PL;
 using System.Threading;
+using System.Linq;
 
 namespace PL.Orders;
 
@@ -14,19 +15,18 @@ namespace PL.Orders;
 public partial class OrderTrackingSimulatorWindow : Window
 {
     private static BlApi.IBl bl = BlApi.Factory.Get();
-    private ObservableCollection<BO.OrderForList> OrderList;
+    private ObservableCollection</*PL.Orders.*/BO.OrderForList> OrderList;
     BackgroundWorker BWOrder;
-    private DateTime currentTime = DateTime.Now;
     public OrderTrackingSimulatorWindow()
     {
         try
         {
             InitializeComponent();
-            OrderList = new ObservableCollection<BO.OrderForList>(bl.Order.GetList()!);
+            OrderList = new(bl.Order.GetList()!);
             this.DataContext = OrderList;
 
             BWOrder = new BackgroundWorker();
-            BWOrder.DoWork += BWOrder_DoWork;
+            BWOrder.DoWork += BWOrder_DoWork; 
             BWOrder.ProgressChanged += BWOrder_ProgressChanged;
             BWOrder.RunWorkerCompleted += BWOrder_RunWorkerCompleted;
 
@@ -34,53 +34,101 @@ public partial class OrderTrackingSimulatorWindow : Window
             BWOrder.WorkerSupportsCancellation = true;
         }
         catch (Exception ex) { MessageBox.Show(ex.Message, "Exception Thrown"); }
-
-
-
     }
+
+    /// <summary>
+    /// open window with track info for each order
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void TrackOrderButton_click(object sender, RoutedEventArgs e)
     {
         try
         {
-            BO.OrderForList? order = (sender as Button)!.DataContext as BO.OrderForList;
-            new TrackOrderWindow(order?.ID ?? throw new ArgumentNullException()).ShowDialog();
+            BO.OrderForList? order = (sender as Button)!.DataContext as /*PL.Orders.*/BO.OrderForList;
+            new TrackOrderWindow(order?.ID ?? throw new ArgumentNullException()).Show();
         }
         catch (Exception ex) { MessageBox.Show(ex.Message, "Exception Thrown"); }
     }
 
+    /// <summary>
+    /// begining of background worker
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void BWOrder_DoWork(object sender, DoWorkEventArgs e)
     {
-        for (int i = 0; i < OrderList.Count; i++)
+        try
         {
-            if (BWOrder.CancellationPending == true)
+            Random rnd = new Random();
+            int manageTime;
+            while (BWOrder.CancellationPending != true) // while backgroung worker was not cancled
             {
-                e.Cancel = true;
-                break;
-
-            }
-            else
-            {
-                Thread.Sleep(2000);
-                if (BWOrder.WorkerReportsProgress == true)
+                BO.Order? orderToManage = bl.Order.NextOrderToManage(); // getting an order to manage
+                if (orderToManage == null)
+                    Thread.Sleep(2000);
+                else
                 {
-                    currentTime.AddHours(8);
-                    //BWOrder.ReportProgress();
+                    manageTime = rnd.Next(3, 11); // random time 
+                    Thread.Sleep(manageTime * 1000);
+                    if (BWOrder.WorkerReportsProgress == true)
+                    {
+                        BWOrder.ReportProgress(manageTime, orderToManage);
+                    }
                 }
-
-
+                Thread.Sleep(1000);
             }
-
+            e.Cancel = true;
         }
+        catch (Exception ex) { MessageBox.Show(ex.ToString(), "Exception Thrown"); }
     }
 
+    /// <summary>
+    /// changes the Order Status and the UI
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void BWOrder_ProgressChanged(object sender, ProgressChangedEventArgs e)
     {
-        for (int i = 0; i < OrderList.Count; i++)
+        try
         {
-
+            int index;
+            BO.Order orderToManage = e.UserState as BO.Order ?? throw new NullReferenceException();
+            if (orderToManage.Status == BO.Enums.OrderStatus.OrderConfirmed)
+            {
+                index = OrderList.IndexOf(OrderList.Where(order => order.ID == orderToManage.ID).First());
+                BO.Order UpdatedOrder = bl.Order.UpdateShipping(orderToManage.ID);
+                OrderList[index] = new BO.OrderForList
+                {
+                    ID = orderToManage.ID,
+                    CustomerName = orderToManage.CustomerName,
+                    AmountOfItems = orderToManage.Items!.Count(),
+                    Status = BO.Enums.OrderStatus.OrderShipped,
+                    TotalPrice = orderToManage.TotalPrice,
+                };
+            }            
+            else if (orderToManage.Status == BO.Enums.OrderStatus.OrderShipped)
+            {
+                index = OrderList.IndexOf(OrderList.Where(order => order.ID == orderToManage.ID).First());
+                BO.Order UpdatedOrder = bl.Order.UpdateDelivery(orderToManage.ID);
+                OrderList[index] = new BO.OrderForList
+                {
+                    ID = orderToManage.ID,
+                    CustomerName = orderToManage.CustomerName,
+                    AmountOfItems = orderToManage.Items!.Count(),
+                    Status = BO.Enums.OrderStatus.OrderDelivered,
+                    TotalPrice = orderToManage.TotalPrice,
+                };
+            }
         }
+        catch (Exception ex) { MessageBox.Show(ex.ToString(), "Exception Thrown"); }
     }
 
+    /// <summary>
+    /// end of background worker
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void BWOrder_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
     {
         if (e.Cancelled == true)
@@ -89,7 +137,6 @@ public partial class OrderTrackingSimulatorWindow : Window
         }
         else
         {
-            //e.Result
             MessageBox.Show("all updates have been successfully completed!");
         }
 
@@ -98,12 +145,18 @@ public partial class OrderTrackingSimulatorWindow : Window
     private void startButton_Click(object sender, RoutedEventArgs e)
     {
         if (BWOrder.IsBusy != true)
-            BWOrder.RunWorkerAsync(35);
+            BWOrder.RunWorkerAsync();
     }
 
     private void stopButton_Click(object sender, RoutedEventArgs e)
     {
         if (BWOrder.WorkerSupportsCancellation == true)
             BWOrder.CancelAsync();
+    }
+
+    private void BackButton_Click(object sender, RoutedEventArgs e)
+    {
+        stopButton_Click(sender, e);
+        Close();
     }
 }

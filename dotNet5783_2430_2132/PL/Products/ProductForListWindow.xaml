@@ -8,6 +8,7 @@
         Title="ProductForListWindow" Height="640" Width="800" Style="{StaticResource backgroundColor}">
     <Window.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource ButtonStyle}"/>
+        <Style TargetType="GridViewColumnHeader" BasedOn="{StaticResource HeaderStyle}"/>
     </Window.Resources>
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
@@ -44,10 +45,10 @@
             </ListView.Background>
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="ID" Width="100" DisplayMemberBinding="{Binding ID}"/>
-                    <GridViewColumn Header="Name" Width="200" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="ID" Width="130" DisplayMemberBinding="{Binding ID}"/>
+                    <GridViewColumn Header="Name" Width="300" DisplayMemberBinding="{Binding Name}"/>
                     <GridViewColumn Header="Category" Width="200" DisplayMemberBinding="{Binding Category}"/>
-                    <GridViewColumn Header="Price" Width="100" DisplayMemberBinding="{Binding Price}"/>
+                    <GridViewColumn Header="Price" Width="130" DisplayMemberBinding="{Binding Price}"/>
                 </GridView>
             </ListView.View>
             <ListView.GroupStyle>
